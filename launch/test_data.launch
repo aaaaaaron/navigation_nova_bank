@@ -1,0 +1,11 @@
+<launch>
+        <!--<group ns ="navigation">-->
+        <!--<node pkg="navigation_nova" name="navigation_compass" type="compass-->
+        <!--include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/-->
+        <!--node pkg="encoder" name="encoder" type="encoder"/-->
+        <!--node pkg="navigation_nova" name="execute_command" type="execute_command.py"/-->
+        <!--<node pkg="navigation_nova" name="driver_obstacle" type="driver_obstacle.py"/>-->
+        <node pkg="serial_handler" name="serial_handler_node" type="serial_handler_node"/>
+        <node pkg="navigation_nova" name="main" type="robot_main.py" output="screen"/>
+        <!--</group>-->
+</launch>

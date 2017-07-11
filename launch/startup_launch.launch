@@ -1,0 +1,7 @@
+<launch>
+        <!--<group ns ="navigation">-->
+          <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+	<node pkg="serial_handler" name="serial_handler_node" type="serial_handler_node" output="screen"/>
+        <node pkg="navigation_nova" name="main" type="robot_main.py" output="screen"/>
+        <!--</group>-->
+</launch>

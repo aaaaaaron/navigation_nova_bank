@@ -1,0 +1,48 @@
+Driving logic: 
+
+While ROSPY running 
+		
+	publish parameters
+
+	if is burn mode 
+		nothing could be done 
+		robot is disabled 
+		sleep 
+		return 
+
+	if no encoder data come in
+		robot can not do anything 
+		deal with it,
+		return 
+
+	process encoder data 
+
+	if received a command to disable robot
+		disable robot (remove all the tasks)
+		return
+
+	if robot is on obstacle mode 
+		hardare controls robot 
+		nothing can do 
+		return 
+
+
+	if robot finish the obstacle avoidence, control resumed 
+		Perform necessary resume actions
+		return 
+
+
+	if robot get a pause command 
+		pause robot (keep all the tasks)
+		return; 
+
+
+	if no more job left in queue
+		return 
+	
+	process first job 
+
+	if completed job 
+		complete job 
+		make necessary correction 
+	

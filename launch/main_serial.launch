@@ -1,0 +1,6 @@
+<launch>
+        
+        <node pkg="serial_handler" name="serial_handler_node" type="serial_handler_node"/>
+        <node pkg="navigation_nova" name="main" type="robot_main.py" output="screen"/>
+        
+</launch>

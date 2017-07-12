@@ -1,5 +1,5 @@
 <launch>
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
-    <node pkg="navigation_nova" name="simulator" type="simulator.py" />
-    <node pkg="navigation_nova" name="robot_main" type="robot_main.py" output="screen"/>
+    <node pkg="navigation_nova_bank" name="simulator" type="simulator.py" />
+    <node pkg="navigation_nova_bank" name="robot_main" type="robot_main.py" output="screen"/>
 </launch>

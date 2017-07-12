@@ -14,6 +14,8 @@ min_correction_angle 		= 0.0
 correction_count 			= 0.0
 max_correction_run 			= 0.0
 
+need_correction				= True
+
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
 #-------------------------------------------------------#
@@ -183,11 +185,14 @@ def distance_correction(lon_now, lat_now, bearing_now, lon_target, lat_target, b
 	need_correct_angle 		= abs(diff_angle) > min_correction_angle
 	#need_correct_angle 		=  diff_angle > min_correcton_angle and diff_angle < (360.0 - min_correction_angle)
 
-	# if need_correct_distance or need_correct_angle:
-	# 	#robot_job.insert_compensation_jobs(lon_now, lat_now, lon_target, lat_target, correction_type, need_correct_distance, need_correct_angle)
-	# 	robot_job.insert_compensation_jobs(lon_now, lat_now, bearing_now, lon_target, lat_target, bearing_target, correction_type, need_correct_distance, need_correct_angle)
+	# if need_correction:
+		# if need_correct_distance or need_correct_angle:
+		# 	#robot_job.insert_compensation_jobs(lon_now, lat_now, lon_target, lat_target, correction_type, need_correct_distance, need_correct_angle)
+		# 	robot_job.insert_compensation_jobs(lon_now, lat_now, bearing_now, lon_target, lat_target, bearing_target, correction_type, need_correct_distance, need_correct_angle)
+		# else:
+		# 	rospy.loginfo("no need to compensate errors")
 	# else:
-	# 	rospy.loginfo("no need to compensate errors")
+	# 	need_correction = True
 
 # Correct a robot with obstancles by inserting a job to move the robot forward for 1m
 def dist_correction_obstacle_need_forward(dist):

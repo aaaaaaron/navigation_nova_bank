@@ -7,6 +7,7 @@ import gpsmath
 import robot_drive
 import robot_turn
 import robot_move
+import robot_correction
 import time
 
 #-------------------------------------------------------#
@@ -62,6 +63,7 @@ def process_job():
 			if (len(job_lists) > 1 and job_lists[1].description == 'T'): #chengyuen 11/7
 				arc_dist = arc_threshold(job_lists[1].value, robot_drive.bearing_now) #chengyuen 11/7
 				job_lists[0].value = (abs(job_lists[0].value) / job_lists[0].value) * (abs(job_lists[0].value) - arc_dist) #chengyuen 11/7
+				robot_correction.need_correction = False #chengyuen12/7
 			job_completed =robot_move.move_distance(job_lists[0].value)
 			#rospy.loginfo("Bearing target before correction %f", robot_drive.bearing_target)
 		else :

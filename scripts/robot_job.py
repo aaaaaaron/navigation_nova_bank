@@ -59,6 +59,9 @@ def process_job():
 			if(job_lists[0].description == 'B'):
 				job_lists[0].value  = -abs(job_lists[0].value)
 			#rospy.loginfo("process_job move......")
+            if(job_lists[1].description == 'T'):
+                arc_dist = arc_threshold(job_lists[1].value, robot_drive.bearing_now) #cheng 11/7
+                job_lists[0].value = (abs(job_lists[0].value) / job_lists[0].value) * (abs(job_lists[0].value) - arc_dist)
 			job_completed =robot_move.move_distance(job_lists[0].value)
 			#rospy.loginfo("Bearing target before correction %f", robot_drive.bearing_target)
 		else :
@@ -395,3 +398,13 @@ def prepare_back_to_base():
 	back_to_base_mode = True;
 
 #------------------------- end of re-factoring ----------------------------------
+
+
+def arc_threshold(next_angle, current_angle):
+    angle = next_angle - current_angle
+    if angle > 180.0:
+        angle = abs(angle - 360.0)
+    elif angle < -180.0:
+        angle = abs(angle + 360.0)
+    value = robot_drive.bank_radius * math.tand(angle/2.0)
+    return value

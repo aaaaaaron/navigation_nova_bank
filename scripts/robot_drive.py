@@ -16,6 +16,7 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 linear_encode_to_mm 		 	= 0.0
 turning_encode_to_mm  			= 0.0
 turn_radius 					= 0.0
+bank_radius						= 0.0
 
 lon_now 						= 0.0
 lat_now  						= 0.0
@@ -94,7 +95,7 @@ turn_on_light				= False
 is_light_on					= False
 robot_interacting			= False
 
-roll_start 				= 0.0 
+roll_start 				= 0.0
 
 bluetooth_panel 			= ''
 

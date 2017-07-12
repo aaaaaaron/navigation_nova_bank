@@ -56,12 +56,12 @@ def process_job():
 			# start the job
 			job_completed = robot_turn.turn_degree()
 		elif (job_lists[0].description == 'F' or job_lists[0].description == 'B'):
-			if(job_lists[0].description == 'B'):
+			if (job_lists[0].description == 'B'):
 				job_lists[0].value  = -abs(job_lists[0].value)
 			#rospy.loginfo("process_job move......")
-            if(job_lists[1].description == 'T'):
-                arc_dist = arc_threshold(job_lists[1].value, robot_drive.bearing_now) #cheng 11/7
-                job_lists[0].value = (abs(job_lists[0].value) / job_lists[0].value) * (abs(job_lists[0].value) - arc_dist)
+			if (len(job_lists) > 1 and job_lists[1].description == 'T'): #chengyuen 11/7
+				arc_dist = arc_threshold(job_lists[1].value, robot_drive.bearing_now) #chengyuen 11/7
+				job_lists[0].value = (abs(job_lists[0].value) / job_lists[0].value) * (abs(job_lists[0].value) - arc_dist) #chengyuen 11/7
 			job_completed =robot_move.move_distance(job_lists[0].value)
 			#rospy.loginfo("Bearing target before correction %f", robot_drive.bearing_target)
 		else :
@@ -406,5 +406,5 @@ def arc_threshold(next_angle, current_angle):
         angle = abs(angle - 360.0)
     elif angle < -180.0:
         angle = abs(angle + 360.0)
-    value = robot_drive.bank_radius * math.tand(angle/2.0)
+    value = robot_drive.bank_radius * math.tan((angle/2.0) / 180.0 * math.pi)
     return value

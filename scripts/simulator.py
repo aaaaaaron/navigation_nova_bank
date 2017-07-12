@@ -70,35 +70,35 @@ def executor_simulator(data):
 		left_encode = -666
 		right_encode = -666
 	elif(command_str == 'SL000006E'):
-		left_encode = -1500
-		right_encode  = 1500
+		left_encode = 867
+		right_encode  = 2000
 	elif(command_str == 'SL000005E'):
-		left_encode = -1108
-		right_encode  = 1108
+		left_encode = 867
+		right_encode  = 2000
 	elif(command_str == 'SL000004E'):
-		left_encode = -888
-		right_encode = 888
+		left_encode = 867
+		right_encode = 2000
 	elif(command_str == 'SL000003E'):
-		left_encode = -666
-		right_encode = 666
+		left_encode = 867
+		right_encode = 2000
 	elif(command_str == 'SL000002E'):
-		left_encode = -444
-		right_encode = 444
+		left_encode = 867
+		right_encode = 2000
 	elif(command_str == 'SR000006E'):
-		left_encode = 1500
-		right_encode  = -1500
+		left_encode = 2000
+		right_encode  = 867
 	elif(command_str == 'SR000005E'):
-		left_encode = 1108
-		right_encode = -1108
+		left_encode = 2000
+		right_encode = 867
 	elif(command_str == 'SR000004E'):
-		left_encode = 888
-		right_encode = -888
+		left_encode = 2000
+		right_encode = 867
 	elif(command_str == 'SR000003E'):
-		left_encode = 666
-		right_encode = -666
+		left_encode = 2000
+		right_encode = 867
 	elif(command_str == 'SR000002E'):
-		left_encode = 444
-		right_encode = -444
+		left_encode = 2000
+		right_encode = 867
 	else:
 		left_encode = 0
 		right_encode = 0

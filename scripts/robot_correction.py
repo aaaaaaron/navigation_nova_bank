@@ -88,6 +88,7 @@ def update_robot_gps(left_encode, right_encode):
 	total_dist 	= abs(left_dist) + abs(right_dist)
 	R 			= 0.0 # turn raidus, if two wheels in same direction, then the faster wheel radius is R + robot_drive.turn_radius
 	# the slower wheel is R - robot_drive.turn_radius
+	total_dist_turn = abs(left_dist_turn) + abs(right_dist_turn)
 
 	# global vaiables
 	robot_drive.step_angle 		= 0.0
@@ -107,21 +108,21 @@ def update_robot_gps(left_encode, right_encode):
 	elif(left_dist > 0.0 and right_dist > 0.0):
 		# a little bit of right turning
 		alpha 	= (left_dist_turn - right_dist_turn) / (2.0 * robot_drive.turn_radius)
-		R 	= (total_dist * robot_drive.turn_radius) / abs(left_dist_turn - right_dist_turn) 		#aaron 8 july
+		R 	= (total_dist_turn * robot_drive.turn_radius) / abs(left_dist_turn - right_dist_turn) 		#aaron 8 july
 	# scenario 04 robot moving backward
 	elif(left_dist < 0.0 and right_dist < 0.0):
 		alpha 	= (left_dist_turn - right_dist_turn) / (2.0 * robot_drive.turn_radius)
-		R 	= -total_dist * robot_drive.turn_radius / abs(right_dist_turn - left_dist_turn) 		#aaron 8 july
+		R 	= -total_dist_turn * robot_drive.turn_radius / abs(right_dist_turn - left_dist_turn) 		#aaron 8 july
 	# for robot two wheels not moving at the same direction or once of the thing not moving
 	# forwaring with rotation
 	else:
-		alpha 	= total_dist / (2.0 * robot_drive.turn_radius)
-		r1 		= abs(left_dist) / alpha
-		r2 		= abs(right_dist) / alpha
+		alpha 	= total_dist_turn / (2.0 * robot_drive.turn_radius)
+		r1 		= abs(left_dist_turn) / alpha
+		r2 		= abs(right_dist_turn) / alpha
 		R 		= abs(r1 - r2)
 
 		#right turn
-		if(left_dist >= 0.0 and right_dist < 0.0):
+		if(left_dist_turn >= 0.0 and right_dist_turn < 0.0):
 		#if(left_dist > 0.0 or (left_dist == 0.0 and right_dist < 0.0)):
 			alpha = alpha
 		else:

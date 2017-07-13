@@ -177,7 +177,7 @@ def status_callback(data):
 #-------------------- communicate with web interface
 
 def chat_callback(data):
-	json_str = str(data.dat)
+	json_str = str(data.data)
 	rospy.loginfo(json_str)
 	try:
 		decoded = json.loads(json_str)

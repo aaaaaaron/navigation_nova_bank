@@ -47,7 +47,7 @@ def publish_chat():
 	pub_chat.publish(chat_para)
 
 def publish_gps():
-	stringToSend = '%f %f %f' % (robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now) #might need to add \n behind the E
+	stringToSend = '%.10f %.10f %.10f' % (robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now) #might need to add \n behind the E
 	pub_gps.publish(stringToSend)
 
 

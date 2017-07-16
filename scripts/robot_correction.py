@@ -71,6 +71,7 @@ def update_robot_gps(left_encode, right_encode):
 	if(left_encode == 0 and right_encode == 0):
 		#no updating of information
 				#@yuqing_continueturn
+		# robot_publisher.publish_gps()
 		return
 
 	# loacal vaiables
@@ -99,11 +100,13 @@ def update_robot_gps(left_encode, right_encode):
 	#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 	# scenario 01, 02 robot moving perfectly straight, bearing won't change, while lan and lon need to be updated
 	if(left_dist == right_dist):
-		if(right_dist > 0.0 ):
-			robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, robot_drive.bearing_now)
-		if(right_dist < 0.0):
-			robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, -robot_drive.bearing_now)
+		# if(right_dist > 0.0 ):
+		# 	robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, robot_drive.bearing_now)
+		# if(right_dist < 0.0):
+		# 	robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, -robot_drive.bearing_now)
+		robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, robot_drive.bearing_now) 		#chengyuen16/7
 		#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
+		robot_publisher.publish_gps()
 		return
 	# scenario 02 robot moving forward with slight
 	# robot not so perfectly walking forward, eigher left wheel is faster or right wheel is faster
@@ -141,7 +144,7 @@ def update_robot_gps(left_encode, right_encode):
 		rospy.loginfo("Step in straight line %f mm, Step_angle %f degree, R %f mm, Step_distance calculated %f mm", dist, robot_drive.step_angle, R, robot_drive.step_distance)
 	robot_drive.lon_now, robot_drive.lat_now 	= gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, dist, bearing)
 	robot_drive.bearing_now 			= bearing
-	#robot_publisher.publish_gps()
+	robot_publisher.publish_gps()
 	#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 
 def dist_correction_normal():
@@ -185,15 +188,15 @@ def distance_correction(lon_now, lat_now, bearing_now, lon_target, lat_target, b
 	need_correct_angle 		= abs(diff_angle) > min_correction_angle
 	#need_correct_angle 		=  diff_angle > min_correcton_angle and diff_angle < (360.0 - min_correction_angle)
 	
-	global need_correction
-	if need_correction:
-		if need_correct_distance or need_correct_angle:
-			#robot_job.insert_compensation_jobs(lon_now, lat_now, lon_target, lat_target, correction_type, need_correct_distance, need_correct_angle)
-		 	robot_job.insert_compensation_jobs(lon_now, lat_now, bearing_now, lon_target, lat_target, bearing_target, correction_type, need_correct_distance, need_correct_angle)
-		else:
-		 	rospy.loginfo("no need to compensate errors")
-	else:
-		need_correction = True
+	# global need_correction
+	# if need_correction:
+	# 	if need_correct_distance or need_correct_angle:
+	# 		#robot_job.insert_compensation_jobs(lon_now, lat_now, lon_target, lat_target, correction_type, need_correct_distance, need_correct_angle)
+	# 	 	robot_job.insert_compensation_jobs(lon_now, lat_now, bearing_now, lon_target, lat_target, bearing_target, correction_type, need_correct_distance, need_correct_angle)
+	# 	else:
+	# 	 	rospy.loginfo("no need to compensate errors")
+	# else:
+	# 	need_correction = True
 
 # Correct a robot with obstancles by inserting a job to move the robot forward for 1m
 def dist_correction_obstacle_need_forward(dist):

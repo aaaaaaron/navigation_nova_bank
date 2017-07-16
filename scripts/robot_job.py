@@ -318,6 +318,7 @@ def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target,
 	#	else:
 	#		rospy.loginfo("Added a forward distance correction")
 	#		job_lists.insert(0, move_job)
+	
 	# if need_correct_distance and need_correct_angle:
 	# 	rospy.loginfo("Added a distance correction and angle correction")
 	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7

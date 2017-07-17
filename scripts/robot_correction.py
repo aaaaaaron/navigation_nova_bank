@@ -114,10 +114,12 @@ def update_robot_gps(left_encode, right_encode):
 		# a little bit of right turning
 		alpha 	= (left_dist - right_dist) / (2.0 * robot_drive.turn_radius)
 		R 	= (total_dist * robot_drive.turn_radius) / abs(left_dist - right_dist) 		#aaron 8 july
+
 	# scenario 04 robot moving backward
 	elif(left_dist < 0.0 and right_dist < 0.0):
 		alpha 	= (left_dist - right_dist) / (2.0 * robot_drive.turn_radius)
 		R 	= -total_dist * robot_drive.turn_radius / abs(right_dist - left_dist) 		#aaron 8 july
+
 	# for robot two wheels not moving at the same direction or once of the thing not moving
 	# forwaring with rotation
 	else:
@@ -187,7 +189,7 @@ def distance_correction(lon_now, lat_now, bearing_now, lon_target, lat_target, b
 	need_correct_distance 	= abs(distance) > min_correction_distance
 	need_correct_angle 		= abs(diff_angle) > min_correction_angle
 	#need_correct_angle 		=  diff_angle > min_correcton_angle and diff_angle < (360.0 - min_correction_angle)
-	
+
 	# global need_correction
 	# if need_correction:
 	# 	if need_correct_distance or need_correct_angle:

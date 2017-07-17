@@ -7,12 +7,14 @@ import string
 import sys
 from geometry_msgs.msg import Vector3
 from serial_handler.msg import Encoder
+from serial_handler.msg import Status
 
 from datetime import datetime
 
 from std_msgs.msg import String
 
 encoder_pub 		= rospy.Publisher('encoder', Encoder, queue_size = 1000)
+status_pub			= rospy.Publisher('hardware_status', Status, queue_size = 1000)
 #velocity_pub  		= rospy.Publisher('velocity', Vector3, queue_size = 1)
 velocity_vector  	= Vector3()
 velocity_vector.x  	= 0.0
@@ -22,11 +24,13 @@ velocity_vector.z 	= 0.0
 left_encode   	= 0
 right_encode 	= 0
 burn_mode		= True
+direction 		= 0
 
 def executor_simulator(data):
 	global burn_mode
 	global left_encode
 	global right_encode
+	global direction
 	command_str = str(data.data)
 	command_str = command_str.rstrip('\0')
 	command_str = command_str.rstrip('\n')
@@ -41,70 +45,91 @@ def executor_simulator(data):
 		burn_mode = True
 	elif (command_str == 'SF000006E'):
 		left_encode = 4000
-		right_encode  = 3920
+		right_encode  = 4000#3920
+		direction = 1
 	elif (command_str == 'SF000005E'):
 		left_encode = 1444
 		right_encode  = 1444
+		direction = 1
 	elif(command_str == 'SF000004E'):
 		left_encode = 1108
 		right_encode = 1108
+		direction = 1
 	elif(command_str == 'SF000003E'):
 		left_encode = 867
 		right_encode = 867
+		direction = 1
 	elif(command_str == 'SF000002E'):
 		left_encode = 600
-		right_encode = 588
+		right_encode = 600#588
+		direction = 1
 	elif(command_str == 'SB000006E'):
 		left_encode = -2000
 		right_encode  = -2000
+		direction = 2
 	elif(command_str == 'SB000005E'):
 		left_encode = -1444
 		right_encode  = -1444
+		direction = 2
 	elif(command_str == 'SB000004E'):
 		left_encode = -1108
 		right_encode = -1108
+		direction = 2
 	elif(command_str == 'SB000003E'):
 		left_encode = -867
 		right_encode = -867
+		direction = 2
 	elif(command_str == 'SB000002E'):
 		left_encode = -666
 		right_encode = -666
+		direction = 2
 	elif(command_str == 'SL000006E'):
 		left_encode = 650
 		right_encode  = 1800
+		direction = 3
 	elif(command_str == 'SL000005E'):
 		left_encode = 650
 		right_encode  = 1800
+		direction = 3
 	elif(command_str == 'SL000004E'):
 		left_encode = 650
 		right_encode = 1800
+		direction = 3
 	elif(command_str == 'SL000003E'):
 		left_encode = 650
 		right_encode = 1800
+		direction = 3
 	elif(command_str == 'SL000002E'):
 		left_encode = 650
 		right_encode = 1800
+		direction = 3
 	elif(command_str == 'SR000006E'):
 		left_encode = 1800
 		right_encode  = 650
+		direction = 4
 	elif(command_str == 'SR000005E'):
 		left_encode = 1800
 		right_encode = 650
+		direction = 4
 	elif(command_str == 'SR000004E'):
 		left_encode = 1800
 		right_encode = 650
+		direction = 4
 	elif(command_str == 'SR000003E'):
 		left_encode = 1800
 		right_encode = 650
+		direction = 4
 	elif(command_str == 'SR000002E'):
 		left_encode = 1800
 		right_encode = 650
+		direction = 4
 	else:
 		left_encode = 0
 		right_encode = 0
+		direction = 0
 
 
-	rospy.loginfo("I heard %s: %d:%d",command_str, left_encode, right_encode)
+	rospy.loginfo("I heard %s: %d:%d direction: %d",command_str, left_encode, right_encode, direction)
 
 def encoder_simulator():
 	if burn_mode:
@@ -115,6 +140,8 @@ def encoder_simulator():
 	global left_encode
 	global right_encode
 	global velocity_vector
+	global direction
+	global status_pub
 	bytesToPublish = '%d %d' % (left_encode, right_encode)
 	if(left_encode != 0  or right_encode != 0):
 		rospy.loginfo(bytesToPublish)
@@ -122,6 +149,10 @@ def encoder_simulator():
 	ee.left_encoder = left_encode
 	ee.right_encoder = right_encode
 	encoder_pub.publish(ee)
+
+	ss = Status()
+	ss.direction = direction
+	status_pub.publish(ss)
 
 	dt  		 		= 0.1
 	vx 			 		= (float(left_encode)+float(right_encode))/(2.0 * dt)

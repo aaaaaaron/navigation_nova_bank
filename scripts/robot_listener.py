@@ -82,25 +82,26 @@ def serial_encoder_callback(data):
 	multiply = left_encode * right_encode
 
 	if left_encode == 0 and right_encode == 0:
+		pass
 		#rospy.loginfo("encoder 0,0")
-		robot_drive.robot_moving 	= False
-		robot_drive.robot_turning 	= False
-	elif multiply > 25:
-		#rospy.loginfo("encoder 0.1")
-		robot_drive.robot_moving 	= True
-		robot_drive.robot_turning 	= False
-	elif multiply < -25:
-		#rospy.loginfo("encode 1.1")
-		robot_drive.robot_turning 	= True
-		robot_drive.robot_moving 	= False
+	# 	robot_drive.robot_moving 	= False
+	# 	robot_drive.robot_turning 	= False
+	# elif multiply > 25:
+	# 	#rospy.loginfo("encoder 0.1")
+	# 	robot_drive.robot_moving 	= True
+	# 	robot_drive.robot_turning 	= False
+	# elif multiply < -25:
+	# 	#rospy.loginfo("encode 1.1")
+	# 	robot_drive.robot_turning 	= True
+	# 	robot_drive.robot_moving 	= False
 	elif multiply < 10:
-		robot_drive.robot_turning 	= False
-		robot_drive.robot_moving 	= False
+	# 	robot_drive.robot_turning 	= False
+	# 	robot_drive.robot_moving 	= False
 		rospy.logwarn("The encoder is changing on a small value")
-	elif left_encode != 0 or right_encode != 0:
-		#rospy.loginfo("encoder 1.3")
-		robot_drive.robot_turning = True
-		robot_drive.robot_moving = True
+	# elif left_encode != 0 or right_encode != 0:
+	# 	#rospy.loginfo("encoder 1.3")
+	# 	robot_drive.robot_turning = True
+	# 	robot_drive.robot_moving = True
 	index = encoder_received * 2
 	encoder_data[encoder_received * 2] = float(left_encode)
 	encoder_data[encoder_received * 2 + 1] = float(right_encode)
@@ -147,14 +148,24 @@ def status_callback(data):
 	data_int  	= data.direction
 	if (data_int == 0):
 		robot_drive.direction = "stop"
+		robot_drive.robot_moving = False
+		robot_drive.robot_turning = False
 	elif (data_int == 1):
 		robot_drive.direction = "forward"
+		robot_drive.robot_moving = True
+		robot_drive.robot_turning = False
 	elif (data_int == 2):
 		robot_drive.direction = "backward"
+		robot_drive.robot_moving = True
+		robot_drive.robot_turning = False
 	elif (data_int == 3):
 		robot_drive.direction = "left"
+		robot_drive.robot_moving = False
+		robot_drive.robot_turning = True
 	elif (data_int == 4):
 		robot_drive.direction = "right"
+		robot_drive.robot_moving = False
+		robot_drive.robot_turning = True
 
 #aaron added globals
 

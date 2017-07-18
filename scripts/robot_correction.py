@@ -200,6 +200,7 @@ def distance_correction(lon_now, lat_now, bearing_now, lon_target, lat_target, b
 	# else:
 	# 	need_correction = True
 
+
 # Correct a robot with obstancles by inserting a job to move the robot forward for 1m
 def dist_correction_obstacle_need_forward(dist):
 	rospy.loginfo("**************obstance correction jobs**************")

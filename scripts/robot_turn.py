@@ -6,6 +6,7 @@ from std_msgs.msg import String
 import robot_drive
 import math
 import robot_correction
+import robot_job
 
 #-------------------------------------------------------#
 # Robot turning module 									#
@@ -19,6 +20,8 @@ angle_lowest_speed 	= 0.0
 turn_full_speed 	= 0.0
 turn_lower_speed 	= 0.0
 turn_lowest_speed 	= 0.0
+
+amend_check = False
 
 #it takes about 1 second for it to stop
 
@@ -123,6 +126,7 @@ def continue_turn(step_angle):
 def turn_degree():
  	global degree_turned
  	global degree_to_turn
+ 	global amend_check
 
  	if not robot_drive.robot_on_mission:
  		degree_to_turn = robot_drive.bearing_target - robot_drive.bearing_now
@@ -169,9 +173,19 @@ def turn_degree():
 		continue_turn(step_angle)
 		return False
 	else:
-		#finishe the turning
-		stop_turn()
-		return not robot_drive.robot_on_mission
+		if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
+			if not amend_check:
+				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+				amend_check = True
+				return False
+			else:
+				stop_turn()
+				amend_check = False
+				return not robot_drive.robot_on_mission
+		else:
+			#finishe the turning
+			stop_turn()
+			return not robot_drive.robot_on_mission
 
 	#estimate the postition 1 second from now,
 	#this assumes the robot only stops 1 second after we start sending stop command

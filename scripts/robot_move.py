@@ -151,10 +151,10 @@ def move_distance(dist):
 		rospy.loginfo('Accumulated angle error: %f', angle_to_correct)
 	#@yuqing_correctionper10m
 	#if travel over 10m, job_completed to 1, start to correct
-	if (dist_completed >= dist_to_correct):
-		rospy.loginfo("-----------------dist_completed: %f, start to correct", dist_completed)
-		stop_move()
-		return not robot_drive.robot_on_mission
+	# if (dist_completed >= dist_to_correct):
+	# 	rospy.loginfo("-----------------dist_completed: %f, start to correct", dist_completed)
+	# 	stop_move()
+	# 	return not robot_drive.robot_on_mission
 
 	dist_remain = dist_threshold - dist_completed;
 
@@ -174,6 +174,7 @@ def move_distance(dist):
 		continue_move()
 		return  False
 	else :
+		rospy.loginfo("-----------------dist_completed: %f", dist_completed)
 		stop_move()
         # make sure the robot is stopped before next job
         return not robot_drive.robot_on_mission

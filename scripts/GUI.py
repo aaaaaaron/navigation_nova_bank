@@ -23,7 +23,7 @@ init_lat = 31.21884
 init_bearing = 0.0
 
 map_name = 'map'
-map_scale = 5.0
+map_scale = 1.0
 gps_scale = 15000000
 
 loc_dataLength = 500
@@ -145,8 +145,12 @@ def draw_cross(img):
 		cv2.line(img, p1, p3, (200, 100, 0), 1)
 		cv2.line(img, p2, p4, (200, 100, 0), 1)
 		cv2.putText(img, "%d"%(i+1), (int(cross_pos["x"][i]), int(cross_pos["y"][i] - 10)), cv2.FONT_HERSHEY_PLAIN, 2, (200, 100, 0), 1)
+		j = (i+1)%len(cross_pos["x"])
 		if put_info_flag:
 			put_pos(img, cross_latlon["lon"][i], cross_latlon["lat"][i], cross_pos["x"][i], cross_pos["y"][i])
+			cv2.line(img, (int(size[0]/2.0), int(size[1]/2.0)), (int(cross_pos["x"][0]), int(cross_pos["y"][0])), (100, 100, 100), 1)
+			cv2.line(img, (int(cross_pos["x"][i]), int(cross_pos["y"][i])), (int(cross_pos["x"][j]), int(cross_pos["y"][j])), (100, 100, 0), 1)
+
 
 def put_pos(img, lon, lat, x, y, bearing = ""):
 	string1_to_put = "Lon: %.10f Lat: %.10f"%(lon, lat)

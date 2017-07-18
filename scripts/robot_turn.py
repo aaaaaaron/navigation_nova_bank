@@ -130,6 +130,7 @@ def turn_degree():
 
  	if not robot_drive.robot_on_mission:
  		degree_to_turn = robot_drive.bearing_target - robot_drive.bearing_now
+
  		if (degree_to_turn > 180.0):
  			degree_to_turn = degree_to_turn - 360.0
  		elif (degree_to_turn < -180):

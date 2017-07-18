@@ -23,7 +23,7 @@ init_lat = 31.21884
 init_bearing = 0.0
 
 map_name = 'map'
-map_scale = 1.0
+map_scale = 5.0
 gps_scale = 15000000
 
 loc_dataLength = 500
@@ -109,7 +109,7 @@ def draw_triangle(img, x, y, bearing):
 	point3 = (int(point3[0]), int(point3[1]))
 	cv2.line(img, point1, point2, (255, 0, 0), 3)
 	cv2.line(img, point3, point1, (255, 0, 0), 3)
-	cv2.line(img, point2, point3, (0, 255, 0), 3)
+	cv2.line(img, point2, point3, (0, 0, 0), 3)
 
 def draw_box(img, x, y, bearing):
 	global box_width, box_height, triangle_angle

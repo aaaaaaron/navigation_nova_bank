@@ -17,6 +17,7 @@ dist_to_run 			= 0.0
 angle_to_correct 		= 0.0
 #@yuqing_correctionper10m
 dist_to_correct 		= 0.0
+# dist_completed_to_correct = 0.0
 dist_lowest_speed 		= 0.0
 dist_lower_speed 		= 0.0
 #dist_end_point_check 	= 600.0 #was 600
@@ -114,6 +115,7 @@ def move_distance(dist):
 	global dist_completed
 	global dist_to_run
 	global angle_to_correct
+	# global dist_completed_to_correct
 
 	dist_to_run = dist
 	# if robot received a meaning less job, just signal, clear the job and return
@@ -140,6 +142,7 @@ def move_distance(dist):
 	dist_step = robot_drive.step_distance
 	# accumulate the distance to the completed distance
 	dist_completed = dist_completed + abs(dist_step)   #this is in mm
+	# dist_completed_to_correct = dist_completed_to_correct + abs(dist_step)
 	# robot is with in the range, then we condidered robot reached the position
 	dist_threshold = abs_dist_to_run - robot_correction.min_correction_distance/2 	#0 mm, I can choose -50mm, but since there will be inefficiencies, 0 error threshold might be good enough
 
@@ -155,6 +158,18 @@ def move_distance(dist):
 	# 	rospy.loginfo("-----------------dist_completed: %f, start to correct", dist_completed)
 	# 	stop_move()
 	# 	return not robot_drive.robot_on_mission
+
+#chengyuen-todo 18/7
+	# if (dist_completed >= dist_to_correct):
+	# 	dist_correct_pub = "--------------- Correction after %f mm"%dist_to_correct
+	# 	rospy.loginfo(dist_correct_pub)
+
+	# 	dist_completed_to_correct = 0.0
+	# 	stop_move()
+	# 	rospy.logerr("Amendment")
+	# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+	# 	return not robot_drive.robot_on_mission
+
 
 	dist_remain = dist_threshold - dist_completed;
 

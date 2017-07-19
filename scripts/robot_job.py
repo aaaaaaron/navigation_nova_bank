@@ -84,7 +84,7 @@ def process_job():
 				elif bank_turn_deg < -180.0:
 					bank_turn_deg = bank_turn_deg + 360.0
 
-				min_bank_deg = abs(2*(math.atan(robot_drive.bank_radius/2000.0))/math.pi*180.0)
+				min_bank_deg = abs(2*(math.atan(robot_drive.bank_radius/robot_drive.min_bank_dist))/math.pi*180.0)
 				if (abs(bank_turn_deg) <= (180.0 - min_bank_deg)):
 					if FtoT_flag:
 						arc_dist = arc_threshold(job_lists[1].value, robot_drive.bearing_now)					#chengyuen 11/7
@@ -243,10 +243,13 @@ def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	rospy.loginfo("Amended a move job: Move %f mm", distance)
 
 	if job_lists[0].description == 'F' or job_lists[0].description == 'B':
-		# job_lists[0] = move_job
+		# job_lists[1] = move_job
 		job_lists.insert(1, turn_job)
-		job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', 'F', 0.0))
+		job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', job_lists[0].description, 0.0))
+		# job_lists.insert(2, move_job)
 	elif job_lists[0].description == 'T':
+		# job_lists.insert(1, turn_job)
+		# job_lists.insert(2, move_job)
 		job_lists[0] = turn_job
 		job_lists[1] = move_job
 	# a = "%f  %f  %f"%(job_lists[0].value, job_lists[1].value, job_lists[2].value)

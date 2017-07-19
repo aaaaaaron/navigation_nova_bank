@@ -17,6 +17,7 @@ linear_encode_to_mm 		 	= 0.0
 turning_encode_to_mm  			= 0.0
 turn_radius 					= 0.0
 bank_radius						= 0.0
+min_bank_dist					= 0.0
 
 lon_now 						= 0.0
 lat_now  						= 0.0

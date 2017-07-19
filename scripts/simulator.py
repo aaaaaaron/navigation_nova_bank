@@ -45,7 +45,7 @@ def executor_simulator(data):
 		burn_mode = True
 	elif (command_str == 'SF000006E'):
 		left_encode = 4000
-		right_encode  = 3920
+		right_encode  = 4000#3920
 		direction = 1
 	elif (command_str == 'SF000005E'):
 		left_encode = 1444
@@ -61,7 +61,7 @@ def executor_simulator(data):
 		direction = 1
 	elif(command_str == 'SF000002E'):
 		left_encode = 600
-		right_encode = 588
+		right_encode = 600#588
 		direction = 1
 	elif(command_str == 'SB000006E'):
 		left_encode = -2000

@@ -164,10 +164,11 @@ def move_distance(dist):
 	# 	dist_correct_pub = "--------------- Correction after %f mm"%dist_to_correct
 	# 	rospy.loginfo(dist_correct_pub)
 
-	# 	dist_completed_to_correct = 0.0
-	# 	stop_move()
+	# 	# dist_completed_to_correct = 0.0
+	# 	# stop_move()
 	# 	rospy.logerr("Amendment")
 	# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+	# 	stop_move()
 	# 	return not robot_drive.robot_on_mission
 
 

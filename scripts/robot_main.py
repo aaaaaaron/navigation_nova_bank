@@ -163,12 +163,12 @@ def main_commander():
 	if job_completed:
 		no_correction_jobs = robot_job.no_correction_jobs()
 		robot_job.complete_current_job()
-		if no_correction_jobs == 0:
-			rospy.loginfo("Complete a normal job, check whether correction is needed")
-			robot_correction.dist_correction_normal()
-		elif no_correction_jobs == 1: # the job is last correction job
-			rospy.loginfo("Complete all correction jobs, check whether further correction is needed")
-			robot_correction.dist_correction_correction();
+		# if no_correction_jobs == 0:
+		# 	rospy.loginfo("Complete a normal job, check whether correction is needed")
+		# 	robot_correction.dist_correction_normal()
+		# elif no_correction_jobs == 1: # the job is last correction job
+		# 	rospy.loginfo("Complete all correction jobs, check whether further correction is needed")
+		# 	robot_correction.dist_correction_correction();
 
 
 

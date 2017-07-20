@@ -23,10 +23,10 @@ init_lat = 31.21884
 init_bearing = 0.0
 
 map_name = 'map'
-map_scale = 8.0
+map_scale = 2.0
 gps_scale = 15000000
 
-loc_dataLength = 500
+loc_dataLength = 1000
 triangle_size = 6
 triangle_angle = math.pi * 0.5
 circle_radius = 2

@@ -174,19 +174,24 @@ def turn_degree():
 		continue_turn(step_angle)
 		return False
 	else:
+		# if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
+		# 	if not amend_check:
+		# 		robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+		# 		amend_check = True
+		# 		return False
+		# 	else:
+		# 		stop_turn()
+		# 		amend_check = False
+		# 		return not robot_drive.robot_on_mission
+		# else:
+		# 	#finishe the turning
+		# 	stop_turn()
+		# 	return not robot_drive.robot_on_mission
 		if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
-			if not amend_check:
-				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
-				amend_check = True
-				return False
-			else:
-				stop_turn()
-				amend_check = False
-				return not robot_drive.robot_on_mission
-		else:
-			#finishe the turning
-			stop_turn()
-			return not robot_drive.robot_on_mission
+			robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
+		stop_turn()
+		return not robot_drive.robot_on_mission
 
 	#estimate the postition 1 second from now,
 	#this assumes the robot only stops 1 second after we start sending stop command

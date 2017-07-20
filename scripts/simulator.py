@@ -45,42 +45,42 @@ def executor_simulator(data):
 		burn_mode = True
 	elif (command_str == 'SF000006E'):
 		left_encode = 4000
-		right_encode  = 4000#3920
+		right_encode  = 3920
 		direction = 1
 	elif (command_str == 'SF000005E'):
-		left_encode = 1444
+		left_encode = 1404
 		right_encode  = 1444
 		direction = 1
 	elif(command_str == 'SF000004E'):
 		left_encode = 1108
-		right_encode = 1108
+		right_encode = 1102
 		direction = 1
 	elif(command_str == 'SF000003E'):
-		left_encode = 867
+		left_encode = 869
 		right_encode = 867
 		direction = 1
 	elif(command_str == 'SF000002E'):
 		left_encode = 600
-		right_encode = 600#588
+		right_encode = 588
 		direction = 1
 	elif(command_str == 'SB000006E'):
-		left_encode = -2000
+		left_encode = -2010
 		right_encode  = -2000
 		direction = 2
 	elif(command_str == 'SB000005E'):
-		left_encode = -1444
+		left_encode = -1464
 		right_encode  = -1444
 		direction = 2
 	elif(command_str == 'SB000004E'):
 		left_encode = -1108
-		right_encode = -1108
+		right_encode = -1128
 		direction = 2
 	elif(command_str == 'SB000003E'):
 		left_encode = -867
-		right_encode = -867
+		right_encode = -865
 		direction = 2
 	elif(command_str == 'SB000002E'):
-		left_encode = -666
+		left_encode = -661
 		right_encode = -666
 		direction = 2
 	elif(command_str == 'SL000006E'):

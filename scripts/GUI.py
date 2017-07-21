@@ -202,6 +202,7 @@ if __name__ == '__main__':
 		rospy.init_node('simulator_GUI', anonymous = True)
 		rospy.Subscriber('gps', String, GPS_callback)
 		json_pub = rospy.Publisher('job', String, queue_size = 100)
+		# key_pub = rospy.Publisher('keyboard', String, queue_size = 100)
 
 		read_Init()
 
@@ -242,7 +243,7 @@ if __name__ == '__main__':
 
 			c = cv2.waitKey(20) & 0xFF
 			if c == 13:
-
+				# key_pub.publish('Switch')
 				json_str_toSend = json.dumps(json_str)
 				json_pub.publish(json_str_toSend)
 

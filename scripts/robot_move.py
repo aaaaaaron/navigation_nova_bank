@@ -7,6 +7,7 @@ import robot_drive
 import robot_correction
 import gpsmath
 import robot_job
+import robot_publisher
 
 #-------------------------------------------------------#
 #	Robot moving module									#
@@ -60,7 +61,14 @@ def start_move():
 # Roboet complet a moving job
 def stop_move():
 	global dist_completed, amend_check
-	if not robot_drive.robot_moving :
+	direction_sign = False
+	if len(robot_job.job_lists) > 1:
+		direction_sign = robot_job.job_lists[0].value * robot_job.job_lists[1].value >= 0
+	if not direction_sign and robot_drive.robot_moving:
+		rospy.loginfo("Robot changing direction")
+		robot_drive.stop_robot()
+	
+	elif (robot_job.no_normal_jobs() >= 1) or not robot_drive.robot_moving :
 		dist_completed = 0.0
 		robot_drive.robot_on_mission = False
 		rospy.loginfo('----------------- Robot completed a moving job -----------------')
@@ -112,6 +120,8 @@ def continue_move():
     # if change of speed request is received
 	if(robot_drive.speed_now != robot_drive.speed_desired):
         	robot_drive.change_speed()
+
+	# robot_publisher.publish_command(robot_drive.move_direction, robot_drive.speed_now)
 
 # main function to control the robot movement
 def move_distance(dist):

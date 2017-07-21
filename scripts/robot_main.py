@@ -145,6 +145,7 @@ def main_commander():
 	# If no jobs, make sure robot stopped moving, we cannot leave robot moving there
 	if not robot_job.has_jobs_left():
 		robot_job.process_no_job()
+		# rospy.loginfo("Complete all jobs")
 		time.sleep(0.1)
 		return
 

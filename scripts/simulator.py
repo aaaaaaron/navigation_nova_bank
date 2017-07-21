@@ -5,6 +5,7 @@ import rospy
 import serial
 import string
 import sys
+import random
 from geometry_msgs.msg import Vector3
 from serial_handler.msg import Encoder
 from serial_handler.msg import Status
@@ -37,6 +38,8 @@ def executor_simulator(data):
 	command_str = command_str.rstrip('\r')
 	rospy.loginfo("recieved command %s", command_str)
 	rospy.loginfo("--------------------------")
+	deviate_l = random.randint(-30, 30)
+	deviate_r = random.randint(-30, 30)
 	if (command_str == 'iap_jump_app'):
 		rospy.loginfo('Turn off burn mode')
 		burn_mode = False
@@ -44,84 +47,84 @@ def executor_simulator(data):
 		rospy.loginfo("Turn to burn mode")
 		burn_mode = True
 	elif (command_str == 'SF000006E'):
-		left_encode = 4000
-		right_encode  = 3920
+		left_encode = 2000 + deviate_l
+		right_encode  = 2000 + deviate_r
 		direction = 1
 	elif (command_str == 'SF000005E'):
-		left_encode = 1404
-		right_encode  = 1444
+		left_encode = 1600 + deviate_l
+		right_encode  = 1600 + deviate_r
 		direction = 1
 	elif(command_str == 'SF000004E'):
-		left_encode = 1108
-		right_encode = 1102
+		left_encode = 1200 + deviate_l
+		right_encode = 1200 + deviate_r
 		direction = 1
 	elif(command_str == 'SF000003E'):
-		left_encode = 869
-		right_encode = 867
+		left_encode = 850 + deviate_l
+		right_encode = 850 + deviate_r
 		direction = 1
 	elif(command_str == 'SF000002E'):
-		left_encode = 600
-		right_encode = 588
+		left_encode = 600 + deviate_l
+		right_encode = 600 + deviate_r
 		direction = 1
 	elif(command_str == 'SB000006E'):
-		left_encode = -2010
-		right_encode  = -2000
+		left_encode = -2000 + deviate_l
+		right_encode  = -2000 + deviate_r
 		direction = 2
 	elif(command_str == 'SB000005E'):
-		left_encode = -1464
-		right_encode  = -1444
+		left_encode = -1600 + deviate_l
+		right_encode  = -1600 + deviate_r
 		direction = 2
 	elif(command_str == 'SB000004E'):
-		left_encode = -1108
-		right_encode = -1128
+		left_encode = -1200 + deviate_l
+		right_encode = -1200 + deviate_r
 		direction = 2
 	elif(command_str == 'SB000003E'):
-		left_encode = -867
-		right_encode = -865
+		left_encode = -850 + deviate_l
+		right_encode = -850 + deviate_r
 		direction = 2
 	elif(command_str == 'SB000002E'):
-		left_encode = -661
-		right_encode = -666
+		left_encode = -600 + deviate_l
+		right_encode = -600 + deviate_r
 		direction = 2
 	elif(command_str == 'SL000006E'):
-		left_encode = 650
-		right_encode  = 1800
+		left_encode = 650 + deviate_l
+		right_encode  = 1800 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000005E'):
-		left_encode = 650
-		right_encode  = 1800
+		left_encode = 650 + deviate_l
+		right_encode  = 1800 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000004E'):
-		left_encode = 650
-		right_encode = 1800
+		left_encode = 650 + deviate_l
+		right_encode = 1800 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000003E'):
-		left_encode = 650
-		right_encode = 1800
+		left_encode = 650 + deviate_l
+		right_encode = 1800 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000002E'):
-		left_encode = 650
-		right_encode = 1800
+		left_encode = 650 + deviate_l
+		right_encode = 1800 + deviate_r
 		direction = 3
 	elif(command_str == 'SR000006E'):
-		left_encode = 1800
-		right_encode  = 650
+		left_encode = 1800 + deviate_l
+		right_encode  = 650 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000005E'):
-		left_encode = 1800
-		right_encode = 650
+		left_encode = 1800 + deviate_l
+		right_encode = 650 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000004E'):
-		left_encode = 1800
-		right_encode = 650
+		left_encode = 1800 + deviate_l
+		right_encode = 650 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000003E'):
-		left_encode = 1800
-		right_encode = 650
+		left_encode = 1800 + deviate_l
+		right_encode = 650 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000002E'):
-		left_encode = 1800
-		right_encode = 650
+		left_encode = 1800 + deviate_l
+		right_encode = 650 + deviate_r
 		direction = 4
 	else:
 		left_encode = 0

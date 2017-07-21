@@ -7,6 +7,7 @@ import robot_drive
 import math
 import robot_correction
 import robot_job
+import robot_publisher
 
 #-------------------------------------------------------#
 # Robot turning module 									#
@@ -77,7 +78,8 @@ def start_turn():
 def stop_turn():
 	global degree_turned
 	global degree_to_turn
-	if not robot_drive.robot_turning and not robot_drive.robot_moving:
+	# if not robot_drive.robot_turning and not robot_drive.robot_moving:
+	if (robot_job.no_normal_jobs() >= 1 and robot_job.job_lists[1].value >= 0) or (not robot_drive.robot_turning and not robot_drive.robot_moving):	#chengyuen21/7
 		diff = robot_drive.roll - robot_drive.roll_start
 		rospy.loginfo("Calculated roll difference %f, degreed turned %f", diff, degree_turned)
 		robot_drive.robot_on_mission = False
@@ -121,6 +123,8 @@ def continue_turn(step_angle):
 	#robot_drive.bearing_now  = correct_angle(robot_drive.bearing_now)
 	if(robot_drive.speed_desired != robot_drive.speed_now ):
 		robot_drive.change_speed()
+
+	# robot_publisher.publish_command(robot_drive.move_direction, robot_drive.speed_now)
 
 # main functions let robot performs a turning job of certain degree
 def turn_degree():

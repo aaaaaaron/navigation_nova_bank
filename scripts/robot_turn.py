@@ -79,7 +79,8 @@ def stop_turn():
 	global degree_turned
 	global degree_to_turn
 	# if not robot_drive.robot_turning and not robot_drive.robot_moving:
-	if (robot_job.no_normal_jobs() >= 1 and robot_job.job_lists[1].value >= 0) or (not robot_drive.robot_turning and not robot_drive.robot_moving):	#chengyuen21/7
+	# if (robot_job.no_normal_jobs() >= 1 and robot_job.job_lists[1].value >= 0) or (not robot_drive.robot_turning and not robot_drive.robot_moving):	#chengyuen21/7
+	if not robot_drive.robot_turning and not robot_drive.robot_moving:
 		diff = robot_drive.roll - robot_drive.roll_start
 		rospy.loginfo("Calculated roll difference %f, degreed turned %f", diff, degree_turned)
 		robot_drive.robot_on_mission = False

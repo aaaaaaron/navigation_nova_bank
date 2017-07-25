@@ -134,7 +134,7 @@ def update_robot_gps(left_encode, right_encode):
 			alpha = alpha
 		else:
 			alpha = -alpha
-	rospy.logerr(R)
+	# rospy.logerr(R)
 	robot_drive.step_angle 	= degrees(alpha)
 	# covnert to degree
 	#####bearing 				= robot_drive.bearing_now + robot_drive.step_angle / 2.0

@@ -101,11 +101,11 @@ def process_job():
 				else :
 					if bank_turn_deg < 0:
 						bearing_target1 = robot_drive.bearing_now + 90.0
-						bearing_target2 = robot_drive.bearing_now - 10.0
+						bearing_target2 = robot_drive.bearing_now - 90.0
 
 					else:
 						bearing_target1 = robot_drive.bearing_now - 90.0
-						bearing_target2 = robot_drive.bearing_now + 10.0
+						bearing_target2 = robot_drive.bearing_now + 90.0
 
 					turn_job_1 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target1, 'N', 'T', bearing_target1)
 					turn_job_2 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target2, 'N', 'T', bearing_target2)
@@ -536,5 +536,5 @@ def arc_threshold(next_angle, current_angle):
     elif angle < -180.0:
         angle = abs(angle + 360.0)
     value = robot_drive.bank_radius * math.tan((angle/2.0) / 180.0 * math.pi)
-    value = abs(value) + robot_correction.min_correction_distance
+    value = abs(value) #+ robot_correction.min_correction_distance
     return value

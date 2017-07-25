@@ -61,14 +61,15 @@ def start_move():
 # Roboet complet a moving job
 def stop_move():
 	global dist_completed, amend_check
-	direction_sign = False
-	if len(robot_job.job_lists) > 1:
-		direction_sign = robot_job.job_lists[0].value * robot_job.job_lists[1].value >= 0
-	if not direction_sign and robot_drive.robot_moving:
-		rospy.loginfo("Robot changing direction")
-		robot_drive.stop_robot()
+	# direction_sign = False
+	# if len(robot_job.job_lists) > 1:
+	# 	direction_sign = robot_job.job_lists[0].value * robot_job.job_lists[1].value >= 0
+	# if not direction_sign and robot_drive.robot_moving:
+	# 	rospy.loginfo("Robot changing direction")
+	# 	robot_drive.stop_robot()
 
-	elif (robot_job.no_normal_jobs() >= 1) or not robot_drive.robot_moving :
+	# elif (robot_job.no_normal_jobs() >= 1) or not robot_drive.robot_moving :
+	if not robot_drive.robot_moving:
 		dist_completed = 0.0
 		robot_drive.robot_on_mission = False
 		rospy.loginfo('----------------- Robot completed a moving job -----------------')
@@ -167,34 +168,46 @@ def move_distance(dist):
 	if robot_drive.show_log:
 		rospy.loginfo('Accumulated angle error: %f', angle_to_correct)
 	#@yuqing_correctionper10m
-	#if travel over 10m, job_completed to 1, start to correct
-	# if (dist_completed >= dist_to_correct):
-	# 	rospy.loginfo("-----------------dist_completed: %f, start to correct", dist_completed)
-	# 	stop_move()
-	# 	return not robot_drive.robot_on_mission
+	#if travel over 5m, job_completed to 1, start to correct
+	if (dist_completed >= dist_to_correct):
+		
+		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+		diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
+		if (diff_angle > 180.0):
+			diff_angle = diff_angle - 360.0
+
+		# rospy.logerr(diff_angle)
+		if ( abs(diff_angle) >= robot_correction.min_correction_angle and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0):
+			rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
+			if not amend_check:
+				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+				amend_check = True
+		
+			stop_move()
+			return not robot_drive.robot_on_mission
 
 #chengyuen-todo 18/7
 # correction_yq begin
-	bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
-	diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
-	if (diff_angle > 180.0):
-		diff_angle = diff_angle - 360.0
+	# bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+	# diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
+	# if (diff_angle > 180.0):
+	# 	diff_angle = diff_angle - 360.0
 
 	# rospy.logerr(diff_angle)
-	if ( abs(diff_angle) >= robot_correction.min_correction_angle and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0):
+	# if ( abs(diff_angle) >= robot_correction.min_correction_angle and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0):
 
-		dist_correct_pub = "--------------- Correction after %f deg off course"%diff_angle
+	# 	dist_correct_pub = "--------------- Correction after %f deg off course"%diff_angle
 
-		rospy.loginfo(dist_correct_pub)
+	# 	rospy.loginfo(dist_correct_pub)
 
 		# dist_completed_to_correct = 0.0
 		# stop_move()
-		if not amend_check:
-			# rospy.logerr("Amendment")
-			robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
-			amend_check = True
-		stop_move()
-		return not robot_drive.robot_on_mission
+		# if not amend_check:
+		# 	# rospy.logerr("Amendment")
+		# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+		# 	amend_check = True
+		# stop_move()
+		# return not robot_drive.robot_on_mission
 # correction_yq end
 
 	dist_remain = dist_threshold - dist_completed;

@@ -87,44 +87,44 @@ def executor_simulator(data):
 		right_encode = -600 + deviate_r
 		direction = 2
 	elif(command_str == 'SL000006E'):
-		left_encode = 650 + deviate_l
-		right_encode  = 1800 + deviate_r
+		left_encode = 220 + deviate_l
+		right_encode = 1400 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000005E'):
-		left_encode = 650 + deviate_l
-		right_encode  = 1800 + deviate_r
+		left_encode = 220 + deviate_l
+		right_encode = 1400 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000004E'):
-		left_encode = 650 + deviate_l
-		right_encode = 1800 + deviate_r
+		left_encode = 220 + deviate_l
+		right_encode = 1400 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000003E'):
-		left_encode = 650 + deviate_l
-		right_encode = 1800 + deviate_r
+		left_encode = 220 + deviate_l
+		right_encode = 1400 + deviate_r
 		direction = 3
 	elif(command_str == 'SL000002E'):
-		left_encode = 650 + deviate_l
-		right_encode = 1800 + deviate_r
+		left_encode = 220 + deviate_l
+		right_encode = 1400 + deviate_r
 		direction = 3
 	elif(command_str == 'SR000006E'):
-		left_encode = 1800 + deviate_l
-		right_encode  = 650 + deviate_r
+		left_encode = 1400 + deviate_l
+		right_encode = 220 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000005E'):
-		left_encode = 1800 + deviate_l
-		right_encode = 650 + deviate_r
+		left_encode = 1400 + deviate_l
+		right_encode = 220 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000004E'):
-		left_encode = 1800 + deviate_l
-		right_encode = 650 + deviate_r
+		left_encode = 1400 + deviate_l
+		right_encode = 220 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000003E'):
-		left_encode = 1800 + deviate_l
-		right_encode = 650 + deviate_r
+		left_encode = 1400 + deviate_l
+		right_encode = 220 + deviate_r
 		direction = 4
 	elif(command_str == 'SR000002E'):
-		left_encode = 1800 + deviate_l
-		right_encode = 650 + deviate_r
+		left_encode = 1400 + deviate_l
+		right_encode = 220 + deviate_r
 		direction = 4
 	else:
 		left_encode = 0

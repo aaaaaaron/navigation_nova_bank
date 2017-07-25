@@ -67,7 +67,7 @@ def stop_move():
 	if not direction_sign and robot_drive.robot_moving:
 		rospy.loginfo("Robot changing direction")
 		robot_drive.stop_robot()
-	
+
 	elif (robot_job.no_normal_jobs() >= 1) or not robot_drive.robot_moving :
 		dist_completed = 0.0
 		robot_drive.robot_on_mission = False
@@ -174,6 +174,7 @@ def move_distance(dist):
 	# 	return not robot_drive.robot_on_mission
 
 #chengyuen-todo 18/7
+# correction_yq begin
 	bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
 	diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
 	if (diff_angle > 180.0):
@@ -194,6 +195,7 @@ def move_distance(dist):
 			amend_check = True
 		stop_move()
 		return not robot_drive.robot_on_mission
+# correction_yq end
 
 	dist_remain = dist_threshold - dist_completed;
 

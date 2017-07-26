@@ -122,18 +122,27 @@ def clear_after_obstacle_avoidance(current_job_type):
 
 def resume_from_obstacle_avoidance():
 	job_executing = robot_job.current_job()
-	current_job_type = job_executing.classfication;
-
+	current_job_motion = job_executing.description
+	if current_job_motion == 'F' or current_job_motion == 'B':
+		rospy.loginfo("Robot met obstacle during Forward job, finishing current job")
+		robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, job_executing.lon_target, job_executing.lat_target)
+	elif current_job_motion == 'T':
+		rospy.loginfo("Robot met obstacle during Turn job, finishing current job")
+		if len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F':
+			robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+		else:
+			robot_job.job_lists.insert(1, job_executing)
+	robot_job.complete_current_job()
 	# robot is resumed to clear state and ready for the correction tasks
 	# performing necessary clearing of current tasks
-	clear_after_obstacle_avoidance(current_job_type)
+	# clear_after_obstacle_avoidance(current_job_type)
 
-	if needForward:
-		rospy.loginfo("Need to forward 0.5m after obstacle")
-		robot_correction.dist_correction_obstacle_need_forward(robot_job.dist_forward_after_obstacle)
-	else:
-		robot_correction.dist_correction_obstacle()
-		rospy.loginfo("no need to forward 0.5m after obstacle")
+	# if needForward:
+	# 	rospy.loginfo("Need to forward 0.5m after obstacle")
+	# 	robot_correction.dist_correction_obstacle_need_forward(robot_job.dist_forward_after_obstacle)
+	# else:
+	# 	robot_correction.dist_correction_obstacle()
+	# 	rospy.loginfo("no need to forward 0.5m after obstacle")
 
 	#robot_drive.isunlockdone = False
 

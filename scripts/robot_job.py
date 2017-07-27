@@ -235,6 +235,26 @@ def append_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	job_lists.extend([turn_job])
 	job_lists.extend([move_job])
 
+def amend_obstacle_jobs(lon_source, lat_source, lon_target, lat_target):
+	global job_lists
+	rospy.loginfo("Amended a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, lon_target, lat_target)
+	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
+	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
+	turn_job 	= Job(lon_source, lat_source, bearing, 'O', 'T', bearing)
+
+	move_job 	= Job(lon_target, lat_target, bearing, 'O', 'F', distance)
+	rospy.loginfo("Amended a turn job: Turn to %f", bearing)
+	rospy.loginfo("Amended a move job: Move %f mm", distance)
+
+	if job_lists[0].description == 'F' or job_lists[0].description == 'B':
+		# job_lists[1] = move_job
+		job_lists.insert(1, turn_job)
+		# job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', job_lists[0].description, 0.0))
+		job_lists.insert(2, move_job)
+	elif job_lists[0].description == 'T':
+		job_lists.insert(1, turn_job)
+		#job_lists[2] = move_job
+
 def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	global job_lists
 	rospy.loginfo("Amended a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, lon_target, lat_target)
@@ -242,7 +262,7 @@ def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
 	turn_job 	= Job(lon_source, lat_source, bearing, 'C', 'T', bearing)
 
-	move_job 	= Job(lon_target, lat_target, bearing, 'N', 'F', distance)
+	move_job 	= Job(lon_target, lat_target, bearing, 'C', 'F', distance)
 	rospy.loginfo("Amended a turn job: Turn to %f", bearing)
 	rospy.loginfo("Amended a move job: Move %f mm", distance)
 

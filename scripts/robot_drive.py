@@ -73,7 +73,7 @@ robot_enabled_desired 	= True
 #0: no-obstalce mode
 obstacle_mode = True
 #yuqing_unlockconfirm
-isunlockdone = False
+is_unlock_done = False
 # Jianbo: Burn mode and normal mode
 # True for burn mode when pwer up
 # False for normal mode

@@ -130,11 +130,12 @@ def status_callback(data):
 	robot_obstacle.reverse_sensor_ok 	= data.reverse_sensor_ok
 	robot_obstacle.distance_sensor_ok 	= data.distance_sensor_ok
 	robot_drive.is_light_on				= data.light_on
+	robot_drive.is_unlock_done			= data.unlocked
 
 	if (data.obstacle_avoidance_mode and data.has_obstacle): 	#when obstacle mode on, and finds obstacle
 		robot_obstacle.robot_on_obstacle = True
 		robot_obstacle.robot_over_obstacle = False
-	elif (data.obstacle_avoidance_mode and data.over_obstacle): 	#when obstacle avoidance is over
+	elif data.over_obstacle: 	#when obstacle avoidance is over
 		robot_obstacle.robot_on_obstacle = False
 		robot_obstacle.robot_over_obstacle = True
 	else: 													 #when no obstacle,

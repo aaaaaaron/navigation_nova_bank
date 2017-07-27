@@ -124,7 +124,7 @@ def resume_from_obstacle_avoidance():
 	job_executing = robot_job.current_job()
 	current_job_motion = job_executing.description
 	current_job_type 	= job_executing.classfication
-	clear_after_obstacle_avoidance(current_job_type)
+	# clear_after_obstacle_avoidance(current_job_type)
 	if current_job_motion == 'F' or current_job_motion == 'B':
 		rospy.loginfo("Robot met obstacle during Forward job, finishing current job")
 		robot_job.amend_obstacle_jobs(robot_drive.lon_now, robot_drive.lat_now, job_executing.lon_target, job_executing.lat_target)
@@ -156,8 +156,9 @@ def complete_obstacle_avoidance():
 		rospy.loginfo("waiting robot to stop")
 		return
 
+  # comment out advised by Chengyuen
 	# step 2: Once robot stopped moving, send unlock signal to the robot
-	if (not robot_drive.isunlockdone):
+	if (not robot_drive.is_unlock_done):
 		rospy.loginfo("unlock robot for further processing")
 		robot_drive.unlock_robot()
 		return
@@ -174,9 +175,9 @@ def complete_obstacle_avoidance():
 	else:
 		rospy.loginfo("There's no mission on going")
 
-	robot_over_obstacle = False
+	#robot_over_obstacle = False
 
-
+  
 
 	# if(current_job_type == 'N'):
 	# 		rospy.loginfo("Rbot met obstacle during normal job, pefrorm correction")

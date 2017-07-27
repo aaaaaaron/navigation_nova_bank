@@ -97,6 +97,7 @@ def main_commander():
 
 	# Robot obstancle avoidence is over, now resume to normal operation
 	if robot_obstacle.robot_over_obstacle:
+		rospy.loginfo("Robot over obstacle")
 		robot_obstacle.complete_obstacle_avoidance()
 		time.sleep(0.1)
 		return

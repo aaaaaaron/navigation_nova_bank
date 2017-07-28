@@ -125,15 +125,27 @@ def resume_from_obstacle_avoidance():
 	current_job_motion = job_executing.description
 	current_job_type 	= job_executing.classfication
 	# clear_after_obstacle_avoidance(current_job_type)
+
+	# yuqing_Jul28 new position for forward 0.5m after obstacle avoidance
+	lon_new, lat_new = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, robot_job.dist_forward_after_obstacle, robot_drive.bearing_now)
+
 	if current_job_motion == 'F' or current_job_motion == 'B':
 		rospy.loginfo("Robot met obstacle during Forward job, finishing current job")
-		robot_job.amend_obstacle_jobs(robot_drive.lon_now, robot_drive.lat_now, job_executing.lon_target, job_executing.lat_target)
+		# robot_job.amend_obstacle_jobs(robot_drive.lon_now, robot_drive.lat_now, job_executing.lon_target, job_executing.lat_target)
+		robot_job.amend_obstacle_jobs(lon_new, lat_new, job_executing.lon_target, job_executing.lat_target)
 	elif current_job_motion == 'T':
 		rospy.loginfo("Robot met obstacle during Turn job, finishing current job")
 		if len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F':
-			robot_job.amend_obstacle_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			# robot_job.amend_obstacle_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			robot_job.amend_obstacle_jobs(lon_new, lat_new, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
 		else:
 			robot_job.job_lists.insert(1, job_executing)
+
+	# yuqing_Jul28 forward 0.5m after obstacle avoidance
+	rospy.loginfo("Add a job to move forward %d mm", robot_job.dist_forward_after_obstacle)
+	robot_job.insert_compensation_jobs(robot_drive.lon_now, robot_drive.lat_now, lat_new, lon_new, 'O', True, False)
+
+
 	robot_job.complete_current_job()
 	# robot is resumed to clear state and ready for the correction tasks
 	# performing necessary clearing of current tasks
@@ -177,7 +189,7 @@ def complete_obstacle_avoidance():
 
 	#robot_over_obstacle = False
 
-  
+
 
 	# if(current_job_type == 'N'):
 	# 		rospy.loginfo("Rbot met obstacle during normal job, pefrorm correction")

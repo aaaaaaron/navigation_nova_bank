@@ -96,7 +96,7 @@ def process_job():
 							move_job = Job(job_lists[0].lon_target, job_lists[0].lat_target, job_lists[0].bearing_target, 'N', 'F', (abs(job_lists[0].value) - arc_dist))	#chengyuen12/7
 						FtoT_flag = False
 						job_lists.insert(1, move_job)
-						
+
 						return True
 				else :
 					if bank_turn_deg < 0:
@@ -174,7 +174,7 @@ class Job:
 		rospy.loginfo("Define Job: %s, %s, %f", classify, description, value)
 
 #@yuqing_forwardafterobstacle
-dist_forward_after_obstacle = 1000
+dist_forward_after_obstacle = 500
 
 #---------------------------re-factored job lists ------------------------------
 # init robot initial poition
@@ -276,7 +276,7 @@ def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 		job_lists[2] = move_job
 
 
-	
+
 		# job_lists[0] = turn_job
 		# job_lists[1] = move_job
 	# a = "%f  %f  %f"%(job_lists[0].value, job_lists[1].value, job_lists[2].value)

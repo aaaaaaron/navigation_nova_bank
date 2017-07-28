@@ -63,7 +63,7 @@ def IMU_callback(data):
         	diff_y = -robot_drive.pitch + data.y
         	diff_z = -robot_drive.yaw + data.z
 
-		rospy.loginfo("values (%f, %f, %f)", diff_x, diff_y, diff_z)
+		#rospy.loginfo("values (%f, %f, %f)", diff_x, diff_y, diff_z)
 	robot_drive.roll  	= data.x
 	robot_drive.pitch 	= data.y
 	robot_drive.yaw 	= data.z

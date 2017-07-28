@@ -414,9 +414,11 @@ def insert_move_job(lon_source, lat_source, bearing_source, lon_target, lat_targ
 	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
 	if distance < 0:																							#chengyuen14/7
 		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'B', abs(distance))
+		job_lists.insert(0, move_job)
 	else:
 		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'F', distance)
-	job_lists.insert(0, move_job)
+		job_lists.insert(0, move_job)
+	rospy.loginfo("Number of jobs %d", len(job_lists))
 
 # a list of operations for the correction jobs
 def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target, lat_target, bearing_tarcorrection_typeget, correction_type, need_correct_distance, need_correct_angle):

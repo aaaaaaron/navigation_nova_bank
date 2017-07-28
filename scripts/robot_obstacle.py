@@ -129,7 +129,7 @@ def resume_from_obstacle_avoidance():
 
 	# yuqing_Jul28 new position for forward 0.5m after obstacle avoidance
 	lon_new, lat_new = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, robot_job.dist_forward_after_obstacle, robot_drive.bearing_now)
-
+	rospy.loginfo("lon_now: %f, lat_now: %f, lon_new: %f, lat_new: %f", robot_drive.lon_now, robot_drive.lat_now, lon_new, lat_new)
 	if current_job_motion == 'F' or current_job_motion == 'B':
 		rospy.loginfo("Robot met obstacle during Forward job, finishing current job")
 		# robot_job.amend_obstacle_jobs(robot_drive.lon_now, robot_drive.lat_now, job_executing.lon_target, job_executing.lat_target)
@@ -143,10 +143,10 @@ def resume_from_obstacle_avoidance():
 			robot_job.job_lists.insert(1, job_executing)
 
 	robot_job.complete_current_job()
+	robot_drive.robot_on_mission = False
 	# yuqing_Jul28 forward 0.5m after obstacle avoidance
 	rospy.loginfo("Add a job to move forward %d mm", robot_job.dist_forward_after_obstacle)
-	robot_job.clear_job_list()
-	robot_job.insert_move_job(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, lat_new, lon_new, robot_drive.bearing_now, 'N')
+	robot_job.insert_move_job(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, lon_new, lat_new, robot_drive.bearing_now, 'N')
 
 
 	

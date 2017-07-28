@@ -129,18 +129,28 @@ def status_callback(data):
 	robot_drive.gyroscope_ok 			= data.gyroscope_ok
 	robot_obstacle.reverse_sensor_ok 	= data.reverse_sensor_ok
 	robot_obstacle.distance_sensor_ok 	= data.distance_sensor_ok
-	robot_drive.is_light_on				= data.light_on
-	robot_drive.is_unlock_done			= data.unlocked
+	robot_drive.is_light_on				= data.light_on			
 
-	if (data.obstacle_avoidance_mode and data.has_obstacle): 	#when obstacle mode on, and finds obstacle
-		robot_obstacle.robot_on_obstacle = True
-		robot_obstacle.robot_over_obstacle = False
-	elif data.over_obstacle: 	#when obstacle avoidance is over
+	if data.obstacle_avoidance_mode:
+		if data.has_obstacle and data.over_obstacle == False: 	#when obstacle mode on, and finds obstacle
+			robot_obstacle.robot_on_obstacle = True
+			robot_obstacle.robot_over_obstacle = False
+			robot_drive.is_unlock_done = False
+		elif data.over_obstacle and data.has_obstacle == False: 	#when obstacle avoidance is over and need unlock 
+			robot_obstacle.robot_on_obstacle = False
+			robot_obstacle.robot_over_obstacle = True
+			robot_drive.is_unlock_done = False
+		elif data.has_obstacle == False and data.over_obstacle == False: 													 #when no obstacle,
+			robot_obstacle.robot_on_obstacle = False
+			robot_obstacle.robot_over_obstacle = False
+			robot_drive.is_unlock_done = True
+		else:
+			rospy.logerr("Invalud condition for obstacle avoidance")
+	else:
 		robot_obstacle.robot_on_obstacle = False
-		robot_obstacle.robot_over_obstacle = True
-	else: 													 #when no obstacle,
-		robot_obstacle.robot_on_obstacle = False
 		robot_obstacle.robot_over_obstacle = False
+		robot_drive.is_unlock_done = True
+
 
 	robot_drive.battery_level = data.battery_level
 	if(robot_drive.battery_level >= 20):

@@ -11,6 +11,7 @@ import robot_correction
 
 robot_on_obstacle 	 	= False # if robot is on obstacle avoidence, it would be set to 1
 robot_over_obstacle 	= False # it's effective if the robot_on_obstacle
+resume_from_obstacle 	= False 
 
 needForward 			= False
 justStop 		 		= False
@@ -141,12 +142,14 @@ def resume_from_obstacle_avoidance():
 		else:
 			robot_job.job_lists.insert(1, job_executing)
 
+	robot_job.complete_current_job()
 	# yuqing_Jul28 forward 0.5m after obstacle avoidance
 	rospy.loginfo("Add a job to move forward %d mm", robot_job.dist_forward_after_obstacle)
-	robot_job.insert_compensation_jobs(robot_drive.lon_now, robot_drive.lat_now, lat_new, lon_new, 'O', True, False)
+	robot_job.clear_job_list()
+	robot_job.insert_move_job(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, lat_new, lon_new, robot_drive.bearing_now, 'N')
 
 
-	robot_job.complete_current_job()
+	
 	# robot is resumed to clear state and ready for the correction tasks
 	# performing necessary clearing of current tasks
 	# clear_after_obstacle_avoidance(current_job_type)
@@ -163,6 +166,7 @@ def resume_from_obstacle_avoidance():
 # Complete the obstacle avoidence after we get a signal from the robot base
 def complete_obstacle_avoidance():
 	global robot_over_obstacle
+	global resume_from_obstacle 
 	# step 1: Waiting for robot stop moving
 	if (robot_drive.robot_turning or robot_drive.robot_moving):
 		rospy.loginfo("waiting robot to stop")
@@ -171,9 +175,12 @@ def complete_obstacle_avoidance():
   # comment out advised by Chengyuen
 	# step 2: Once robot stopped moving, send unlock signal to the robot
 	if (not robot_drive.is_unlock_done):
-		rospy.loginfo("unlock robot for further processing")
+		rospy.loginfo("unlock robot for further processing") 
 		robot_drive.unlock_robot()
-		return
+		#return
+
+	if resume_from_obstacle: 
+		return 
 
 	# step 3: Once robot is unlocked, resume control to the program
 	# Need to perform necessary correction
@@ -187,6 +194,7 @@ def complete_obstacle_avoidance():
 	else:
 		rospy.loginfo("There's no mission on going")
 
+	resume_from_obstacle = True
 	#robot_over_obstacle = False
 
 

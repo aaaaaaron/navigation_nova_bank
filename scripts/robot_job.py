@@ -408,8 +408,18 @@ def clear_correction_jobs():
 			complete_current_job()
 
 
+def insert_move_job(lon_source, lat_source, bearing_source, lon_target, lat_target, bearing_target, correction_type):
+	global job_lists
+	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
+	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
+	if distance < 0:																							#chengyuen14/7
+		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'B', abs(distance))
+	else:
+		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'F', distance)
+	job_lists.insert(0, move_job)
+
 # a list of operations for the correction jobs
-def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target, lat_target, bearing_target, correction_type, need_correct_distance, need_correct_angle):
+def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target, lat_target, bearing_tarcorrection_typeget, correction_type, need_correct_distance, need_correct_angle):
 	global job_lists
 	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
 	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
@@ -420,7 +430,7 @@ def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target,
 	# first_reverse_job		= Job(lon_source, lat_source, bearing_source, correction_type, 'B', 2*reverse_value1)	#chengyuen14/7
 	turn_job 				= Job(lon_source, lat_source, bearing_target, correction_type, 'T', bearing_target)
 	turn_before_move_job 	= Job(lon_source, lat_source, bearing, correction_type, 'T', bearing)
-	distance = distance - reverse_value1 - reverse_value2														#chengyuen14/7
+	# distance = distance - reverse_value1 - reverse_value2														#chengyuen14/7
 	if distance < 0:																							#chengyuen14/7
 		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'B', abs(distance))
 	else:

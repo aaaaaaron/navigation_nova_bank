@@ -91,6 +91,7 @@ def main_commander():
 	# ----------------------------------------------------------------------------------------#
 	# The flag would be set by hardware, we cannot do anything but blankly calculate the gps coordinates
 	if robot_obstacle.robot_on_obstacle:
+		robot_obstacle.resume_from_obstacle = False
 		rospy.loginfo("Robot on obstacle avoidence, please wait")
 		time.sleep(0.1)
 		return

@@ -8,6 +8,7 @@ import math
 import robot_correction
 import robot_job
 import robot_publisher
+import gpsmath
 
 #-------------------------------------------------------#
 # Robot turning module 									#
@@ -175,6 +176,23 @@ def turn_degree():
 	if robot_drive.show_log:
 		rospy.loginfo("To turn %f, Turned %f, Step %f, Bearing %f, Target %f", degree_to_turn, degree_turned, step_angle, robot_drive.bearing_now, robot_drive.bearing_target)
 
+	# yuqing_Jul30
+	bearing = 0.0
+	angle = 0.0
+	if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F'):	 	
+		bearing = gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+		rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now,  bearing)
+		angle 	= gpsmath.format_bearing( robot_drive.bearing_now - bearing)
+		rospy.loginfo("angel: %f", angle)
+	
+		if (angle - 3) <= 0.0:
+		 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			stop_turn()
+			return not robot_drive.robot_on_mission
+	
+		continue_turn(step_angle)
+		return False
+	
 	if(abs(degree_turned) < degree_threshold):
 		continue_turn(step_angle)
 		return False
@@ -192,9 +210,10 @@ def turn_degree():
 		# 	#finishe the turning
 		# 	stop_turn()
 		# 	return not robot_drive.robot_on_mission
+		rospy.loginfo("else")
 		if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
-			robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
-			# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
+		 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+		 	# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
 		stop_turn()
 		return not robot_drive.robot_on_mission
 

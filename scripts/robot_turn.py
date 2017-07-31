@@ -23,6 +23,9 @@ turn_full_speed 	= 0.0
 turn_lower_speed 	= 0.0
 turn_lowest_speed 	= 0.0
 
+last_angle              = 370.0
+first_angle		= 370.0
+
 amend_check = False
 
 #it takes about 1 second for it to stop
@@ -39,6 +42,11 @@ def start_turn():
 	global turn_lower_speed
 	global turn_lowest_speed
 
+	global first_angle
+	global last_angle
+
+	first_angle = 370.0
+	last_angle = 370.0
 
 	# get turning angle to (-180 to 180)
 	if(degree_to_turn > 180.0):
@@ -133,6 +141,8 @@ def turn_degree():
  	global degree_turned
  	global degree_to_turn
  	global amend_check
+	global first_angle
+	global last_angle
 
  	if not robot_drive.robot_on_mission:
  		degree_to_turn = robot_drive.bearing_target - robot_drive.bearing_now
@@ -178,44 +188,52 @@ def turn_degree():
 
 	# yuqing_Jul30
 	bearing = 0.0
-	angle = 0.0
-	if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F'):	 	
-		bearing = gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
-		rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now,  bearing)
-		angle 	= gpsmath.format_bearing( robot_drive.bearing_now - bearing)
-		rospy.loginfo("angel: %f", angle)
-	
-		if (angle - 3) <= 0.0:
-		 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+	cur_angle = 0.0
+
+	if(robot_job.job_lists[0].classfication == 'U'):
+		if(abs(degree_turned) < degree_threshold):
+			continue_turn(step_angle)
+			return False
+		else:
+			if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
+			 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			 	# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
 			stop_turn()
 			return not robot_drive.robot_on_mission
-	
-		continue_turn(step_angle)
-		return False
-	
-	if(abs(degree_turned) < degree_threshold):
-		continue_turn(step_angle)
-		return False
 	else:
-		# if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
-		# 	if not amend_check:
-		# 		robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
-		# 		amend_check = True
-		# 		return False
-		# 	else:
-		# 		stop_turn()
-		# 		amend_check = False
-		# 		return not robot_drive.robot_on_mission
-		# else:
-		# 	#finishe the turning
-		# 	stop_turn()
-		# 	return not robot_drive.robot_on_mission
-		# rospy.loginfo("else")
-		# if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
-		 	# robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
-		 	# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
-		stop_turn()
-		return not robot_drive.robot_on_mission
+		if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F'):	 	
+			bearing = gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now,  bearing)
+			cur_angle 	= gpsmath.format_bearing( robot_drive.bearing_now - bearing)
+			rospy.loginfo("cur_angle: %f", cur_angle)
+			
+			if abs(last_angle - 370) > 0.01 and abs(first_angle - 370.0) > 0.01:
+				if (last_angle - cur_angle) * (last_angle - first_angle) > 0:
+					rospy.logwarn("first_angle: %f, last_angle: %f, cur_angle: %f", first_angle, last_angle,  cur_angle)
+					stop_turn()
+					robot_job.remove_job(1);
+					return not robot_drive.robot_on_mission
+			
+			first_angle = last_angle
+			last_angle = cur_angle
+
+			if (cur_angle - 3.5) <= 0.0:
+			 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+				stop_turn()
+				return not robot_drive.robot_on_mission
+		
+			continue_turn(step_angle)
+			return False
+
+		else: 
+			if(abs(degree_turned) < degree_threshold):
+				continue_turn(step_angle)
+				return False
+			else:
+				stop_turn()
+				return not robot_drive.robot_on_mission
+	
+	
 
 	#estimate the postition 1 second from now,
 	#this assumes the robot only stops 1 second after we start sending stop command
@@ -237,3 +255,4 @@ def turn_degree():
 	#	return False
 
 	#return False
+

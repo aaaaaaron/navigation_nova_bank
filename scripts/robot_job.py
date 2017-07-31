@@ -107,8 +107,8 @@ def process_job():
 						bearing_target1 = robot_drive.bearing_now - 90.0
 						bearing_target2 = robot_drive.bearing_now + 90.0
 
-					turn_job_1 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target1, 'N', 'T', bearing_target1)
-					turn_job_2 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target2, 'N', 'T', bearing_target2)
+					turn_job_1 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target1, 'U', 'T', bearing_target1)
+					turn_job_2 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target2, 'U', 'T', bearing_target2)
 
 					job_lists.insert(1, turn_job_1)
 					job_lists.insert(2, turn_job_2)
@@ -306,6 +306,12 @@ def left_gps_distance():
 def clear_job_list():
 	global job_lists
 	del job_lists[:]
+
+def remove_job(idx):
+	global job_lists
+	length = len(job_lists)
+	if idx <= length-1:
+		del job_lists[idx]
 
 # If return value is false, then need coorecction
 # If return value is true, then no need correction for the current job

@@ -210,9 +210,9 @@ def turn_degree():
 		# 	#finishe the turning
 		# 	stop_turn()
 		# 	return not robot_drive.robot_on_mission
-		rospy.loginfo("else")
-		if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
-		 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+		# rospy.loginfo("else")
+		# if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
+		 	# robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
 		 	# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
 		stop_turn()
 		return not robot_drive.robot_on_mission

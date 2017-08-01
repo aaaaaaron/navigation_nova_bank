@@ -152,7 +152,7 @@ def main_commander():
 		return
 
 	job_completed = robot_job.process_job()
-
+	
 	# ----------------------------------------------------------------------------------------#
 	#  Robot's doing the initialization jobs, not normal jobs      							  #
 	# ----------------------------------------------------------------------------------------#

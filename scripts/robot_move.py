@@ -8,6 +8,7 @@ import robot_correction
 import gpsmath
 import robot_job
 import robot_publisher
+import robot_move
 
 #-------------------------------------------------------#
 #	Robot moving module									#
@@ -169,15 +170,16 @@ def move_distance(dist):
 		rospy.loginfo('Accumulated angle error: %f', angle_to_correct)
 	#@yuqing_correctionper10m
 	#if travel over 5m, job_completed to 1, start to correct
+	# rospy.logerr("Dist completed: %.10f"%robot_move.dist_completed)
 	if (dist_completed >= dist_to_correct):
 		
 		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
 		diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
 		if (diff_angle > 180.0):
 			diff_angle = diff_angle - 360.0
-
+		# rospy.logerr("Diff Angle: %.10f"%diff_angle)
 		# rospy.logerr(diff_angle)
-		if ( abs(diff_angle) >= robot_correction.min_correction_angle and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0):
+		if  abs(diff_angle) >= robot_correction.min_correction_angle:# and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0:
 			rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
 			if not amend_check:
 				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)

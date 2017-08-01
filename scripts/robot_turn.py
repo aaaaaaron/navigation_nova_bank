@@ -204,13 +204,13 @@ def turn_degree():
 		if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F'):
 			bearing = gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
 			rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now,  bearing)
-			cur_angle 	= gpsmath.format_bearing( robot_drive.bearing_now - bearing)
+			cur_angle 	= gpsmath.format_bearing( bearing -  robot_drive.bearing_now )
 			rospy.loginfo("cur_angle: %f", cur_angle)
 
-            if (cur_angle - 3.5) <= 0.0:
-                robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
-                stop_turn()
-                return not robot_drive.robot_on_mission
+			if (cur_angle - 3.5) <= 0.0:
+				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+				stop_turn()
+            			return not robot_drive.robot_on_mission
 
 			if abs(last_angle - 370) > 0.01 and abs(first_angle - 370.0) > 0.01:
 				if (last_angle - cur_angle) * (last_angle - first_angle) > 0:

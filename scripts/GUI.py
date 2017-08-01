@@ -20,10 +20,10 @@ bearing = []
 
 init_lon = 121.415898
 init_lat = 31.21884
-init_bearing = 0.0
+init_bearing = 225.0
 
 map_name = 'map'
-map_scale = 2.0
+map_scale = 8.0
 gps_scale = 15000000
 
 loc_dataLength = 1000

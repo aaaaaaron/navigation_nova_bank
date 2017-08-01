@@ -123,7 +123,7 @@ def continue_move():
 	if(robot_drive.speed_now != robot_drive.speed_desired):
         	robot_drive.change_speed()
 
-	# robot_publisher.publish_command(robot_drive.move_direction, robot_drive.speed_now)
+	robot_publisher.publish_command(robot_drive.move_direction, robot_drive.speed_now)
 
 # main function to control the robot movement
 def move_distance(dist):

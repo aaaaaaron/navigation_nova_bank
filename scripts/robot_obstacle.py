@@ -113,6 +113,7 @@ def clear_after_obstacle_avoidance(current_job_type):
 		robot_correction.correction_count 	= 0
 		robot_job.complete_current_job()
 	elif(current_job_type == 'O'):
+		robot_correction.correction_count = robot_correction.correction_count + 1
 		if(robot_correction.correction_count  > robot_correction.max_correction_run):
 			quit_obstacle_correction(current_job_type)
 		else:
@@ -125,7 +126,7 @@ def resume_from_obstacle_avoidance():
 	job_executing = robot_job.current_job()
 	current_job_motion = job_executing.description
 	current_job_type 	= job_executing.classfication
-	# clear_after_obstacle_avoidance(current_job_type)
+	clear_after_obstacle_avoidance(current_job_type)
 
 	# yuqing_Jul28 new position for forward 0.5m after obstacle avoidance
 	lon_new, lat_new = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, robot_job.dist_forward_after_obstacle, robot_drive.bearing_now)
@@ -142,11 +143,11 @@ def resume_from_obstacle_avoidance():
 		else:
 			robot_job.job_lists.insert(1, job_executing)
 
-	robot_job.complete_current_job()
-	robot_drive.robot_on_mission = False
+	# robot_job.complete_current_job()
+	# robot_drive.robot_on_mission = False
 	# yuqing_Jul28 forward 0.5m after obstacle avoidance
 	rospy.loginfo("Add a job to move forward %d mm", robot_job.dist_forward_after_obstacle)
-	robot_job.insert_move_job(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, lon_new, lat_new, robot_drive.bearing_now, 'N')
+	robot_job.insert_move_job(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, lon_new, lat_new, robot_drive.bearing_now, 'O')
 
 
 	

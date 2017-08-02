@@ -78,7 +78,7 @@ def process_job():
 			if (job_lists[0].description == 'B'):
 				job_lists[0].value  = -abs(job_lists[0].value)
 			#rospy.loginfo("process_job move......")
-			if (len(job_lists) > 1 and job_lists[1].description == 'T' and job_lists[1].classfication == 'N'): 	#chengyuen 11/7
+			if (len(job_lists) > 1 and job_lists[1].description == 'T'): 	#chengyuen 11/7
 				bank_turn_deg = job_lists[1].value - robot_drive.bearing_now
 
 				if bank_turn_deg > 180.0:
@@ -103,11 +103,11 @@ def process_job():
 				else :
 					if bank_turn_deg < 0:
 						bearing_target1 = robot_drive.bearing_now + 90.0
-						bearing_target2 = robot_drive.bearing_now - 90.0
+						bearing_target2 = robot_drive.bearing_now - 80.0
 
 					else:
 						bearing_target1 = robot_drive.bearing_now - 90.0
-						bearing_target2 = robot_drive.bearing_now + 90.0
+						bearing_target2 = robot_drive.bearing_now + 80.0
 
 					turn_job_1 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target1, 'U', 'T', bearing_target1)
 					turn_job_2 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target2, 'U', 'T', bearing_target2)

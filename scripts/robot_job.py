@@ -32,6 +32,8 @@ back_to_base_mode 	= False
 FtoT_flag = True
 arc_dist = 0.0
 
+job_before_obstacle = 'N'
+
 # if not jobs in the sytem
 def process_no_job():
 	robot_drive.robot_on_mission = False
@@ -246,23 +248,26 @@ def amend_obstacle_jobs(lon_source, lat_source, lon_target, lat_target):
 	rospy.loginfo("Amended a turn job: Turn to %f", bearing)
 	rospy.loginfo("Amended a move job: Move %f mm", distance)
 
-	if job_lists[0].description == 'F' or job_lists[0].description == 'B':
-		# job_lists[1] = move_job
-		job_lists.insert(1, turn_job)
-		# job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', job_lists[0].description, 0.0))
-		job_lists.insert(2, move_job)
-	elif job_lists[0].description == 'T':
-		job_lists.insert(1, turn_job)
-		#job_lists[2] = move_job
+	# if current_job_motion == 'F' or current_job_motion == 'B':
+	# 	# job_lists[1] = move_job
+	# 	job_lists.insert(0, turn_job)
+	# 	# job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', job_lists[0].description, 0.0))
+	# 	job_lists.insert(1, move_job)
+	# elif current_job_motion == 'T':
+	# 	job_lists.insert(0, turn_job)
+	# 	#job_lists[2] = move_job
+
+	job_lists.insert(0, turn_job)
+	job_lists.insert(1, move_job)
 
 def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	global job_lists
 	rospy.loginfo("Amended a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, lon_target, lat_target)
 	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
 	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
-	turn_job 	= Job(lon_source, lat_source, bearing, 'C', 'T', bearing)
+	turn_job 	= Job(lon_source, lat_source, bearing, 'N', 'T', bearing)
 
-	move_job 	= Job(lon_target, lat_target, bearing, 'C', 'F', distance)
+	move_job 	= Job(lon_target, lat_target, bearing, 'N', 'F', distance)
 	rospy.loginfo("Amended a turn job: Turn to %f", bearing)
 	rospy.loginfo("Amended a move job: Move %f mm", distance)
 
@@ -317,7 +322,7 @@ def remove_job(idx):
 # If return value is true, then no need correction for the current job
 def complete_current_job():
 	global job_lists
-	if job_lists[0].classfication == 'N':
+	if job_lists[0].classfication == 'N' or job_lists[0].classfication == 'U':
 		robot_drive.lon_target 		= job_lists[0].lon_target;
 		robot_drive.lat_target 		= job_lists[0].lat_target;
 		robot_drive.bearing_target 	= job_lists[0].bearing_target;
@@ -408,7 +413,7 @@ def no_normal_jobs():
 def clear_correction_jobs():
 	global job_lists
 	while has_jobs_left():
-		if(job_lists[0].classfication == 'N'):
+		if(job_lists[0].classfication == 'N' or job_lists[0].classfication == 'U'):
 			break;
 		else:
 			complete_current_job()

@@ -12,7 +12,7 @@ import robot_publisher
 min_correction_distance 	= 0.0
 min_correction_angle 		= 0.0
 correction_count 			= 0.0
-max_correction_run 			= 0.0
+max_correction_runs 			= 0.0
 
 need_correction				= False
 
@@ -82,6 +82,7 @@ def update_robot_gps(left_encode, right_encode):
 		# left_dist_turn  = float(left_encode) / robot_drive.turning_encode_to_mm 	#aaron 8 july
 		# right_dist_turn = float(right_encode) / robot_drive.turning_encode_to_mm 	#aaron 8 july
 	else :
+		rospy.logwarn("turning_encode_to_mm: %f", robot_drive.turning_encode_to_mm)
 		left_dist 	= float(left_encode) / robot_drive.turning_encode_to_mm
 		right_dist 	= float(right_encode) / robot_drive.turning_encode_to_mm
 		# left_dist_turn  = float(left_encode) / robot_drive.turning_encode_to_mm 	#aaron 8 july

@@ -181,8 +181,9 @@ def move_distance(dist):
 		# rospy.logerr(diff_angle)
 		if  abs(diff_angle) >= robot_correction.min_correction_angle:# and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0:
 			rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
-			if not amend_check:
-				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+
+			if not amend_check and robot_job.job_lists[0].classfication == 'N':
+				robot_job.amend_correction_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
 				amend_check = True
 		
 			stop_move()

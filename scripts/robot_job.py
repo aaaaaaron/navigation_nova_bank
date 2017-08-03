@@ -74,7 +74,7 @@ def process_job():
 			job_completed = robot_turn.turn_degree()
 			FtoT_flag = True
 
-		elif (job_lists[0].description == 'F' or job_lists[0].description == 'B'):
+		elif (job_lists[0].description == 'F' or job_lists[0].description == 'B') and (job_lists[0].classfication == 'N' or job_lists[0].classfication == 'O'):
 			if (job_lists[0].description == 'B'):
 				job_lists[0].value  = -abs(job_lists[0].value)
 			#rospy.loginfo("process_job move......")
@@ -103,20 +103,26 @@ def process_job():
 				else :
 					if bank_turn_deg < 0:
 						bearing_target1 = robot_drive.bearing_now + 90.0
-						bearing_target2 = robot_drive.bearing_now - 80.0
+						bearing_target2 = robot_drive.bearing_now
+						bearing_target3 = robot_drive.bearing_now - 90.0
 
 					else:
 						bearing_target1 = robot_drive.bearing_now - 90.0
-						bearing_target2 = robot_drive.bearing_now + 80.0
+						bearing_target2 = robot_drive.bearing_now
+						bearing_target3 = robot_drive.bearing_now + 90.0
 
 					turn_job_1 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target1, 'U', 'T', bearing_target1)
 					turn_job_2 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target2, 'U', 'T', bearing_target2)
+					turn_job_3 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target3, 'U', 'T', bearing_target3)
 
 					job_lists.insert(1, turn_job_1)
 					job_lists.insert(2, turn_job_2)
+					job_lists.insert(3, turn_job_3)
 
 			job_completed =robot_move.move_distance(job_lists[0].value)
 			#rospy.loginfo("Bearing target before correction %f", robot_drive.bearing_target)
+		elif (job_lists[0].description == 'F' or job_lists[0].description == 'B') and job_lists[0].classfication == 'C':
+			job_completed =robot_move.move_distance(job_lists[0].value)
 		else :
 			rospy.logwarn('job_des %s:%d', job_lists[0].description, job_lists[0].value)
 			rospy.logwarn('warning: illegal job description found, not peform any actions')
@@ -259,6 +265,26 @@ def amend_obstacle_jobs(lon_source, lat_source, lon_target, lat_target):
 
 	job_lists.insert(0, turn_job)
 	job_lists.insert(1, move_job)
+
+def amend_correction_jobs(lon_source, lat_source, lon_target, lat_target):
+	global job_lists
+	rospy.loginfo("Amended a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, lon_target, lat_target)
+	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
+	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
+	turn_job 	= Job(lon_source, lat_source, bearing, 'C', 'T', bearing)
+
+	move_job 	= Job(lon_target, lat_target, bearing, 'C', 'F', distance)
+	rospy.loginfo("Amended a turn job: Turn to %f", bearing)
+	rospy.loginfo("Amended a move job: Move %f mm", distance)
+
+	if job_lists[0].description == 'F' or job_lists[0].description == 'B':
+		# job_lists[1] = move_job
+		job_lists.insert(1, turn_job)
+		# job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', job_lists[0].description, 0.0))
+		job_lists.insert(2, move_job)
+	elif job_lists[0].description == 'T':
+		job_lists.insert(1, turn_job)
+		job_lists[2] = move_job
 
 def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	global job_lists

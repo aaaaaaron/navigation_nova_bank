@@ -108,13 +108,15 @@ def quit_obstacle_correction(current_job_type):
 
 def clear_after_obstacle_avoidance(current_job_type):
 	# Remove the un-finished job
-	if(current_job_type == 'N' or current_job_type == 'C'):
+	rospy.loginfo("correction_count: %d", robot_correction.correction_count)
+	if(current_job_type == 'N' or current_job_type == 'C' or current_job_type == 'U'):
 		rospy.loginfo("Robot met obstacle during normal job, finishing current job")
 		robot_correction.correction_count 	= 0
 		robot_job.complete_current_job()
 	elif(current_job_type == 'O'):
 		robot_correction.correction_count = robot_correction.correction_count + 1
-		if(robot_correction.correction_count  > robot_correction.max_correction_run):
+		rospy.loginfo("O correction_count: %d, max_runs: %d", robot_correction.correction_count, robot_correction.max_correction_runs)
+		if(robot_correction.correction_count  > robot_correction.max_correction_runs):
 			quit_obstacle_correction(current_job_type)
 		else:
 			clear_correction_trial_tasks(current_job_type)

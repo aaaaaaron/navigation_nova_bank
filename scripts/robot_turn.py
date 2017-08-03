@@ -154,7 +154,8 @@ def turn_degree():
 
 		if abs(degree_to_turn) < robot_correction.min_correction_angle:
 			rospy.loginfo("Degree to turn %d < %d",  degree_to_turn, robot_correction.min_correction_angle)
-			return True
+			stop_turn()
+			return not robot_drive.robot_on_mission
 		else:
 			start_turn()
 		return False
@@ -196,7 +197,7 @@ def turn_degree():
 			return False
 		else:
 			if (len(robot_job.job_lists) > 1 and robot_job.job_lists[1].description == 'F' and robot_job.job_lists[1].classfication == 'N'):
-			 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+			 	robot_job.amend_correction_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
 			 	# robot_correction.distance_correction(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target, robot_job.job_lists[1].bearing_target, 'N')
 			stop_turn()
 			return not robot_drive.robot_on_mission
@@ -215,7 +216,8 @@ def turn_degree():
 			rospy.loginfo("cur_angle: %f", abs(cur_angle))
 
 			if (abs(cur_angle) - 3.5) <= 0.0:
-				robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
+				if(robot_job.job_lists[0].classfication == 'N'):
+					robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[1].lon_target, robot_job.job_lists[1].lat_target)
 				stop_turn()
             			return not robot_drive.robot_on_mission
 

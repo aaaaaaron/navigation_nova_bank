@@ -199,6 +199,7 @@ def complete_obstacle_avoidance():
 	# Remove the un-finished job
 	if robot_drive.robot_on_mission and robot_job.has_jobs_left():
 		resume_from_obstacle_avoidance()
+		robot_drive.robot_on_mission = False
 	else:
 		rospy.loginfo("There's no mission on going")
 

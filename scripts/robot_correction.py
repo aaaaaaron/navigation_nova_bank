@@ -75,6 +75,8 @@ def update_robot_gps(left_encode, right_encode):
 		return
 
 	# loacal vaiables
+	
+	rospy.loginfo("Turning direction %s", robot_drive.direction)
 
 	if (robot_drive.direction == "forward" or robot_drive.direction == "backward"):
 		left_dist 	= float(left_encode) / robot_drive.linear_encode_to_mm
@@ -143,8 +145,8 @@ def update_robot_gps(left_encode, right_encode):
 	# convert between [0 - 360)
 	bearing 				= gpsmath.format_bearing(bearing)
 	dist 					= R * sin(abs(alpha/2.0)) * 2.0
-	if robot_drive.show_log:
-		rospy.loginfo("Step in straight line %f mm, Step_angle %f degree, R %f mm, Step_distance calculated %f mm", dist, robot_drive.step_angle, R, robot_drive.step_distance)
+	#if robot_drive.show_log:
+	rospy.loginfo("Step in straight line %f mm, Step_angle %f degree, R %f mm, Step_distance calculated %f mm", dist, robot_drive.step_angle, R, robot_drive.step_distance)
 	robot_drive.lon_now, robot_drive.lat_now 	= gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, dist, bearing)
 	robot_drive.bearing_now 			= bearing
 	robot_publisher.publish_gps()

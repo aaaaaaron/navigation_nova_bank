@@ -274,9 +274,10 @@ def amend_obstacle_jobs(lon_source, lat_source, lon_target, lat_target):
 	# elif current_job_motion == 'T':
 	# 	job_lists.insert(0, turn_job)
 	# 	#job_lists[2] = move_job
-
+	clear_job_list()
 	job_lists.insert(0, turn_job)
 	job_lists.insert(1, move_job)
+	rospy.logerr("Number of jobs left %d", len(job_lists))
 
 def amend_correction_jobs(lon_source, lat_source, lon_target, lat_target):
 	global job_lists

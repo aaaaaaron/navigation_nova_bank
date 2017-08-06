@@ -103,39 +103,45 @@ def update_robot_gps(left_encode, right_encode):
 	#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 	# scenario 01, 02 robot moving perfectly straight, bearing won't change, while lan and lon need to be updated
 	if(left_dist == right_dist):
+		rospy.logwarn("correction forward: %f, %f", left_dist, right_dist)
 		# if(right_dist > 0.0 ):
 		# 	robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, robot_drive.bearing_now)
 		# if(right_dist < 0.0):
 		# 	robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, -robot_drive.bearing_now)
 		robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, robot_drive.bearing_now) 		#chengyuen16/7
-		#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
+		#rospy.loginfo("Bearing now %f,lon_fnow %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 		robot_publisher.publish_gps()
 		return
 	# scenario 02 robot moving forward with slight
 	# robot not so perfectly walking forward, eigher left wheel is faster or right wheel is faster
 	elif(left_dist > 0.0 and right_dist > 0.0):
 		# a little bit of right turning
+		rospy.logwarn("correction a little bit right  %f, %f", left_dist, right_dist)
 		alpha 	= (left_dist - right_dist) / (2.0 * robot_drive.turn_radius)
 		R 	= (total_dist * robot_drive.turn_radius) / abs(left_dist - right_dist) 		#aaron 8 july
 
 	# scenario 04 robot moving backward
 	elif(left_dist < 0.0 and right_dist < 0.0):
+		rospy.logwarn("correction backward  %f, %f", left_dist, right_dist)
 		alpha 	= (left_dist - right_dist) / (2.0 * robot_drive.turn_radius)
 		R 	= -total_dist * robot_drive.turn_radius / abs(right_dist - left_dist) 		#aaron 8 july
 
 	# for robot two wheels not moving at the same direction or once of the thing not moving
 	# forwaring with rotation
 	else:
+		rospy.logwarn("correction else  %f, %f", left_dist, right_dist)
 		alpha 	= total_dist / (2.0 * robot_drive.turn_radius)
 		r1 		= abs(left_dist) / alpha
 		r2 		= abs(right_dist) / alpha
 		R 		= abs(r1 - r2)
 
 		#right turn
-		if(left_dist >= 0.0 and right_dist < 0.0):
+		if (left_dist >= 0.0 and right_dist < 0.0) or (right_dist == 0 and left_dist >0):
 		#if(left_dist > 0.0 or (left_dist == 0.0 and right_dist < 0.0)):
+			rospy.logwarn("turn right")
 			alpha = alpha
 		else:
+			rospy.logwarn("turn left")
 			alpha = -alpha
 	#rospy.logerr(R)
 	robot_drive.step_angle 	= degrees(alpha)
@@ -146,7 +152,7 @@ def update_robot_gps(left_encode, right_encode):
 	bearing 				= gpsmath.format_bearing(bearing)
 	dist 					= R * sin(abs(alpha/2.0)) * 2.0
 	#if robot_drive.show_log:
-	rospy.loginfo("Step in straight line %f mm, Step_angle %f degree, R %f mm, Step_distance calculated %f mm", dist, robot_drive.step_angle, R, robot_drive.step_distance)
+	rospy.loginfo("Step dist %f mm, angle %f degree, R %f mm, distance calculated %f mm, bearing_now %f", dist, robot_drive.step_angle, R, robot_drive.step_distance, robot_drive.bearing_now)
 	robot_drive.lon_now, robot_drive.lat_now 	= gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, dist, bearing)
 	robot_drive.bearing_now 			= bearing
 	robot_publisher.publish_gps()

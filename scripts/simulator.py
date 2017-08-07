@@ -9,6 +9,7 @@ import random
 from geometry_msgs.msg import Vector3
 from serial_handler.msg import Encoder
 from serial_handler.msg import Status
+from serial_handler.msg import Sonar
 
 from datetime import datetime
 
@@ -16,6 +17,7 @@ from std_msgs.msg import String
 
 encoder_pub 		= rospy.Publisher('encoder', Encoder, queue_size = 1000)
 status_pub			= rospy.Publisher('hardware_status', Status, queue_size = 1000)
+ss = Status()
 #velocity_pub  		= rospy.Publisher('velocity', Vector3, queue_size = 1)
 velocity_vector  	= Vector3()
 velocity_vector.x  	= 0.0
@@ -26,12 +28,16 @@ left_encode   	= 0
 right_encode 	= 0
 burn_mode		= True
 direction 		= 0
+sonar_data		= []
+prev_has_obstacle	= 0
+ss.obstacle_avoidance_mode = 0
 
 def executor_simulator(data):
 	global burn_mode
 	global left_encode
 	global right_encode
 	global direction
+	global ss
 	command_str = str(data.data)
 	command_str = command_str.rstrip('\0')
 	command_str = command_str.rstrip('\n')
@@ -126,6 +132,10 @@ def executor_simulator(data):
 		left_encode = 1400 + deviate_l
 		right_encode = 220 + deviate_r
 		direction = 4
+	elif(command_str == 'SO00000OE'):
+		ss.obstacle_avoidance_mode = 1
+	elif(command_str == 'SW00000WE'):
+		ss.obstacle_avoidance_mode = 0
 	else:
 		left_encode = 0
 		right_encode = 0
@@ -133,6 +143,11 @@ def executor_simulator(data):
 
 
 	rospy.loginfo("I heard %s: %d:%d direction: %d",command_str, left_encode, right_encode, direction)
+
+def sonar_listener(data):
+	global sonar_data
+	sonar_data = [data.front_0, data.front_1, data.front_2, data.front_3, data.back_0, data.back_1, data.back_2, data.back_3]
+
 
 def encoder_simulator():
 	if burn_mode:
@@ -145,6 +160,78 @@ def encoder_simulator():
 	global velocity_vector
 	global direction
 	global status_pub
+	global sonar_data, prev_has_obstacle
+	global ss
+
+
+	ss.has_obstacle = 0
+	ss.over_obstacle = 0
+	i = 0
+	while i <= len(sonar_data)-1:
+		for j in sonar_data[:4]:
+			if j <= 1:
+				ss.has_obstacle = 1
+				break
+		for k in sonar_data[4:]:
+			if direction == 2 and k == 0:
+				ss.has_obstacle = 1
+				break
+		i = i + 1
+	if prev_has_obstacle == 1 and ss.has_obstacle == 0:
+		ss.over_obstacle = 1
+	prev_has_obstacle = ss.has_obstacle
+
+	d_l = random.randint(-30, 30)
+	d_r = random.randint(-30, 30)
+
+	if ss.obstacle_avoidance_mode == 1:
+		try:
+			if sonar_data[0] == 0 or sonar_data[1] == 0 or sonar_data[2] == 0 or sonar_data[3] == 0:
+				if sonar_data[4] == 0 or sonar_data[5] == 0 or sonar_data[6] == 0 or sonar_data[7] == 0:
+					left_encode = 0
+					right_encode = 0
+					direction = 0
+					rospy.loginfo("on obstacle")
+				else:
+					left_encode = -1200 + d_l
+					right_encode = -1200 + d_r
+					direction = 2
+					rospy.loginfo("on obstacle")
+			elif sonar_data[0] == 1 or sonar_data[1] == 1:
+				if sonar_data[2] == 1 or sonar_data[3] == 1:
+					left_encode = 1400 + d_l
+					right_encode = 220 + d_r
+					direction = 4
+					rospy.loginfo("on obstacle")
+				else:
+					left_encode = 220 + d_l
+					right_encode = 1400 + d_r
+					direction = 3
+					rospy.loginfo("on obstacle")
+			elif sonar_data[2] == 1 or sonar_data[3] == 1:
+				if sonar_data[0] == 1 or sonar_data[1] == 1:
+					left_encode = 220 + d_l
+					right_encode = 1400 + d_r
+					direction = 3
+					rospy.loginfo("on obstacle")
+				else:
+					left_encode = 1400 + d_l
+					right_encode = 220 + d_r
+					direction = 4
+					rospy.loginfo("on obstacle")
+			if direction == 2 and (sonar_data[4] == 0 or sonar_data[5] == 0 or sonar_data[6] == 0 or sonar_data[7] == 0):
+				left_encode = 1200 + d_l
+				right_encode = 1200 + d_r
+				direction = 1
+				rospy.loginfo("on obstacle")
+			if ss.over_obstacle == 1:
+				left_encode = 0
+				right_encode = 0
+				direction = 0
+				rospy.loginfo("over obstacle")
+		except IndexError:
+			pass
+
 	bytesToPublish = '%d %d' % (left_encode, right_encode)
 	if(left_encode != 0  or right_encode != 0):
 		rospy.loginfo(bytesToPublish)
@@ -152,8 +239,8 @@ def encoder_simulator():
 	ee.left_encoder = left_encode
 	ee.right_encoder = right_encode
 	encoder_pub.publish(ee)
+	
 
-	ss = Status()
 	ss.direction = direction
 	status_pub.publish(ss)
 
@@ -169,6 +256,7 @@ def encoder_simulator():
 def simulator():
 	rospy.init_node('simulator', anonymous=True)
 	rospy.Subscriber("command", String, executor_simulator)
+	rospy.Subscriber('sonar', Sonar, sonar_listener)
 	rate = rospy.Rate(10)
 	while not rospy.is_shutdown():
 		encoder_simulator()

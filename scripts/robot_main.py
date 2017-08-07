@@ -164,8 +164,15 @@ def main_commander():
 	#  Error compensation after current job completed      									  #
 	# ----------------------------------------------------------------------------------------#
 	if job_completed:
-		no_correction_jobs = robot_job.no_correction_jobs()
+		# no_correction_jobs = robot_job.no_correction_jobs()
+		job_executed = robot_job.current_job()
 		robot_job.complete_current_job()
+		# rospy.logerr(robot_move.move_amend)
+		if robot_move.move_amend or robot_turn.turn_amend: # or (not robot_job.has_jobs_left()):
+			robot_job.amend_regular_jobs(job_executed, 'C', 2*robot_correction.min_correction_distance)
+			robot_move.move_amend = False
+			robot_turn.turn_amend = False
+
 		# if no_correction_jobs == 0:
 		# 	rospy.loginfo("Complete a normal job, check whether correction is needed")
 		# 	robot_correction.dist_correction_normal()

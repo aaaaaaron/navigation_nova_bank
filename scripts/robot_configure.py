@@ -66,7 +66,7 @@ def read_system_config():
     # [correction]
     ret[4], robot_correction.min_correction_distance    = read_config_float(config_path, 'correction', 'min_correction_distance')
     ret[5], robot_correction.min_correction_angle       = read_config_float(config_path, 'correction', 'min_correction_angle')
-    ret[6], robot_correction.max_correction_runs        = read_config_float(config_path, 'correction', 'max_correction_runs')
+    ret[6], robot_correction.max_correction_run         = read_config_float(config_path, 'correction', 'max_correction_runs')
     # [move]
     ret[7], robot_move.dist_to_correct                  = read_config_float(config_path, 'move', 'dist_to_correct')
     ret[8], robot_move.dist_lower_speed                 = read_config_float(config_path, 'move', 'dist_lower_speed')

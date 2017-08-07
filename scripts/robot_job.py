@@ -32,7 +32,8 @@ back_to_base_mode 	= False
 FtoT_flag = True
 arc_dist = 0.0
 
-job_before_obstacle = 'N'
+job_before_obstacle = None
+
 
 # if not jobs in the sytem
 def process_no_job():
@@ -48,75 +49,29 @@ def process_no_job():
 # Process all kinds of robot job as required
 def process_job():
 	job_completed = False
-	global job_lists, FtoT_flag, arc_dist
+	global job_lists, job_before_obstacle
 	try:
 
 		if not robot_drive.robot_on_mission:
 			rospy.loginfo("\n================== Start a new job ==================")
 			rospy.loginfo("Job classifictiaon %s, description %s, value %d", job_lists[0].classfication, job_lists[0].description, job_lists[0].value)
-
+			rospy.loginfo("Target lon lat: %f, %f", job_lists[0].lon_target, job_lists[0].lat_target)
+			if job_lists[0].classfication == 'N' or (job_lists[0].classfication == 'C' and job_lists[0].description == 'F' and job_lists[0].value > 2 * robot_correction.min_correction_distance) :
+				job_before_obstacle = job_lists[0]
+		
 		if (job_lists[0].description == 'T') :
-			#rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now, robot_drive.bearing_target)
-			#if(robot_drive.robot_on_mission == 0):
+			# rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now, robot_drive.bearing_target)
+			
 			robot_drive.bearing_target  = job_lists[0].value
 
-			# Pre-steps of turning jobs starts: calculate the required angle to turn
-			# start the job
-			# if (len(job_lists) > 1 and job_lists[1].description == 'F' and job_lists[1].classfication == 'N'): #chengyuen 17/7
-			# 	if not FtoT_flag:
-			# 		if job_lists[1].value < 0:
-			# 			job_lists[1].value = -(abs(job_lists[1].value) - arc_dist)							 #chengyuen 17/7
-			# 		else:
-			# 			job_lists[1].value = (abs(job_lists[1].value) - arc_dist) 								#chengyuen 17/7
-			# 		# robot_correction.need_correction = False 												#chengyuen17/7
-			# 		FtoT_flag = True
-
 			job_completed = robot_turn.turn_degree()
-			FtoT_flag = True
-
+			
 		elif (job_lists[0].description == 'F' or job_lists[0].description == 'B'):
 			if (job_lists[0].description == 'B'):
 				job_lists[0].value  = -abs(job_lists[0].value)
-			#rospy.loginfo("process_job move......")
-			if (len(job_lists) > 1 and job_lists[1].description == 'T'): 	#chengyuen 11/7
-				bank_turn_deg = job_lists[1].value - robot_drive.bearing_now
-
-				if bank_turn_deg > 180.0:
-					bank_turn_deg = bank_turn_deg - 360.0
-				elif bank_turn_deg < -180.0:
-					bank_turn_deg = bank_turn_deg + 360.0
-
-				min_bank_deg = abs(2*(math.atan(robot_drive.bank_radius/robot_drive.min_bank_dist))/math.pi*180.0)
-				if (abs(bank_turn_deg) <= (180.0 - min_bank_deg)):
-					if FtoT_flag:
-						arc_dist = arc_threshold(job_lists[1].value, robot_drive.bearing_now)					#chengyuen 11/7
-						if job_lists[0].value < 0:
-							# job_lists[0].value = -(abs(job_lists[0].value) - arc_dist)							 #chengyuen 11/7
-							move_job = Job(job_lists[0].lon_target, job_lists[0].lat_target, job_lists[0].bearing_target, 'N', 'F', -(abs(job_lists[0].value) - arc_dist))
-						else:
-							# job_lists[0].value = (abs(job_lists[0].value) - arc_dist) 							#chengyuen 11/7
-							move_job = Job(job_lists[0].lon_target, job_lists[0].lat_target, job_lists[0].bearing_target, 'N', 'F', (abs(job_lists[0].value) - arc_dist))	#chengyuen12/7
-						FtoT_flag = False
-						job_lists.insert(1, move_job)
-
-						return True
-				else :
-					if bank_turn_deg < 0:
-						bearing_target1 = robot_drive.bearing_now + 90.0
-						bearing_target2 = robot_drive.bearing_now - 80.0
-
-					else:
-						bearing_target1 = robot_drive.bearing_now - 90.0
-						bearing_target2 = robot_drive.bearing_now + 80.0
-
-					turn_job_1 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target1, 'U', 'T', bearing_target1)
-					turn_job_2 	= Job(job_lists[0].lon_target, job_lists[0].lat_target, bearing_target2, 'U', 'T', bearing_target2)
-
-					job_lists.insert(1, turn_job_1)
-					job_lists.insert(2, turn_job_2)
-
+			
 			job_completed =robot_move.move_distance(job_lists[0].value)
-			#rospy.loginfo("Bearing target before correction %f", robot_drive.bearing_target)
+			
 		else :
 			rospy.logwarn('job_des %s:%d', job_lists[0].description, job_lists[0].value)
 			rospy.logwarn('warning: illegal job description found, not peform any actions')
@@ -186,35 +141,135 @@ def init_robot_gps(lon, lat, bearing):
 	init_lat 		= lat
 	init_bearing 	= bearing
 
+# get intermediate lon lat if the next bearing is unknown (before breaking down to the two arc lon lat)
+def get_inter_gps(lon_source, lat_source, bearing_source, lon_target, lat_target, forward_dist):
+	is_off = False
+	lon_new = lon_source
+	lat_new = lat_source
+	distance = gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
+	correct_bearing = gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
+	bearing_diff = correct_bearing - bearing_source
+	if bearing_diff > 180.0:
+		bearing_diff = bearing_diff - 360.0
+	elif bearing_diff < -180.0:
+		bearing_diff = bearing_diff + 360.0
+
+	if abs(bearing_diff) > robot_correction.min_correction_angle:
+		# if abs(bearing_diff) > 90.0 and distance <= 2000:
+		# 	bearing_source = gpsmath.format_bearing(bearing_source + 180.0)
+
+		lon_new, lat_new = gpsmath.get_gps(lon_source, lat_source, forward_dist, bearing_source)
+		is_off = True
+	return (is_off, lon_new, lat_new, distance, abs(bearing_diff))
+
+# get intermediate lon lat after breaking down the turning gps to the gps on the arc
+def get_inter_gps_aft(gps_lon_list, gps_lat_list):
+	global arc_dist
+	try:
+		temp_data = []
+		for j in range(1, len(gps_lon_list) - 1):
+			distance1 	= gpsmath.haversine(gps_lon_list[j-1], gps_lat_list[j-1], gps_lon_list[j], gps_lat_list[j])
+			bearing1 	= gpsmath.bearing(gps_lon_list[j-1], gps_lat_list[j-1], gps_lon_list[j], gps_lat_list[j])
+			distance2	= gpsmath.haversine(gps_lon_list[j], gps_lat_list[j], gps_lon_list[j+1], gps_lat_list[j+1])
+			bearing2 	= gpsmath.bearing(gps_lon_list[j], gps_lat_list[j], gps_lon_list[j+1], gps_lat_list[j+1])
+
+			bearing_diff = bearing2 - bearing1
+
+			if bearing_diff > 180.0:
+				bearing_diff = bearing_diff - 360.0
+			elif bearing_diff < -180.0:
+				bearing_diff = bearing_diff + 360.0
+
+			min_bank_deg = abs(2*(math.atan(robot_drive.bank_radius/robot_drive.min_bank_dist))/math.pi*180.0)
+			if (abs(bearing_diff) <= (180.0 - min_bank_deg)):
+				
+				arc_dist = arc_threshold(bearing2, bearing1)					#chengyuen 11/7
+				lon_new1, lat_new1 = gpsmath.get_gps(gps_lon_list[j-1], gps_lat_list[j-1], distance1 - arc_dist, bearing1)
+				lon_new2, lat_new2 = gpsmath.get_gps(gps_lon_list[j], gps_lat_list[j], arc_dist, bearing2)
+
+				temp_data.extend([(lon_new1, lat_new1, bearing1, 'F'),(lon_new2, lat_new2, bearing2, 'T')])
+
+			else :
+				if bearing_diff < 0:
+					bearing_target1 = gpsmath.format_bearing(bearing1 + 90.0)
+					bearing_target2 = gpsmath.format_bearing(bearing1 - 80.0)
+
+				else:
+					bearing_target1 = gpsmath.format_bearing(bearing1 - 90.0)
+					bearing_target2 = gpsmath.format_bearing(bearing1 + 80.0)
+
+				arc_dist = arc_threshold(bearing_target1, bearing1)
+				lon_new1, lat_new1 = gpsmath.get_gps(gps_lon_list[j-1], gps_lat_list[j-1], distance1 - arc_dist, bearing1)
+				lon_new2, lat_new2 = gpsmath.get_gps(gps_lon_list[j], gps_lat_list[j], arc_dist, bearing_target1)
+
+				arc_dist = arc_threshold(bearing_target2, bearing_target1)
+				lon_new_inter1, lat_new_inter1 = gpsmath.get_gps(lon_new2, lat_new2, arc_dist, bearing_target1)
+				lon_new3, lat_new3 = gpsmath.get_gps(lon_new_inter1, lat_new_inter1, arc_dist, bearing_target2)
+
+				arc_dist = arc_threshold(bearing2, bearing_target2)
+				lon_new_inter2, lat_new_inter2 = gpsmath.get_gps(lon_new3, lat_new3, arc_dist, bearing_target2)
+				lon_new4, lat_new4 = gpsmath.get_gps(lon_new_inter2, lat_new_inter2, arc_dist, bearing2)
+
+				temp_data.extend([(lon_new1, lat_new1, bearing1, 'F'),(lon_new2, lat_new2, bearing_target1, 'T'), (lon_new3, lat_new3, bearing_target2, 'T'),(lon_new4, lat_new4, bearing2, 'T')])
+		return True, temp_data
+	except IndexError:
+		rospy.logerr("Need at least 3 coordinates, %d given", len(gps_lon_list))
+		return False, None
+
+
 # generate robot jobs based on robot gps route
 def generate_jobs_from_gps():
 	#step 1: Move from initial point to the loop start point
 	global init_lat, init_lon, init_bearing
 	global loops, gps_lon, gps_lat
-	global job_lists
+	global job_lists, arc_dist
 	robot_drive.lon_now = init_lon
 	robot_drive.lat_now = init_lat
-	append_regular_jobs(init_lon, init_lat,  gps_lon[0],gps_lat[0]);
-	#step 2: Start loop jobs
-	#handles from start to first point
-	gps_num = len(gps_lon)
-	rospy.loginfo("jobs created for init %d, loop control points: %d", len(job_lists), len(gps_lon))
-	#handles how many loops
-	rospy.loginfo("Number of loops %d", loops);
-	if(gps_num > 1):
-		rospy.loginfo("Number of loops %d", loops);
-		for i in range(loops):
-			rospy.loginfo("Adding loops %d", i);
-			for k in range (gps_num):
-				ne_k = (k + 1) % gps_num
-				append_regular_jobs(gps_lon[k],gps_lat[k],gps_lon[ne_k],gps_lat[ne_k])
-	#move to init position
-	rospy.loginfo("Number of jobs %d", len(job_lists))
-	append_regular_jobs(gps_lon[0],gps_lat[0], init_lon, init_lat)
+	robot_drive.bearing_now = init_bearing
 
-	# turn_job 	= Job(init_lon, init_lat, 0.0, 'N', 'T', 0.0)
-	# job_lists.extend([turn_job])
+	# create a complete list (including the number of loops) of all the initial gps before processing
+	total_gps_lon = [init_lon]
+	total_gps_lat = [init_lat]
+	
+	rospy.loginfo("Number of loops %d", loops)
+	for i in range(loops):
+		total_gps_lon.extend(gps_lon)
+		total_gps_lat.extend(gps_lat)
 
+	total_gps_lon.extend([gps_lon[0], init_lon])
+	total_gps_lat.extend([gps_lat[0], init_lat])
+
+
+	data_for_jobs = []
+
+	if gpsmath.haversine(total_gps_lon[0], total_gps_lat[0], total_gps_lon[1], total_gps_lat[1]) < 1000.0:
+		rospy.logwarn("First gps point is too close, it's within 1000mm. Expect robot to make a big turn!")
+
+	#to check for the starting bearing
+	is_bearing_off = get_inter_gps(total_gps_lon[0], total_gps_lat[0], init_bearing, total_gps_lon[1], total_gps_lat[1], 500)
+	if is_bearing_off[0]:
+		total_gps_lon.insert(1, is_bearing_off[1])
+		total_gps_lat.insert(1, is_bearing_off[2])
+
+	#finding the intermediate gps lon lat
+	obtain_success, inter_gps_new = get_inter_gps_aft(total_gps_lon, total_gps_lat)
+
+	if obtain_success:
+		data_for_jobs.extend(inter_gps_new)
+
+	# adding the last point to the data_for_jobs
+		lon_last = data_for_jobs[-1][0]
+		lat_last = data_for_jobs[-1][1]
+		bearing_last = data_for_jobs[-1][2]
+		bearing_to_base = gpsmath.bearing(lon_last, lat_last, init_lon, init_lat)
+		bearing_diff_base = gpsmath.format_bearing(bearing_to_base - bearing_last)
+
+		data_for_jobs.extend([(init_lon, init_lat, bearing_last, 'F')])
+
+		append_regular_jobs_new(data_for_jobs)
+	else:
+		rospy.logerr("Jobs not generated")
+	
 
 def append_backward_job(lon_source, lat_source, lon_target, lat_target, bearing_now):
 	global job_lists
@@ -236,6 +291,32 @@ def append_regular_jobs(lon_source, lat_source, lon_target, lat_target):
 	rospy.loginfo("Added a move job: Move %f mm", distance)
 	job_lists.extend([turn_job])
 	job_lists.extend([move_job])
+
+def append_regular_jobs_new(jobs_data):
+	global job_lists
+	for i in range(len(jobs_data)):
+		if i == 0:
+			lon_source = init_lon
+			lat_source = init_lat
+		else:
+			lon_source = jobs_data[i-1][0]
+			lat_source = jobs_data[i-1][1]
+		rospy.loginfo("Added a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, jobs_data[i][0], jobs_data[i][1])
+		if jobs_data[i][3] == 'F':
+			distance 	= gpsmath.haversine(lon_source, lat_source, jobs_data[i][0], jobs_data[i][1])
+			bearing 	= gpsmath.bearing(lon_source, lat_source, jobs_data[i][0], jobs_data[i][1])
+			bearing_diff = gpsmath.format_bearing(bearing - jobs_data[i][2])
+			if bearing_diff >= 90.0 and bearing_diff <= 270.0:
+				sign = -1
+			else:
+				sign = 1
+			rospy.loginfo("Added a Forward Job, %f mm", distance * sign)
+			job = Job(jobs_data[i][0], jobs_data[i][1], jobs_data[i][2], 'N', 'F', distance * sign)
+		elif jobs_data[i][3] == 'T':
+			rospy.loginfo("Added a Turn Job, %f deg", jobs_data[i][2])
+			job = Job(jobs_data[i][0], jobs_data[i][1], jobs_data[i][2], 'N', 'T', jobs_data[i][2])
+		job_lists.extend([job])
+
 
 def amend_obstacle_jobs(lon_source, lat_source, lon_target, lat_target):
 	global job_lists
@@ -260,39 +341,106 @@ def amend_obstacle_jobs(lon_source, lat_source, lon_target, lat_target):
 	job_lists.insert(0, turn_job)
 	job_lists.insert(1, move_job)
 
-def amend_regular_jobs(lon_source, lat_source, lon_target, lat_target):
+def insert_compensation_jobs(jobs_data, correction_type):
 	global job_lists
-	rospy.loginfo("Amended a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, lon_target, lat_target)
-	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
-	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
-	turn_job 	= Job(lon_source, lat_source, bearing, 'N', 'T', bearing)
+	temp_job = []
+	for i in range(len(jobs_data)):
+		if i == 0:
+			lon_source = robot_drive.lon_now
+			lat_source = robot_drive.lat_now
+		else:
+			lon_source = jobs_data[i-1][0]
+			lat_source = jobs_data[i-1][1]
+		rospy.loginfo("Amended a job to move from (%f, %f) to (%f, %f)", lon_source, lat_source, jobs_data[i][0], jobs_data[i][1])
+		if jobs_data[i][3] == 'F':
+			distance 	= gpsmath.haversine(lon_source, lat_source, jobs_data[i][0], jobs_data[i][1])
+			bearing 	= gpsmath.bearing(lon_source, lat_source, jobs_data[i][0], jobs_data[i][1])
+			bearing_diff = gpsmath.format_bearing(bearing - jobs_data[i][2])
+			if bearing_diff >= 90.0 and bearing_diff <= 270.0:
+				sign = -1
+			else:
+				sign = 1
+			rospy.loginfo("Amended a Forward Job, %f mm", distance * sign)
+			job = Job(jobs_data[i][0], jobs_data[i][1], jobs_data[i][2], correction_type, 'F', distance * sign)
+		elif jobs_data[i][3] == 'T':
+			rospy.loginfo("Amended a Turn Job, %f deg", jobs_data[i][2])
+			job = Job(jobs_data[i][0], jobs_data[i][1], jobs_data[i][2], correction_type, 'T', jobs_data[i][2])
+		temp_job.extend([job])
+	temp_job.reverse()
+	for j in temp_job:
+		job_lists.insert(0, j)
 
-	move_job 	= Job(lon_target, lat_target, bearing, 'N', 'F', distance)
-	rospy.loginfo("Amended a turn job: Turn to %f", bearing)
-	rospy.loginfo("Amended a move job: Move %f mm", distance)
+def amend_regular_jobs(job_executed, correction_type, forward_dist_bef_turn):
+	global job_lists
 
-	if job_lists[0].description == 'F' or job_lists[0].description == 'B':
-		# job_lists[1] = move_job
-		job_lists.insert(1, turn_job)
-		# job_lists.insert(2, Job(lon_target, lat_target, bearing, 'N', job_lists[0].description, 0.0))
-		job_lists.insert(2, move_job)
-	elif job_lists[0].description == 'T':
-		job_lists.insert(1, turn_job)
-		job_lists[2] = move_job
+	# if job_executed.classfication == 'O':
+	# 	rospy.logerr("%f, %f", job_executed.lon_target, job_executed.lat_target)
 
+	if job_executed.description == 'F':
+		rospy.loginfo("Amended a job from F to move from (%f, %f) to (%f, %f)", robot_drive.lon_now, robot_drive.lat_now, job_executed.lon_target, job_executed.lat_target)
+		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, job_executed.lon_target, job_executed.lat_target)
+		distance 	= gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, job_executed.lon_target, job_executed.lat_target)
+		bearing_from_robot = gpsmath.format_bearing(bearing - robot_drive.bearing_now)
 
+		# rospy.logerr(distance)
+		# rospy.logerr(bearing_from_robot)
+		if distance > robot_drive.bank_radius: # and (bearing_from_robot > 270.0 or bearing_from_robot < 90.0):
+			inter_pos	= get_inter_gps(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, job_executed.lon_target, job_executed.lat_target, forward_dist_bef_turn)
+			# rospy.logerr("F interpos: %d", inter_pos[0])
+			if inter_pos[0]:
+				lon_list = [robot_drive.lon_now, inter_pos[1], job_executed.lon_target]
+				lat_list = [robot_drive.lat_now, inter_pos[2], job_executed.lat_target]
+				obtain_success, new_job = get_inter_gps_aft(lon_list, lat_list)
+				distance_to_move = gpsmath.haversine(new_job[-1][0], new_job[-1][1], job_executed.lon_target, job_executed.lat_target)
+				move_job = Job(job_executed.lon_target, job_executed.lat_target, new_job[-1][2], correction_type, 'F', distance_to_move)
+				job_lists.insert(0, move_job)
+				if obtain_success:
+					insert_compensation_jobs(new_job, correction_type)
+			else:
+				move_job = Job(job_executed.lon_target, job_executed.lat_target, bearing, correction_type, 'F', distance)
+				job_lists.insert(0, move_job)
 
-		# job_lists[0] = turn_job
-		# job_lists[1] = move_job
-	# a = "%f  %f  %f"%(job_lists[0].value, job_lists[1].value, job_lists[2].value)
-	# rospy.logerr(a)
-	# if (len(job_lists) > 1 and job_lists[1].description == 'F' and job_lists[1].classfication == 'N'): #chengyuen 17/7
-	# 	if job_lists[1].value < 0:
-	# 		job_lists[1].value = -(abs(job_lists[1].value) - arc_dist)							 #chengyuen 17/7
-	# 	else:
-	# 		job_lists[1].value = (abs(job_lists[1].value) - arc_dist)
-	# rospy.logerr(arc_dist)
+	elif job_executed.description == 'T':
+		rospy.loginfo("Amended a job from T to move from (%f, %f) to (%f, %f)", robot_drive.lon_now, robot_drive.lat_now, current_job().lon_target, current_job().lat_target)
+		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, current_job().lon_target, current_job().lat_target)
+		distance 	= gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, current_job().lon_target, current_job().lat_target)
+		dist_from_ori_target 	= gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, job_executed.lon_target, job_executed.lat_target)
+		bearing_from_robot = gpsmath.format_bearing(bearing - robot_drive.bearing_now)
 
+		if (bearing_from_robot >= 292.5 or bearing_from_robot <= 67.5):
+
+			inter_pos	= get_inter_gps(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, current_job().lon_target, current_job().lat_target, forward_dist_bef_turn)
+			# rospy.logerr("T interpos: %d", inter_pos[0])
+			if inter_pos[0]:
+				lon_list = [robot_drive.lon_now, inter_pos[1], current_job().lon_target]
+				lat_list = [robot_drive.lat_now, inter_pos[2], current_job().lat_target]
+				obtain_success, new_job = get_inter_gps_aft(lon_list, lat_list)
+				distance_to_move = gpsmath.haversine(new_job[-1][0], new_job[-1][1], current_job().lon_target, current_job().lat_target)
+				# rospy.logerr(distance_to_move)
+				move_job = Job(current_job().lon_target, current_job().lat_target, new_job[-1][2], correction_type, 'F', distance_to_move)
+				job_lists[0] = move_job
+				if obtain_success:
+					insert_compensation_jobs(new_job, correction_type)
+			else:
+				# rospy.logerr(dist_from_ori_target)
+				if dist_from_ori_target > robot_correction.min_correction_distance:
+					move_job = Job(current_job().lon_target, current_job().lat_target, robot_drive.bearing_now, correction_type, 'F', distance)
+					job_lists[0] = move_job
+
+def turn_aft_move():
+	global job_lists
+	lon_next = job_lists[1].lon_target
+	lat_next = job_lists[1].lat_target
+	del job_lists[1]
+	lon_now = robot_drive.lon_target
+	lat_now = robot_drive.lat_target
+	lon_prev = robot_drive.lon_now
+	lat_prev = robot_drive.lat_now
+	lon_list = [lon_prev, lon_now, lon_next]
+	lat_list = [lat_prev, lat_now, lat_next]
+	obtain_success, new_job = get_inter_gps_aft(lon_list, lat_list)
+	if obtain_success:
+		insert_compensation_jobs(new_job, 'C')
 
 def has_jobs_left():
 	global job_lists
@@ -322,11 +470,11 @@ def remove_job(idx):
 # If return value is true, then no need correction for the current job
 def complete_current_job():
 	global job_lists
-	if job_lists[0].classfication == 'N' or job_lists[0].classfication == 'U':
+	if job_lists[0].classfication == 'N':
 		robot_drive.lon_target 		= job_lists[0].lon_target;
 		robot_drive.lat_target 		= job_lists[0].lat_target;
 		robot_drive.bearing_target 	= job_lists[0].bearing_target;
-	rospy.loginfo("Removed current job with classification: %s", job_lists[0].classfication)
+	rospy.loginfo("Removed current job with classification: %s, description: %s, value: %f", job_lists[0].classfication, job_lists[0].description, job_lists[0].value)
 	del job_lists[0]
 	rospy.loginfo("Number of jobs left to execute %d", len(job_lists))
 	rospy.loginfo("================== The job finished and discarded ==================\n\n")
@@ -432,66 +580,66 @@ def insert_move_job(lon_source, lat_source, bearing_source, lon_target, lat_targ
 	rospy.loginfo("Number of jobs %d", len(job_lists))
 
 # a list of operations for the correction jobs
-def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target, lat_target, bearing_tarcorrection_typeget, correction_type, need_correct_distance, need_correct_angle):
-	global job_lists
-	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
-	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
+# def insert_compensation_jobs(lon_source, lat_source, bearing_source, lon_target, lat_target, bearing_tarcorrection_typeget, correction_type, need_correct_distance, need_correct_angle):
+# 	global job_lists
+# 	bearing 	= gpsmath.bearing(lon_source, lat_source, lon_target, lat_target)
+# 	distance 	= gpsmath.haversine(lon_source, lat_source, lon_target, lat_target)
 
-	# reverse_value1 = arc_threshold(bearing, bearing_source)		#chengyuen14/7
-	# reverse_value2 = arc_threshold(bearing_target, bearing)		#chengyuen14/7
+# 	# reverse_value1 = arc_threshold(bearing, bearing_source)		#chengyuen14/7
+# 	# reverse_value2 = arc_threshold(bearing_target, bearing)		#chengyuen14/7
 
-	# first_reverse_job		= Job(lon_source, lat_source, bearing_source, correction_type, 'B', 2*reverse_value1)	#chengyuen14/7
-	turn_job 				= Job(lon_source, lat_source, bearing_target, correction_type, 'T', bearing_target)
-	turn_before_move_job 	= Job(lon_source, lat_source, bearing, correction_type, 'T', bearing)
-	# distance = distance - reverse_value1 - reverse_value2														#chengyuen14/7
-	if distance < 0:																							#chengyuen14/7
-		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'B', abs(distance))
-	else:
-		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'F', distance)
-	# second_reverse_job		= Job(lon_target, lat_target, bearing_target, correction_type, 'B', reverse_value2)	#chengyuen14/7
-	#reverse_job 			= Job(lon_target, lat_target, bearing, correction_type, 'B', distance)
+# 	# first_reverse_job		= Job(lon_source, lat_source, bearing_source, correction_type, 'B', 2*reverse_value1)	#chengyuen14/7
+# 	turn_job 				= Job(lon_source, lat_source, bearing_target, correction_type, 'T', bearing_target)
+# 	turn_before_move_job 	= Job(lon_source, lat_source, bearing, correction_type, 'T', bearing)
+# 	# distance = distance - reverse_value1 - reverse_value2														#chengyuen14/7
+# 	if distance < 0:																							#chengyuen14/7
+# 		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'B', abs(distance))
+# 	else:
+# 		move_job 				= Job(lon_target, lat_target, bearing, correction_type, 'F', distance)
+# 	# second_reverse_job		= Job(lon_target, lat_target, bearing_target, correction_type, 'B', reverse_value2)	#chengyuen14/7
+# 	#reverse_job 			= Job(lon_target, lat_target, bearing, correction_type, 'B', distance)
 
-	#if (need_correct_distance and not need_correct_angle):
-	#	if((bearing - bearing_source + 360.0)%360.0 >= 90):
-	#		rospy.loginfo("Added a backward distance correction")
-	#		job_lists.insert(0, reverse_job)
-	#	else:
-	#		rospy.loginfo("Added a forward distance correction")
-	#		job_lists.insert(0, move_job)
+# 	#if (need_correct_distance and not need_correct_angle):
+# 	#	if((bearing - bearing_source + 360.0)%360.0 >= 90):
+# 	#		rospy.loginfo("Added a backward distance correction")
+# 	#		job_lists.insert(0, reverse_job)
+# 	#	else:
+# 	#		rospy.loginfo("Added a forward distance correction")
+# 	#		job_lists.insert(0, move_job)
 
-	# if need_correct_distance and need_correct_angle:
-	# 	rospy.loginfo("Added a distance correction and angle correction")
-	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7
-	# 	job_lists.insert(1, turn_before_move_job)									#chengyuen14/7
-	# 	job_lists.insert(2, move_job)												#chengyuen14/7
-	# 	job_lists.insert(3, turn_job)												#chengyuen14/7
-	# 	job_lists.insert(4, second_reverse_job)										#chengyuen14/7
-	# elif need_correct_distance and not need_correct_angle:
-	# 	rospy.loginfo("Added an distance correction")
-	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7
-	# 	job_lists.insert(1, turn_before_move_job)									#chengyuen14/7
-	# 	job_lists.insert(2, move_job)												#chengyuen14/7
-	# 	job_lists.insert(3, turn_job)												#chengyuen14/7
-	# 	job_lists.insert(4, second_reverse_job)										#chengyuen14/7
-	# elif (need_correct_angle and not need_correct_distance):
-	# 	rospy.loginfo("Added a angle correction")
-	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7
-	# 	job_lists.insert(1, turn_job)												#chengyuen14/7
-	# 	job_lists.insert(2, second_reverse_job)										#chengyuen14/7
+# 	# if need_correct_distance and need_correct_angle:
+# 	# 	rospy.loginfo("Added a distance correction and angle correction")
+# 	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7
+# 	# 	job_lists.insert(1, turn_before_move_job)									#chengyuen14/7
+# 	# 	job_lists.insert(2, move_job)												#chengyuen14/7
+# 	# 	job_lists.insert(3, turn_job)												#chengyuen14/7
+# 	# 	job_lists.insert(4, second_reverse_job)										#chengyuen14/7
+# 	# elif need_correct_distance and not need_correct_angle:
+# 	# 	rospy.loginfo("Added an distance correction")
+# 	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7
+# 	# 	job_lists.insert(1, turn_before_move_job)									#chengyuen14/7
+# 	# 	job_lists.insert(2, move_job)												#chengyuen14/7
+# 	# 	job_lists.insert(3, turn_job)												#chengyuen14/7
+# 	# 	job_lists.insert(4, second_reverse_job)										#chengyuen14/7
+# 	# elif (need_correct_angle and not need_correct_distance):
+# 	# 	rospy.loginfo("Added a angle correction")
+# 	# 	job_lists.insert(0, first_reverse_job)										#chengyuen14/7
+# 	# 	job_lists.insert(1, turn_job)												#chengyuen14/7
+# 	# 	job_lists.insert(2, second_reverse_job)										#chengyuen14/7
 
-	if need_correct_distance and need_correct_angle:
-		rospy.loginfo("Added a distance correction and angle correction")
-		job_lists.insert(0, turn_before_move_job)
-		job_lists.insert(1, move_job)
-		job_lists.insert(2, turn_job)
-	elif need_correct_distance and not need_correct_angle:
-		rospy.loginfo("Added an distance correction")
-		job_lists.insert(0, turn_before_move_job)
-		job_lists.insert(1, move_job)
-		job_lists.insert(2, turn_job)
-	elif (need_correct_angle and not need_correct_distance):
-		rospy.loginfo("Added a angle correction")
-		job_lists.insert(0, turn_job)
+# 	if need_correct_distance and need_correct_angle:
+# 		rospy.loginfo("Added a distance correction and angle correction")
+# 		job_lists.insert(0, turn_before_move_job)
+# 		job_lists.insert(1, move_job)
+# 		job_lists.insert(2, turn_job)
+# 	elif need_correct_distance and not need_correct_angle:
+# 		rospy.loginfo("Added an distance correction")
+# 		job_lists.insert(0, turn_before_move_job)
+# 		job_lists.insert(1, move_job)
+# 		job_lists.insert(2, turn_job)
+# 	elif (need_correct_angle and not need_correct_distance):
+# 		rospy.loginfo("Added a angle correction")
+# 		job_lists.insert(0, turn_job)
 
 
 def distance_route(gps_lon_lst, gps_lat_lst):

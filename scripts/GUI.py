@@ -62,7 +62,7 @@ cross_pos = {"x": [], "y": []}
 cross_latlon = {"lon": [], "lat": []}
 cross_size = 5
 
-run = 1
+run = 2
 json_str = {"init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
 clear_route_flag = False
 

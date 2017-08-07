@@ -237,6 +237,9 @@ def generate_jobs_from_gps():
 		total_gps_lat.extend(gps_lat)
 
 	if total_gps_lon[-1] == gps_lon[0] and total_gps_lat[-1] == gps_lat[0]:
+		if total_gps_lon[-2] == gps_lon[0] and total_gps_lat[-2] == gps_lat[0]:
+			del total_gps_lon[-1]
+			del total_gps_lat[-1]
 		total_gps_lon.extend([init_lon])
 		total_gps_lat.extend([init_lat])
 	else:

@@ -169,11 +169,11 @@ def status_callback(data):
 		robot_drive.direction = "backward"
 		robot_drive.robot_moving = True
 		robot_drive.robot_turning = False
-	elif (data_int == 3):
+	elif (data_int == 3 or data_int == 6):
 		robot_drive.direction = "left"
 		robot_drive.robot_moving = False
 		robot_drive.robot_turning = True
-	elif (data_int == 4):
+	elif (data_int == 4 or data_int == 5):
 		robot_drive.direction = "right"
 		robot_drive.robot_moving = False
 		robot_drive.robot_turning = True

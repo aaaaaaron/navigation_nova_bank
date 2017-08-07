@@ -25,7 +25,8 @@ distance_sensor_ok 			= 1
 
 front_sensor				= (0, 0, 0, 0)
 back_sensor					= (0, 0, 0, 0)
-remove_current_job			= 0
+
+
 
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
@@ -99,7 +100,7 @@ def clear_correction_trial_tasks(current_job_type):
 	robot_job.clear_correction_jobs()
 
 def quit_obstacle_correction(current_job_type):
-	global remove_current_job
+
 	clear_correction_trial_tasks(current_job_type)
 	rospy.loginfo("Quitting correction")
 	if robot_job.has_jobs_left() > 0:
@@ -119,7 +120,7 @@ def quit_obstacle_correction(current_job_type):
 
 def clear_after_obstacle_avoidance(current_job_type):
 	# Remove the un-finished job
-	# global remove_current_job
+
 	if(current_job_type == 'N'):
 		rospy.loginfo("Robot met obstacle during normal job, finishing current job")
 		robot_correction.correction_count 	= 0
@@ -129,8 +130,6 @@ def clear_after_obstacle_avoidance(current_job_type):
 		robot_correction.correction_count 	= 0
 		clear_correction_trial_tasks(current_job_type)
 	elif(current_job_type == 'O'):
-		robot_correction.correction_count = robot_correction.correction_count + 1
-		# rospy.logerr("Correction count: %d", robot_correction.correction_count)
 		if(robot_correction.correction_count  > robot_correction.max_correction_run):
 			quit_obstacle_correction(current_job_type)
 			robot_correction.correction_count = 0
@@ -222,6 +221,7 @@ def complete_obstacle_avoidance():
 	if robot_drive.robot_on_mission and robot_job.has_jobs_left():
 		resume_from_obstacle_avoidance()
 		robot_drive.robot_on_mission = False
+		
 	else:
 		rospy.loginfo("There's no mission on going")
 

@@ -18,8 +18,12 @@ from serial_handler.msg import Status   #getting the msg file from the serial_ha
 from serial_handler.msg import Encoder
 from serial_handler.msg import Sonar
 
+time_aft_obs		= 0
+time_start_obs		= 0
+
 # The main progream process the robot logic
 def main_commander():
+	global time_aft_obs, time_start_obs
 	# ----------------------------------------------------------------------------------------#
 	#  If robot is on burn mode, it does not receive any encoder data                 		  #
 	#  If robot is eanbled or received command to off the burn mode, the robot shall 		  #
@@ -85,7 +89,8 @@ def main_commander():
 		#rospy.loginfo("Disabled robot")
 		time.sleep(0.1)
 		return
-
+		
+	# rospy.logerr("Correction count: %d", robot_correction.correction_count)
 	# ----------------------------------------------------------------------------------------#
 	#  Codes for obstacle avoidence handling                     							  #
 	# ----------------------------------------------------------------------------------------#
@@ -93,6 +98,12 @@ def main_commander():
 	if robot_obstacle.robot_on_obstacle:
 		robot_obstacle.resume_from_obstacle = False
 		rospy.loginfo("Robot on obstacle avoidence, please wait")
+		if time_start_obs <= time_aft_obs:
+			time_start_obs = rospy.get_time()
+			if time_start_obs - time_aft_obs <= 5.0: #if obstacle avoidance mode is triggered within 5s, count +1
+				robot_correction.correction_count = robot_correction.correction_count + 1
+			else:
+				robot_correction.correction_count = 0
 		time.sleep(0.1)
 		return
 
@@ -100,6 +111,7 @@ def main_commander():
 	if robot_obstacle.robot_over_obstacle:
 		rospy.loginfo("Robot over obstacle")
 		robot_obstacle.complete_obstacle_avoidance()
+		time_aft_obs = rospy.get_time()
 		time.sleep(0.1)
 		return
 
@@ -204,6 +216,9 @@ def main_listener():
 	rospy.Subscriber('hardware_status', Status, robot_listener.status_callback)
 	rospy.Subscriber('face_detection', String, robot_listener.face_detection_callback)
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
+
+	time_aft_obs = rospy.get_time()
+	time_start_obs = rospy.get_time()
 
 	# Step 2:
 	# Start the main loop

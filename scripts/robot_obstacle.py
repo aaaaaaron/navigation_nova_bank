@@ -113,9 +113,11 @@ def quit_obstacle_correction(current_job_type):
 			robot_job.complete_current_job()
 		elif job_executing.description == 'T':
 			while robot_job.current_job().description == 'T':
+				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
-			robot_job.job_before_obstacle = robot_job.current_job()
-			robot_job.complete_current_job()
+			if robot_job.has_jobs_left():
+				robot_job.job_before_obstacle = robot_job.current_job()
+				robot_job.complete_current_job()
 	
 
 def clear_after_obstacle_avoidance(current_job_type):

@@ -27,7 +27,7 @@ def publish_parameters():
 	info["LONG"]        =    robot_drive.lon_now
 	info["LAT"]         =    robot_drive.lat_now
 	info["BEARING"]     =    robot_drive.bearing_now
-	info["BATTERY"] 	= 	 robot_drive.battery_level #aaron added
+	info["BATTERY"]	    = 	 robot_drive.battery_level #aaron added
 	data={}
 	data["parameters"]  =    info
 

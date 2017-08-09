@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import socket
+import fcntl
+import struct
 import rospy
 import string
 import ConfigParser
@@ -48,6 +51,15 @@ def write_config(config_file_path, field, key, value):
     	ret = False
         rospy.loginfo("Failed to write parameters")
     return ret
+
+
+def get_ip_address(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(
+        s.fileno(),
+        0x8915,  # SIOCGIFADDR
+        struct.pack('256s', ifname[:15])
+    )[20:24])
 
 
 def read_system_config():

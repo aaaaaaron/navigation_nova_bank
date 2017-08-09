@@ -17,9 +17,13 @@ from geometry_msgs.msg import Vector3
 from serial_handler.msg import Status   #getting the msg file from the serial_handler package
 from serial_handler.msg import Encoder
 from serial_handler.msg import Sonar
+from navigation_nova_bank.srv import *
+import rosgraph
+
 
 # The main progream process the robot logic
 def main_commander():
+
 	# ----------------------------------------------------------------------------------------#
 	#  If robot is on burn mode, it does not receive any encoder data                 		  #
 	#  If robot is eanbled or received command to off the burn mode, the robot shall 		  #
@@ -174,6 +178,11 @@ def main_commander():
 		# 	robot_correction.dist_correction_correction();
 
 
+def handle_get_ip(req):
+	return robot_configure.get_ip_address('wlan0')
+
+def get_ip():
+    	s = rospy.Service('get_ip', GetIP, handle_get_ip)
 
 #subscribes to different topic
 def main_listener():
@@ -197,7 +206,7 @@ def main_listener():
 	rospy.Subscriber('hardware_status', Status, robot_listener.status_callback)
 	rospy.Subscriber('face_detection', String, robot_listener.face_detection_callback)
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
-
+	get_ip()
 	# Step 2:
 	# Start the main loop
 	while not rospy.is_shutdown():

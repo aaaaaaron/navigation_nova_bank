@@ -192,12 +192,8 @@ def main_commander():
 		# 	rospy.loginfo("Complete all correction jobs, check whether further correction is needed")
 		# 	robot_correction.dist_correction_correction();
 
-
-def handle_get_ip(req):
-	return robot_configure.get_ip_address('wlan0')
-
 def get_ip_service():
-	s = rospy.Service('get_ip', GetIP, handle_get_ip)
+	s = rospy.Service('get_ip', GetIP, robot_configure.handle_get_ip)
 
 #subscribes to different topic
 def main_listener():

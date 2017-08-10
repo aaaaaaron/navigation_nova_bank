@@ -17,6 +17,7 @@ from geometry_msgs.msg import Vector3
 from serial_handler.msg import Status   #getting the msg file from the serial_handler package
 from serial_handler.msg import Encoder
 from serial_handler.msg import Sonar
+from navigation_nova_bank.srv import *
 
 time_aft_obs		= 0
 time_start_obs		= 0

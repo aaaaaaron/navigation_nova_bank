@@ -193,6 +193,11 @@ def main_commander():
 		# 	robot_correction.dist_correction_correction();
 
 
+def handle_get_ip(req):
+	return robot_configure.get_ip_address('wlan0')
+
+def get_ip_service():
+	s = rospy.Service('get_ip', GetIP, handle_get_ip)
 
 #subscribes to different topic
 def main_listener():
@@ -219,7 +224,8 @@ def main_listener():
 
 	time_aft_obs = rospy.get_time()
 	time_start_obs = rospy.get_time()
-
+	# Provide a service for getting ip of wireless network 
+	get_ip_service()
 	# Step 2:
 	# Start the main loop
 	while not rospy.is_shutdown():

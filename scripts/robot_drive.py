@@ -96,9 +96,11 @@ turn_on_light				= False
 is_light_on					= False
 robot_interacting			= False
 
-roll_start 				= 0.0
+roll_start 					= 0.0
 
 bluetooth_panel 			= ''
+robot_id 					= -1;
+
 
 
 ############################################################

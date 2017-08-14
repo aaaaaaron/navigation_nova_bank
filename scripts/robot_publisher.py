@@ -27,7 +27,7 @@ def publish_parameters():
 	info["LONG"]        =    robot_drive.lon_now
 	info["LAT"]         =    robot_drive.lat_now
 	info["BEARING"]     =    robot_drive.bearing_now
-	info["BATTERY"]	    = 	 robot_drive.battery_level #aaron added
+	info["BATTERY"] 	= 	 robot_drive.battery_level #aaron added
 	data={}
 	data["parameters"]  =    info
 
@@ -40,6 +40,7 @@ def publish_chat():
 	info = {}
 	info["TYPE"]  	= 0
 	info["ACTION"] 	= 1
+	info["ID"]      = robot_drive.robot_id 
 	data={}
 	data["chat"] = info
 	chat_para = json.dumps(data)
@@ -57,4 +58,4 @@ def publish_command(command_string, speed):
 	#handle the format of the string
 	stringToSend = 'S%s00000%dE\n' % (command_string, speed) #might need to add \n behind the E
 	pub_command.publish(stringToSend)
-	#rospy.loginfo(str(stringToSend))
+	rospy.loginfo(str(stringToSend))

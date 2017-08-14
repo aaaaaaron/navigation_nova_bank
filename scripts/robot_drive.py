@@ -64,7 +64,7 @@ robot_turning		= False
 
 
 # Flags indicate the mode desired to minimize the startup keyboard entries
-obstacle_mode_desired 	= False
+obstacle_mode_desired 	= True
 burn_mode_desired 		= False
 robot_enabled_desired 	= True
 
@@ -96,9 +96,11 @@ turn_on_light				= False
 is_light_on					= False
 robot_interacting			= False
 
-roll_start 				= 0.0
+roll_start 					= 0.0
 
 bluetooth_panel 			= ''
+robot_id 					= -1;
+
 
 
 ############################################################

@@ -28,7 +28,7 @@ linear_full_speed 		= 0.0
 linear_lower_speed 		= 0.0
 linear_lowest_speed		= 0.0
 
-amend_check = False
+move_amend = False
 
 status_pub = rospy.Publisher('status', String, queue_size = 100)
 # Starts the robot for moving, put the control variables into proper value
@@ -74,7 +74,7 @@ def stop_move():
 		dist_completed = 0.0
 		robot_drive.robot_on_mission = False
 		rospy.loginfo('----------------- Robot completed a moving job -----------------')
-		amend_check = False
+		# amend_check = False
 	else:
 		rospy.loginfo('Robot still moving, stopping robot')
 		robot_drive.stop_robot()
@@ -123,14 +123,14 @@ def continue_move():
 	if(robot_drive.speed_now != robot_drive.speed_desired):
         	robot_drive.change_speed()
 
-	robot_publisher.publish_command(robot_drive.move_direction, robot_drive.speed_now)
+	# robot_publisher.publish_command(robot_drive.move_direction, robot_drive.speed_now)
 
 # main function to control the robot movement
 def move_distance(dist):
 	global dist_completed
 	global dist_to_run
 	global angle_to_correct
-	global amend_check
+	global move_amend
 	# global dist_completed_to_correct
 
 	dist_to_run = dist
@@ -171,6 +171,7 @@ def move_distance(dist):
 	#@yuqing_correctionper10m
 	#if travel over 5m, job_completed to 1, start to correct
 	# rospy.logerr("Dist completed: %.10f"%robot_move.dist_completed)
+	
 	if (dist_completed >= dist_to_correct):
 		
 		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
@@ -181,10 +182,9 @@ def move_distance(dist):
 		# rospy.logerr(diff_angle)
 		if  abs(diff_angle) >= robot_correction.min_correction_angle:# and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0:
 			rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
-
-			if not amend_check and robot_job.job_lists[0].classfication == 'N':
-				robot_job.amend_correction_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
-				amend_check = True
+			# if not amend_check:
+			# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+			move_amend = True
 		
 			stop_move()
 			return not robot_drive.robot_on_mission
@@ -233,6 +233,8 @@ def move_distance(dist):
 	else :
 		rospy.loginfo("-----------------dist_completed: %f", dist_completed)
 		stop_move()
+		move_amend = True
+		
         # make sure the robot is stopped before next job
         return not robot_drive.robot_on_mission
        	#clean current job

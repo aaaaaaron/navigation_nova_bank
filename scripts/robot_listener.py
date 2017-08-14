@@ -169,11 +169,11 @@ def status_callback(data):
 		robot_drive.direction = "backward"
 		robot_drive.robot_moving = True
 		robot_drive.robot_turning = False
-	elif (data_int == 3):
+	elif (data_int == 3 or data_int == 6):
 		robot_drive.direction = "left"
 		robot_drive.robot_moving = False
 		robot_drive.robot_turning = True
-	elif (data_int == 4):
+	elif (data_int == 4 or data_int == 5):
 		robot_drive.direction = "right"
 		robot_drive.robot_moving = False
 		robot_drive.robot_turning = True
@@ -203,9 +203,13 @@ def chat_callback(data):
 	rospy.loginfo(json_str)
 	try:
 		decoded = json.loads(json_str)
-		chat_type = decoded['TYPE']
-		chat_action = decoded['ACTION']
-		rospy.loginfo("TYPE %d, ACTION %d", chat_type, chat_action)
+		chat_obj = decoded['chat']
+		chat_type = chat_obj.get(u'TYPE')
+		chat_action = chat_obj.get(u'ACTION')
+		chat_id = chat_obj.get(u'ID')
+
+		rospy.loginfo("ID: %d vs my_id %d, TYPE %d, ACTION %d", chat_id, robot_drive.robot_id, chat_type, chat_action)
+
 		if(chat_type == 1 and chat_action == 0):
 			robot_drive.robot_paused		  	= False
 			robot_drive.robot_interacting		= False
@@ -213,8 +217,6 @@ def chat_callback(data):
 
 	except(ValueError, KeyError, TypeError):
 		rospy.loginfo('JSON format error')
-
-
 
 
 def communicate_callback(data):
@@ -269,7 +271,8 @@ def job_callback(data):
 			robot_job.gps_lat.extend([lat])
 		robot_job.clear_job_list()
 		rospy.loginfo("Parsing route successful")
-		init_point			= decoded['init_point']
+		init_point				= decoded['init_point']
+		robot_drive.robot_id 	= decoded['robot_id']
 		robot_job.init_lon 		= float(init_point.get(u'lng'))
 		robot_job.init_lat 		= float(init_point.get(u'lat'))
 		update_base(robot_job.init_lon, robot_job.init_lat)

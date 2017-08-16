@@ -203,10 +203,12 @@ def chat_callback(data):
 	rospy.loginfo(json_str)
 	try:
 		decoded = json.loads(json_str)
-		chat_type = decoded['TYPE']
-		chat_action = decoded['ACTION']
-		chat_id = decoded['ID']
-		rospy.loginfo("ID: %d vs my_id, TYPE %d, ACTION %d", chat_id, robot_drive.robot_id, chat_type, chat_action)
+		chat_obj = decoded['chat']
+		chat_type = chat_obj.get(u'TYPE')
+		chat_action = chat_obj.get(u'ACTION')
+		chat_id = chat_obj.get(u'ID')
+
+		rospy.loginfo("ID: %d vs my_id %d, TYPE %d, ACTION %d", chat_id, robot_drive.robot_id, chat_type, chat_action)
 
 		if(chat_type == 1 and chat_action == 0):
 			robot_drive.robot_paused		  	= False

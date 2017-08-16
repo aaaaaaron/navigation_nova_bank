@@ -40,6 +40,7 @@ def publish_chat():
 	info = {}
 	info["TYPE"]  	= 0
 	info["ACTION"] 	= 1
+	info["ID"]      = robot_drive.robot_id 
 	data={}
 	data["chat"] = info
 	chat_para = json.dumps(data)

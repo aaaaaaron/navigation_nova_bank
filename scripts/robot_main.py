@@ -160,10 +160,6 @@ def main_commander():
 	# If no jobs, make sure robot stopped moving, we cannot leave robot moving there
 	if not robot_job.has_jobs_left():
 		robot_job.process_no_job()
-		if robot_job.back_to_base_mode:
-			robot_job.back_to_base_mode = False 
-		if robot_job.summon_mode:
-			robot_job.summon_mode = False 
 		# rospy.loginfo("Complete all jobs")
 		time.sleep(0.1)
 		return
@@ -222,8 +218,6 @@ def main_listener():
 	rospy.Subscriber('hardware_status', Status, robot_listener.status_callback)
 	rospy.Subscriber('face_detection', String, robot_listener.face_detection_callback)
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
-	rospy.Subscriber('panel_call_robot', String, robot_listener.panel_summon_callback)
-
 
 	time_aft_obs = rospy.get_time()
 	time_start_obs = rospy.get_time()

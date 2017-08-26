@@ -31,6 +31,7 @@ direction 		= 0
 sonar_data		= []
 prev_has_obstacle	= 0
 ss.obstacle_avoidance_mode = 0
+ss.battery_level = 90
 
 def executor_simulator(data):
 	global burn_mode

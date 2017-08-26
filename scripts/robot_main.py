@@ -45,6 +45,7 @@ def main_commander():
 			time.sleep(1)
 			return;
 
+	# rospy.loginfo("testing")
 	# publish running parameters to the para topic once the robot is not on burn mode
 	robot_publisher.publish_parameters()
 
@@ -55,6 +56,8 @@ def main_commander():
 	if(robot_listener.encoder_received == robot_listener.encoder_processed): 	#aaron comment
 		robot_listener.process_encoder_delay() 									#aaron comment
 		return 																	#aaron comment
+
+	#rospy.loginfo("testing 2")
 
 	# It process all the encoder data received - regardless robot status etc .
 	#Including dynamically update robot GPS etc
@@ -67,6 +70,9 @@ def main_commander():
 		time.sleep(0.1)
 		return
 
+
+	#rospy.loginfo("testing 3")
+
 	# Received command to on/off obstacle avoidance mode
 	if robot_drive.obstacle_mode != robot_drive.obstacle_mode_desired:
 		#robot_job.pause_robot()
@@ -75,6 +81,9 @@ def main_commander():
 		return
 
 	# if remote control is on
+
+	#rospy.loginfo("testing %d", robot_job.summon_mode)
+
 	if robot_drive.manual_mode:
 		rospy.loginfo("Robot is unde manual remote control, bearing: %f", robot_drive.bearing_now)
 		time.sleep(0.1)
@@ -139,20 +148,48 @@ def main_commander():
 
 	# if video chat closed by any sides (server or robot), then to resume the robot for the job
 
+	#rospy.loginfo("Process job 1") 
 	# handle robot paused conidtions
 	if robot_drive.robot_paused:
 		rospy.loginfo("Pause robot")
-		robot_job.pause_robot();
+		robot_job.pause_robot()
+
+		if robot_job.summon_mode:
+			robot_job.clear_job_list()
+                	robot_job.prepare_to_panel()
+			robot_drive.robot_paused = False
+			robot_job.summon_mode = False
+			robot_drive.robot_on_mission = False
+		if robot_job.back_to_base_mode:
+			robot_job.clear_job_list()
+			robot_job.prepare_back_to_base()
+			robot_drive.robot_paused = False
+			robot_job.back_to_base_mode = False
+			robot_drive.robot_on_mission = False
+		if robot_drive.new_command: 
+			robot_drive.robot_paused = False
+			robot_drive.robot_on_mission = False
+			robot_drive.new_command = False
 		time.sleep(0.1)
 		return;
-
+	#rospy.loginfo("test 5")
 	# Handle the low battery
-	if robot_drive.battery_level < 20 and robot_job.back_to_base_mode == False:
-		robot_job.clear_job_list()
+	if robot_job.back_to_base_mode:
+		rospy.loginfo('Back to base mode')
+		robot_drive.robot_paused = True
+		#robot_job.clear_job_list()
 		# Generate jobs which can drive robot back to base
-		robot_job.prepare_back_to_base()
+		#robot_job.prepare_back_to_base()
 		return
 
+	if robot_job.summon_mode:
+		rospy.loginfo('summon mode')
+		robot_drive.robot_paused = True 
+		#robot_job.clear_job_list()
+		#robot_job.prepare_to_panel()
+		return 
+
+	#rospy.loginfo("test 6");
 	# ----------------------------------------------------------------------------------------#
 	#  Codes for robot normal jobs like walking and turning       							  #
 	# ----------------------------------------------------------------------------------------#
@@ -160,12 +197,17 @@ def main_commander():
 	# If no jobs, make sure robot stopped moving, we cannot leave robot moving there
 	if not robot_job.has_jobs_left():
 		robot_job.process_no_job()
+		if robot_job.back_to_base_mode:
+			robot_job.back_to_base_mode = False 
+		if robot_job.summon_mode:
+			robot_job.summon_mode = False 
 		# rospy.loginfo("Complete all jobs")
 		time.sleep(0.1)
 		return
 
+	#rospy.loginfo("Process job")
 	job_completed = robot_job.process_job()
-	
+	#rospy.loginfo("Process job1")
 	# ----------------------------------------------------------------------------------------#
 	#  Robot's doing the initialization jobs, not normal jobs      							  #
 	# ----------------------------------------------------------------------------------------#
@@ -218,6 +260,8 @@ def main_listener():
 	rospy.Subscriber('hardware_status', Status, robot_listener.status_callback)
 	rospy.Subscriber('face_detection', String, robot_listener.face_detection_callback)
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
+	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
+
 
 	time_aft_obs = rospy.get_time()
 	time_start_obs = rospy.get_time()

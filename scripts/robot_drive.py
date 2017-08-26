@@ -99,7 +99,11 @@ robot_interacting			= False
 roll_start 					= 0.0
 
 bluetooth_panel 			= ''
+panel_lon					= 0
+panel_lat					= 0 
 robot_id 					= -1;
+
+new_command					= True
 
 
 

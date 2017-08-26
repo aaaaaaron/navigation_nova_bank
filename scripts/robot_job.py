@@ -28,6 +28,7 @@ loops 				= 1 			#how many rounds to go
 job_lists 			= []
 
 back_to_base_mode 	= False
+summon_mode  		= False 
 
 FtoT_flag = True
 arc_dist = 0.0
@@ -659,6 +660,7 @@ def distance_route(gps_lon_lst, gps_lat_lst):
 	return dist_total
 
 def generate_rb_jobs(gps_lon_lst, gps_lat_lst):
+	rospy.loginfo("Number of jobs %d", len(gps_lon_lst));
 	for k in range(len(gps_lon_lst) - 1):
 		k_nex = k + 1
 		append_regular_jobs(gps_lon_lst[k], gps_lat_lst[k], gps_lon_lst[k_nex], gps_lat_lst[k_nex])
@@ -674,6 +676,64 @@ def find_closest_loop_index():
 			distance = distance_cal
 			index = k
 	return index
+
+def find_closest_loop_index_panel():
+	distance = 100000000.0
+	gps_num = len(gps_lon)
+	index  = 0
+	for k in range (gps_num):
+		distance_cal 	= gpsmath.haversine(robot_drive.panel_lon, robot_drive.panel_lat, gps_lon[k],gps_lat[k])
+		if(distance_cal < distance):
+			distance = distance_cal
+			index = k
+	return index
+	index = 0
+	return index
+
+def go_to_panel_jobs():
+	gps_num = len(gps_lon)
+
+        gps_lon_tmp_1 = []
+        gps_lon_tmp_2 = []
+        gps_lat_tmp_1 = []
+        gps_lat_tmp_2 = []
+
+	gps_lon_tmp_1.extend([robot_drive.lon_now])
+        gps_lat_tmp_1.extend([robot_drive.lat_now])
+        gps_lon_tmp_2.extend([robot_drive.lon_now])
+        gps_lat_tmp_2.extend([robot_drive.lat_now])
+
+	if(gps_num != 0):	
+		index = find_closest_loop_index()
+		index2 = find_closest_loop_index_panel()
+	
+		rospy.loginfo('index 1: %d, index2: %d', index, index2)
+
+		end_index = index 
+		while end_index != index2: 
+			gps_lon_tmp_1.extend([gps_lon[end_index]])
+			gps_lat_tmp_1.extend([gps_lat[end_index]])
+			end_index = (end_index + 1) % gps_num
+
+
+		while end_index != index2: 
+			gps_lon_tmp_2.extend([gps_lon[end_index]])
+			gps_lat_tmp_2.extend([gps_lat[end_index]])
+			end_index = (end_index - 1 + gps_num) % gps_num
+
+
+	dist1 = distance_route(gps_lon_tmp_1, gps_lat_tmp_1)
+	dist2 = distance_route(gps_lon_tmp_2, gps_lat_tmp_2)
+
+	if(dist1 >= dist2):
+		gps_lon_tmp_1.extend([robot_drive.panel_lon])
+		gps_lat_tmp_1.extend([robot_drive.panel_lat])
+		generate_rb_jobs(gps_lon_tmp_1, gps_lat_tmp_1)
+	else:
+		gps_lon_tmp_2.extend([obot_drive.panel_lon])
+		gps_lat_tmp_2.extend([robot_drive.panel_lat])
+		generate_rb_jobs(gps_lon_tmp_2, gps_lat_tmp_2)
+	rospy.loginfo("Number of jobs %d", len(job_lists))
 
 def back_to_base_jobs():
 	# Find the loop points which is cloest to the current position
@@ -717,6 +777,11 @@ def back_to_base_jobs():
 		gps_lon_tmp_2.extend([init_lon])
 		gps_lat_tmp_2.extend([init_lat])
 		generate_rb_jobs(gps_lon_tmp_2, gps_lat_tmp_2)
+
+def prepare_to_panel(): 
+	global summon_mode 
+	rospy.loginfo('go to panel jobs')
+	go_to_panel_jobs() 
 
 
 def prepare_back_to_base():

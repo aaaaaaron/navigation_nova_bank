@@ -10,10 +10,14 @@ pub_param 		= rospy.Publisher('parameters', String, queue_size = 1)
 pub_gps			= rospy.Publisher('gps', 	String, queue_size=10)
 pub_command 	= rospy.Publisher('command', 	String, queue_size=1)
 pub_chat 		= rospy.Publisher('chat', String, queue_size = 1)
+count = 0
+
 
 # Used to publish parameters
 def publish_parameters():
-	if(not robot_drive.robot_moving and not robot_drive.robot_turning):
+	global count 
+	if(not robot_drive.robot_moving and not robot_drive.robot_turning and count < 10):
+		count = count + 1
 		return
 	#@yuqing_publishparam
 	info={}
@@ -41,6 +45,8 @@ def publish_chat():
 	info["TYPE"]  	= 0
 	info["ACTION"] 	= 1
 	info["ID"]      = robot_drive.robot_id 
+	userType 	= 'admin';
+	info["CLIENT"]  =  userType + str(robot_drive.robot_id); 
 	data={}
 	data["chat"] = info
 	chat_para = json.dumps(data)

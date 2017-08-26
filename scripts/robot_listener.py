@@ -155,6 +155,8 @@ def status_callback(data):
 	robot_drive.battery_level = data.battery_level
 	if(robot_drive.battery_level >= 20):
 		robot_job.back_to_base_mode = False
+	else: 
+		robot_job.back_to_base_mode = True
 
 	data_int  	= data.direction
 	if (data_int == 0):
@@ -207,6 +209,7 @@ def chat_callback(data):
 		chat_type = chat_obj.get(u'TYPE')
 		chat_action = chat_obj.get(u'ACTION')
 		chat_id = chat_obj.get(u'ID')
+		chat_client = chat_obj.get(u'CLIENT')
 
 		rospy.loginfo("ID: %d vs my_id %d, TYPE %d, ACTION %d", chat_id, robot_drive.robot_id, chat_type, chat_action)
 
@@ -243,6 +246,8 @@ def control_callback(data):
 	try:
 		decoded = json.loads(json_str)
 		bearing = decoded['bearing']
+		robot_drive.robot_paused = True 
+		robot_drive.new_command = True
 		robot_job.append_turn_job(robot_drive.lon_now, robot_drive.lat_now, bearing)
 		lon_new, lat_new  = robot_job.append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 100000, bearing)
 		rospy.loginfo("Finish generating jobs");
@@ -544,6 +549,21 @@ def bluetooth_callback(data):
 	rospy.loginfo("found panel: %s", string)
 
 ######################################################################
+# same data: {"panel_gps":{"name":"PANEL1","lng":"121.620953","lat":"31.260254"}}
+def panel_summon_callback(data):
+	json_str = data.data
+	rospy.loginfo(json_str)
+	try:
+		decoded 				= json.loads(json_str)
+		panel_gps 				= decoded['panel_gps']
+		robot_drive.panel_lon 			= float(panel_gps.get(u'lng'))
+		robot_drive.panel_lat 			= float(panel_gps.get(u'lat'))
+		name 					= panel_gps.get(u'name')
+		robot_job.summon_mode 			= True
+		rospy.loginfo("Set to be summon mode")
+	except (ValueError, KeyError, TypeError):
+		rospy.loginfo('JSON format error:')
+		rospy.loginfo(json_str)
 
 # init the the encoder buffer with some empty data when system starts
 def init_encoder_buffer( size=2000 ):

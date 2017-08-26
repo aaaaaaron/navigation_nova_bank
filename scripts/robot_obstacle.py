@@ -127,9 +127,10 @@ def clear_after_obstacle_avoidance(current_job_type):
 		rospy.loginfo("Robot met obstacle during normal job, finishing current job")
 		robot_correction.correction_count 	= 0
 		if robot_job.current_job().description == 'T':
-			while robot_job.current_job().description == 'T':
+			while robot_job.has_jobs_left() and robot_job.current_job().description == 'T':
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
+				
 			if robot_job.has_jobs_left():
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()

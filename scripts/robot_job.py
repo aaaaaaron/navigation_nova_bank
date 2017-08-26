@@ -457,7 +457,11 @@ def has_jobs_left():
 
 def current_job():
 	global job_lists
-	return job_lists[0]
+
+	if has_jobs_left():
+		return job_lists[0]
+
+	return 'I';
 
 def left_gps_distance():
 	job_now = current_job()

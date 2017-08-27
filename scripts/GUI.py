@@ -63,7 +63,7 @@ cross_latlon = {"lon": [], "lat": []}
 cross_size = 5
 
 run = 2
-json_str = {"init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
+json_str = {"robot_id":"12", "init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
 clear_route_flag = False
 
 def read_Init():

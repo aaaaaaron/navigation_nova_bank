@@ -17,6 +17,7 @@ import json
 import math
 import robot_configure
 import webbrowser
+import coordTransform_utils
 from datetime import datetime
 from std_msgs.msg import String
 from geometry_msgs.msg import Vector3
@@ -39,6 +40,11 @@ last_process_time 	= 0 	# last processing time
 max_delay 			= 1.0	# max delay allowed for not receiving any signal from encooder
 last_received_time 	= 0.0 	# the time of receiving the last encoer data
 
+def gps_callback(data):
+	longitude = data.longitude
+	latitude = data.latitude
+	lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
+	robot_publisher.publish_gps_gaode(lonlat[0], lonlat[1])
 
 def sonar_callback(data):
 	robot_obstacle.front_sensor[0] = data.front_0;

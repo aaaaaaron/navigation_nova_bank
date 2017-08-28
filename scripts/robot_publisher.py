@@ -5,12 +5,21 @@ import robot_drive
 import robot_obstacle
 import json
 from std_msgs.msg import String
+from sensor_msgs.msg import NavSatFix
 
 pub_param 		= rospy.Publisher('parameters', String, queue_size = 1)
 pub_gps			= rospy.Publisher('gps', 	String, queue_size=10)
 pub_command 	= rospy.Publisher('command', 	String, queue_size=1)
 pub_chat 		= rospy.Publisher('chat', String, queue_size = 1)
+pub_gps_gaode	= rospy.Publisher('gps_gaode', NavSatFix, queue_size = 10)
 count = 0
+
+# Used to publish gcj02 coordinates for gaode_map
+def publish_gps_gaode(lon, lat):
+	nsf = NavSatFix()
+	nsf.longitude = lon
+	nsf. latitude = lat
+	pub_gps_gaode.publish(nsf)
 
 
 # Used to publish parameters

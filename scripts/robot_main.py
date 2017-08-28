@@ -17,6 +17,7 @@ from geometry_msgs.msg import Vector3
 from serial_handler.msg import Status   #getting the msg file from the serial_handler package
 from serial_handler.msg import Encoder
 from serial_handler.msg import Sonar
+from gps_common.msg import GPSFix
 from navigation_nova_bank.srv import *
 
 time_aft_obs		= 0
@@ -261,6 +262,7 @@ def main_listener():
 	rospy.Subscriber('face_detection', String, robot_listener.face_detection_callback)
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
 	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
+	rospy.Subscriber('extended_fix', GPSFix, robot_listener.gps_callback)
 
 
 	time_aft_obs = rospy.get_time()

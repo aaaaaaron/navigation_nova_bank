@@ -110,15 +110,15 @@ def main_commander():
 		rospy.loginfo("Robot on obstacle avoidence, please wait")
 		if time_start_obs <= time_aft_obs:
 			time_start_obs = rospy.get_time()
-			if time_start_obs - time_aft_obs <= 5.0: #if obstacle avoidance mode is triggered within 5s, count +1
-				robot_correction.correction_count = robot_correction.correction_count + 1
-			else:
+			if time_start_obs - time_aft_obs > 15.0: #if obstacle avoidance mode is triggered within 5s, count +1
 				robot_correction.correction_count = 0
 		time.sleep(0.1)
 		return
 
 	# Robot obstancle avoidence is over, now resume to normal operation
 	if robot_obstacle.robot_over_obstacle:
+		robot_correction.correction_count = robot_correction.correction_count + 1
+		rospy.logerr("Finished %d obstacle avoidance", robot_correction.correction_count)
 		rospy.loginfo("Robot over obstacle")
 		robot_obstacle.complete_obstacle_avoidance()
 		time_aft_obs = rospy.get_time()

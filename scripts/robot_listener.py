@@ -278,14 +278,18 @@ def job_callback(data):
 		for item in list_route:
 			lon = float(item.get(u'lng'))
 			lat = float(item.get(u'lat'))
-			robot_job.gps_lon.extend([lon])
-			robot_job.gps_lat.extend([lat])
+			lonlat = coordTransform_utils.gcj02_to_wgs84(lon, lat)		# convert gcj02 to wgs84
+			robot_job.gps_lon.extend([lonlat[0]])
+			robot_job.gps_lat.extend([lonlat[1]])
 		robot_job.clear_job_list()
 		rospy.loginfo("Parsing route successful")
 		init_point				= decoded['init_point']
 		robot_drive.robot_id 	= decoded['robot_id']
-		robot_job.init_lon 		= float(init_point.get(u'lng'))
-		robot_job.init_lat 		= float(init_point.get(u'lat'))
+		init_lon_gcj02 		= float(init_point.get(u'lng'))
+		init_lat_gcj02 		= float(init_point.get(u'lat'))
+		initlonlat = coordTransform_utils.gcj02_to_wgs84(init_lon_gcj02, init_lat_gcj02)		# convert gcj02 to wgs84
+		robot_job.init_lon = initlonlat[0]
+		robot_job.init_lat = initlonlat[1]
 		update_base(robot_job.init_lon, robot_job.init_lat)
 		rospy.loginfo("Parse init point successful")
 		no_runs 			= decoded['run']

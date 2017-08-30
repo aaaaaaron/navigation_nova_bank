@@ -197,6 +197,10 @@ def main_commander():
 	# Check whether if there's any job left for the robot
 	# If no jobs, make sure robot stopped moving, we cannot leave robot moving there
 	if not robot_job.has_jobs_left():
+		if not robot_drive.obstacle_mode_desired: 
+			robot_drive.obstacle_mode_desired = False
+			return
+
 		robot_job.process_no_job()
 		if robot_job.back_to_base_mode:
 			robot_job.back_to_base_mode = False 
@@ -206,6 +210,8 @@ def main_commander():
 		time.sleep(0.1)
 		return
 
+
+	robot_drive.obstacle_mode_desired = True 
 	#rospy.loginfo("Process job")
 	job_completed = robot_job.process_job()
 	#rospy.loginfo("Process job1")

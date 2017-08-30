@@ -64,7 +64,7 @@ robot_turning		= False
 
 
 # Flags indicate the mode desired to minimize the startup keyboard entries
-obstacle_mode_desired 	= True
+obstacle_mode_desired 	= False
 burn_mode_desired 		= False
 robot_enabled_desired 	= True
 

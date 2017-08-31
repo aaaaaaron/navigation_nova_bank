@@ -4,6 +4,7 @@ import string
 import robot_drive
 import robot_obstacle
 import json
+import coordTransform_utils
 from std_msgs.msg import String
 from sensor_msgs.msg import NavSatFix
 
@@ -63,7 +64,8 @@ def publish_chat():
 	pub_chat.publish(chat_para)
 
 def publish_gps():
-	stringToSend = '%.10f %.10f %.10f' % (robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now) #might need to add \n behind the E
+	lon_lat = coordTransform_utils.wgs84_to_gcj02(robot_drive.lon_now, robot_drive.lat_now) 
+	stringToSend = '%.10f %.10f %.10f' % (lon_lat[0], lon_lat[1], robot_drive.bearing_now) #might need to add \n behind the E
 	pub_gps.publish(stringToSend)
 
 

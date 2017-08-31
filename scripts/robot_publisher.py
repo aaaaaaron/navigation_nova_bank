@@ -47,7 +47,6 @@ def publish_parameters():
 	parameters = json.dumps(data)
 	#rospy.loginfo(parameters)
 	pub_param.publish(parameters)
-	pub_gps.publish()
 
 #Used to publish chat related parameters, based on the parameters, the web page would decide what to do
 def publish_chat():

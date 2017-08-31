@@ -14,6 +14,8 @@ min_correction_angle 		= 0.0
 correction_count 			= 0.0
 max_correction_run 			= 0.0
 
+balance_left_right          = 0.0
+
 need_correction				= False
 
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
@@ -78,11 +80,13 @@ def update_robot_gps(left_encode, right_encode):
 
 	if (robot_drive.direction == "forward" or robot_drive.direction == "backward"):
 		left_dist 	= float(left_encode) / robot_drive.linear_encode_to_mm
+		left_dist   = left_dist / balance_left_right
 		right_dist 	= float(right_encode) / robot_drive.linear_encode_to_mm
 		# left_dist_turn  = float(left_encode) / robot_drive.turning_encode_to_mm 	#aaron 8 july
 		# right_dist_turn = float(right_encode) / robot_drive.turning_encode_to_mm 	#aaron 8 july
 	else :
 		left_dist 	= float(left_encode) / robot_drive.turning_encode_to_mm
+		left_dist   = left_dist / balance_left_right
 		right_dist 	= float(right_encode) / robot_drive.turning_encode_to_mm
 		# left_dist_turn  = float(left_encode) / robot_drive.turning_encode_to_mm 	#aaron 8 july
 		# right_dist_turn = float(right_encode) / robot_drive.turning_encode_to_mm	#aaron 8 july

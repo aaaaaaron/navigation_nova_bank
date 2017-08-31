@@ -129,14 +129,14 @@ def status_callback(data):
 	robot_drive.gyroscope_ok 			= data.gyroscope_ok
 	robot_obstacle.reverse_sensor_ok 	= data.reverse_sensor_ok
 	robot_obstacle.distance_sensor_ok 	= data.distance_sensor_ok
-	robot_drive.is_light_on				= data.light_on			
+	robot_drive.is_light_on				= data.light_on
 
 	if data.obstacle_avoidance_mode:
 		if data.has_obstacle and data.over_obstacle == False: 	#when obstacle mode on, and finds obstacle
 			robot_obstacle.robot_on_obstacle = True
 			robot_obstacle.robot_over_obstacle = False
 			robot_drive.is_unlock_done = False
-		elif data.over_obstacle and data.has_obstacle == False: 	#when obstacle avoidance is over and need unlock 
+		elif data.over_obstacle and data.has_obstacle == False: 	#when obstacle avoidance is over and need unlock
 			robot_obstacle.robot_on_obstacle = False
 			robot_obstacle.robot_over_obstacle = True
 			robot_drive.is_unlock_done = False
@@ -454,7 +454,7 @@ def keyboard_callback(data):
 		robot_drive.obstacle_mode_desired = True
 	elif (keyboard_data == "10m"):#@yuqing_toggleobstaclemode
 		rospy.loginfo('forward 10m')
-		robot_job.simple_move(10000.0, robot_drive.bearing_now, 'F')
+		robot_job.simple_move(40000.0, robot_drive.bearing_now, 'F')
 	elif (keyboard_data == "180"):#@yuqing_toggleobstaclemode
 		rospy.loginfo('turn 180')
 		robot_job.simple_turn(180.0,)

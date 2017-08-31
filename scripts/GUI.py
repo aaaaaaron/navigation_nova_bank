@@ -29,8 +29,8 @@ lat = []
 lon = []
 bearing = []
 
-init_lon = 121.406604104
-init_lat = 31.2225261412
+init_lon = 0.0
+init_lat = 0.0
 init_bearing = 0.0
 
 map_name = 'map'
@@ -82,6 +82,9 @@ def read_Init():
 	lat.append(init_lat)
 	lon.append(init_lon)
 	bearing.append(init_bearing)
+
+	json_str["init_point"]["lng"] = init_lon
+	json_str["init_point"]["lat"] = init_lat
 
 	if ret[0] and ret[1] and ret[2]:
 		init_gps_flag = True

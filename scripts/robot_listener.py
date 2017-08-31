@@ -288,9 +288,9 @@ def job_callback(data):
 		init_lon_gcj02 		= float(init_point.get(u'lng'))
 		init_lat_gcj02 		= float(init_point.get(u'lat'))
 		initlonlat = coordTransform_utils.gcj02_to_wgs84(init_lon_gcj02, init_lat_gcj02)		# convert gcj02 to wgs84
+		update_base(initlonlat[0], initlonlat[1])
 		robot_job.init_lon = initlonlat[0]
 		robot_job.init_lat = initlonlat[1]
-		update_base(robot_job.init_lon, robot_job.init_lat)
 		rospy.loginfo("Parse init point successful")
 		no_runs 			= decoded['run']
 		rospy.loginfo("Number of runs %d", int(no_runs))

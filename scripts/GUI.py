@@ -29,8 +29,8 @@ lat = []
 lon = []
 bearing = []
 
-init_lon = 121.415898
-init_lat = 31.21884
+init_lon = 121.406604104
+init_lat = 31.2225261412
 init_bearing = 0.0
 
 map_name = 'map'

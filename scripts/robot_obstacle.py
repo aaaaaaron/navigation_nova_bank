@@ -11,7 +11,7 @@ import robot_correction
 
 robot_on_obstacle 	 	= False # if robot is on obstacle avoidence, it would be set to 1
 robot_over_obstacle 	= False # it's effective if the robot_on_obstacle
-resume_from_obstacle 	= False 
+resume_from_obstacle 	= False
 
 needForward 			= False
 justStop 		 		= False
@@ -103,7 +103,7 @@ def quit_obstacle_correction(current_job_type):
 
 	clear_correction_trial_tasks(current_job_type)
 	rospy.loginfo("Quitting correction")
-	if robot_job.has_jobs_left() > 0:
+	if robot_job.has_jobs_left():
 		job_executing 		= robot_job.current_job()
 		current_job_type 	= job_executing.classfication;
 		rospy.loginfo("Add correction for next %s job", current_job_type)
@@ -112,13 +112,13 @@ def quit_obstacle_correction(current_job_type):
 			robot_job.job_before_obstacle = robot_job.current_job()
 			robot_job.complete_current_job()
 		elif job_executing.description == 'T':
-			while robot_job.current_job().description == 'T':
+			while robot_job.has_jobs_left() and robot_job.current_job().description == 'T':
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
 			if robot_job.has_jobs_left():
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
-	
+
 
 def clear_after_obstacle_avoidance(current_job_type):
 	# Remove the un-finished job
@@ -130,7 +130,7 @@ def clear_after_obstacle_avoidance(current_job_type):
 			while robot_job.has_jobs_left() and robot_job.current_job().description == 'T':
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
-				
+
 			if robot_job.has_jobs_left():
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
@@ -191,7 +191,7 @@ def resume_from_obstacle_avoidance():
 	# robot_job.insert_move_job(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, lon_new, lat_new, robot_drive.bearing_now, 'O')
 
 
-	
+
 	# robot is resumed to clear state and ready for the correction tasks
 	# performing necessary clearing of current tasks
 	# clear_after_obstacle_avoidance(current_job_type)
@@ -208,7 +208,7 @@ def resume_from_obstacle_avoidance():
 # Complete the obstacle avoidence after we get a signal from the robot base
 def complete_obstacle_avoidance():
 	global robot_over_obstacle
-	global resume_from_obstacle 
+	global resume_from_obstacle
 	# step 1: Waiting for robot stop moving
 	if (robot_drive.robot_turning or robot_drive.robot_moving):
 		rospy.loginfo("waiting robot to stop")
@@ -217,12 +217,12 @@ def complete_obstacle_avoidance():
   # comment out advised by Chengyuen
 	# step 2: Once robot stopped moving, send unlock signal to the robot
 	if (not robot_drive.is_unlock_done):
-		rospy.loginfo("unlock robot for further processing") 
+		rospy.loginfo("unlock robot for further processing")
 		robot_drive.unlock_robot()
 		#return
 
-	if resume_from_obstacle: 
-		return 
+	if resume_from_obstacle:
+		return
 
 	# step 3: Once robot is unlocked, resume control to the program
 	# Need to perform necessary correction
@@ -234,7 +234,7 @@ def complete_obstacle_avoidance():
 	if robot_drive.robot_on_mission and robot_job.has_jobs_left():
 		resume_from_obstacle_avoidance()
 		robot_drive.robot_on_mission = False
-		
+
 	else:
 		rospy.loginfo("There's no mission on going")
 

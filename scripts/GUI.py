@@ -20,7 +20,8 @@ draw_sensor_flag = True
 init_gps_flag = False
 size = (600, 600)
 
-obstacle1 = [(int(size[0]/2.0 - 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 + 20)), (int(size[0]/2.0 - 20), int(size[1]/4.0 + 20))]
+# obstacle1 = [(int(size[0]/2.0 - 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 + 20)), (int(size[0]/2.0 - 20), int(size[1]/4.0 + 20))]
+obstacle1 = [(220, 130), (400, 130), (400, 230), (340, 230), (340, 170), (280, 170), (280, 230), (220, 230)]
 obstacle2 = [(135,200),(180,210),(175,220),(120,220)]
 obstacle_coord = [obstacle1, obstacle2]
 obstacle_points = []
@@ -143,7 +144,7 @@ def draw_sensor(img, x, y, bearing):
 	global box_width, box_height, triangle_angle
 	global sensor_angle, sensor_dist, front_sensor_pose, back_sensor_pose
 	R = [[math.cos(bearing/180.0*math.pi), -math.sin(bearing/180.0*math.pi), x], [math.sin(bearing/180.0*math.pi), math.cos(bearing/180.0*math.pi), y], [0, 0, 1]]
-	
+
 	f1 = [3 * box_width/8.0, -box_height/2.0, 1]
 	f2 = [box_width/8.0, -box_height/2.0, 1]
 	f3 = [-box_width/8.0, -box_height/2.0, 1]
@@ -246,7 +247,7 @@ def draw_sensor(img, x, y, bearing):
 		cv2.line(img, f12_divide[0], f12_divide[1], (0, 0, 255), 1)
 		cv2.line(img, f23_divide[0], f23_divide[1], (0, 0, 255), 1)
 		cv2.line(img, f34_divide[0], f34_divide[1], (0, 0, 255), 1)
-		
+
 		cv2.line(img, b12_divide[0], b12_divide[1], (0, 0, 255), 1)
 		cv2.line(img, b23_divide[0], b23_divide[1], (0, 0, 255), 1)
 		cv2.line(img, b34_divide[0], b34_divide[1], (0, 0, 255), 1)
@@ -260,7 +261,7 @@ def draw_sensor(img, x, y, bearing):
 	bbound3 = [bsensor_23_near, bsensor_23_far, bsensor_34_far, bsensor_34_near]
 	bbound4 = [bsensor_34_near, bsensor_34_far, bright_boundary_far, bright_boundary_near]
 	get_sensor_boundaries([fbound1, fbound2, fbound3, fbound4, bbound1, bbound2, bbound3, bbound4])
-	
+
 def get_sensor_boundpoints(sensor_list, global_sensor_list):
 	for j in range(-1, len(sensor_list)-1):
 		p1 = sensor_list[j]
@@ -424,10 +425,10 @@ def check_obstacle_bound_detected(global_sensor_list):
 			# else:
 			# 	rospy.loginfo("no front obstacle")
 	return points_in_boundary
-	
+
 
 def check_obstacle_detected():
-	
+
 	global front_sensor_points1, front_sensor_points2, front_sensor_points3, front_sensor_points4
 	global back_sensor_points1, back_sensor_points2, back_sensor_points3, back_sensor_points4
 
@@ -441,7 +442,7 @@ def check_obstacle_detected():
 	b3_points = check_obstacle_bound_detected(back_sensor_points3)
 	b4_points = check_obstacle_bound_detected(back_sensor_points4)
 
-	
+
 	sensor_data(f1_points, 'f', 1)
 	sensor_data(f2_points, 'f', 2)
 	sensor_data(f3_points, 'f', 3)
@@ -461,7 +462,7 @@ def sensor_data(points_list, front_back, index):
 	global front_sensor_pose, back_sensor_pose
 	global front_sensor_values, back_sensor_values
 	global map_scale
-	
+
 	if front_back == 'f':
 		min_dist = 100000
 		if points_list == []:
@@ -472,7 +473,7 @@ def sensor_data(points_list, front_back, index):
 				if dist <= min_dist:
 					min_dist = dist
 			value = min_dist * map_scale / 1.2
-			final_value = int(value/30)	
+			final_value = int(value/30)
 			if final_value > 7:
 				final_value = 8
 		front_sensor_values[index] = final_value
@@ -491,9 +492,9 @@ def sensor_data(points_list, front_back, index):
 			if final_value > 7:
 				final_value = 8
 		back_sensor_values[index] = final_value
-	
-	# print front_sensor_values 
-	
+
+	# print front_sensor_values
+
 
 def put_pos(img, lon, lat, x, y, bearing = ""):
 	string1_to_put = "Lon: %.10f Lat: %.10f"%(lon, lat)
@@ -562,7 +563,7 @@ if __name__ == '__main__':
 		rospy.Subscriber('gps', String, GPS_callback)
 		json_pub = rospy.Publisher('job', String, queue_size = 100)
 		sonar_pub = rospy.Publisher('sonar', Sonar, queue_size = 100)
-		
+
 		read_Init()
 
 		cv2.namedWindow(map_name)
@@ -604,7 +605,7 @@ if __name__ == '__main__':
 				check_obstacle_detected()
 				ss = publish_sonar()
 				sonar_pub.publish(ss)
-		
+
 
 			cv2.imshow(map_name, frame)
 

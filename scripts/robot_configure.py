@@ -12,6 +12,7 @@ import robot_job
 import robot_turn
 import robot_move
 import robot_correction
+import coordTransform_utils
 
 from std_msgs.msg import String
 
@@ -100,12 +101,13 @@ def read_system_config():
     ret[18], robot_drive.obstacle_mode                  = read_config_float(config_path, 'init', 'obstacle_mode')
     ret[19], robot_drive.robot_enabled                  = read_config_float(config_path, 'init', 'robot_enabled')
     ret[20], robot_drive.robot_paused                   = read_config_float(config_path, 'init', 'robot_paused')
-    ret[21], robot_job.init_lon                         = read_config_float(config_path, 'init', 'init_lon')
-    ret[22], robot_job.init_lat                         = read_config_float(config_path, 'init', 'init_lat')
+    ret[21], init_lon_gcj02                         	= read_config_float(config_path, 'init', 'init_lon')
+    ret[22], init_lat_gcj02                         	= read_config_float(config_path, 'init', 'init_lat')
     ret[23], robot_job.init_bearing                     = read_config_float(config_path, 'init', 'init_bearing')
     ret[24], robot_correction.balance_left_right        = read_config_float(config_path, 'init', 'balance_left_right')
-
-
+    lonlat = coordTransform_utils.gcj02_to_wgs84(init_lon_gcj02, init_lat_gcj02)
+    robot_job.init_lon = lonlat[0]
+    robot_job.init_lat = lonlat[1]
 
     # check whether the reading is successful or not
     for index in range(size_para):

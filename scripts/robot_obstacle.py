@@ -143,10 +143,15 @@ def clear_after_obstacle_avoidance(current_job_type):
 		robot_correction.correction_count 	= 0
 		clear_correction_trial_tasks(current_job_type)
 	elif(current_job_type == 'O'):
-		if(robot_correction.correction_count  > robot_correction.max_correction_run):
+		rospy.loginfo("comapre %d  , %d", robot_correction.correction_count , robot_correction.max_correction_run)
+		val = robot_correction.max_correction_run - robot_correction.correction_count
+		rospy.loginfo("Value is %d", val)
+		if val < 0:
+			rospy.loginfo("QUitting")
 			quit_obstacle_correction(current_job_type)
 			robot_correction.correction_count = 0
 		else:
+			rospy.loginfo("Robot met obstacle obstacle job, remove all obstacle job")
 			clear_correction_trial_tasks(current_job_type)
 	else:
 		rospy.logerr("Invalid job_type found")

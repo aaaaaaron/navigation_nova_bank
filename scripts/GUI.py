@@ -21,7 +21,7 @@ init_gps_flag = False
 size = (600, 600)
 
 # obstacle1 = [(int(size[0]/2.0 - 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 + 20)), (int(size[0]/2.0 - 20), int(size[1]/4.0 + 20))]
-obstacle1 = [(220, 130), (400, 130), (400, 230), (340, 230), (340, 170), (280, 170), (280, 230), (220, 230)]
+obstacle1 = [(280, 130), (320, 130), (320, 170), (280, 170)]
 obstacle2 = [(135,200),(180,210),(175,220),(120,220)]
 obstacle_coord = [obstacle1, obstacle2]
 obstacle_points = []

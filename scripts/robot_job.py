@@ -408,8 +408,8 @@ def amend_regular_jobs(job_executed, correction_type, forward_dist_bef_turn):
 				move_job = Job(job_executed.lon_target, job_executed.lat_target, bearing, correction_type, 'F', distance)
 				job_lists.insert(0, move_job)
 
-	elif job_executed.description == 'T':
-		rospy.loginfo("Amended a job from T to move from (%f, %f) to (%f, %f)", robot_drive.lon_now, robot_drive.lat_now, current_job().lon_target, current_job().lat_target)
+	elif has_jobs_left() and job_executed.description == 'T':
+		rospy.loginfo("Amended a job from T to move from (%f, %f) to (%f, %f)", robot_drive.lon_now, robot_drive.lat_now, job_executed.lon_target, job_executed.lat_target)
 		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, current_job().lon_target, current_job().lat_target)
 		distance 	= gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, current_job().lon_target, current_job().lat_target)
 		dist_from_ori_target 	= gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, job_executed.lon_target, job_executed.lat_target)

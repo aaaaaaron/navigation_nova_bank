@@ -159,6 +159,7 @@ def resume_from_obstacle_avoidance():
 	current_job_type 	= job_executing.classfication
 	# if current_job_type == 'N' or (current_job_type == 'C' and current_job_motion == 'F' and job_executing.value > 2*robot_correction.min_correction_distance):
 	# 	robot_job.job_before_obstacle = job_executing
+	rospy.loginfo("Current job type %s", current_job_type)
 	clear_after_obstacle_avoidance(current_job_type)
 
 	# rospy.logerr("Amend job after obstacle avoidance")

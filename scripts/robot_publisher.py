@@ -30,6 +30,7 @@ def publish_parameters():
 		count = count + 1
 		return
 	#@yuqing_publishparam
+	lon_lat = coordTransform_utils.wgs84_to_gcj02(robot_drive.lon_now, robot_drive.lat_now) 
 	info={}
 	info["ENABLE"]      =    robot_drive.robot_enabled
 	info["MOVING"]      =    robot_drive.robot_moving
@@ -38,8 +39,8 @@ def publish_parameters():
 	info["OBSTACLE"]    =    robot_obstacle.robot_on_obstacle
 	info["DIRECTION"]   =    robot_drive.move_direction
 	info["SPEED"]       =    robot_drive.speed_now
-	info["LONG"]        =    robot_drive.lon_now
-	info["LAT"]         =    robot_drive.lat_now
+	info["LONG"]        =    lon_lat[0]
+	info["LAT"]         =    lon_lat[1]
 	info["BEARING"]     =    robot_drive.bearing_now
 	info["BATTERY"] 	= 	 robot_drive.battery_level #aaron added
 	data={}

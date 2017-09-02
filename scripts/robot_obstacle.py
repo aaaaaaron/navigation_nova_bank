@@ -244,7 +244,7 @@ def complete_obstacle_avoidance():
 	else:
 		rospy.loginfo("There's no mission on going")
 
-
+	robot_correction.correction_count = robot_correction.correction_count + 1
 	robot_drive.robot_on_mission = False
 	resume_from_obstacle = True
 	#robot_over_obstacle = False

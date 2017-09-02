@@ -118,7 +118,6 @@ def main_commander():
 
 	# Robot obstancle avoidence is over, now resume to normal operation
 	if robot_obstacle.robot_over_obstacle:
-		robot_correction.correction_count = robot_correction.correction_count + 1
 		rospy.logerr("Finished %d obstacle avoidance", robot_correction.correction_count)
 		rospy.loginfo("Robot over obstacle")
 		robot_obstacle.complete_obstacle_avoidance()

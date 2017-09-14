@@ -11,11 +11,14 @@ from serial_handler.msg import Sonar
 # from serial_handler.msg import Status
 # from serial_handler.msg import Encoder
 import json
+import simulator
+
 
 put_info_flag = False
 put_route_line = True
 obstacle_flag = True
 draw_sensor_flag = True
+panel_flag = True
 
 init_gps_flag = False
 size = (600, 600)
@@ -26,6 +29,8 @@ obstacle2 = [(135,200),(180,210),(175,220),(120,220)]
 obstacle_coord = [obstacle1, obstacle2]
 obstacle_points = []
 
+panel_pos = [500, 300]
+
 lat = []
 lon = []
 bearing = []
@@ -35,7 +40,7 @@ init_lat = 0.0
 init_bearing = 0.0
 
 map_name = 'map'
-map_scale = 10.0
+map_scale = 5.0
 gps_scale = 15000000
 
 loc_dataLength = 1000
@@ -63,9 +68,11 @@ cross_pos = {"x": [], "y": []}
 cross_latlon = {"lon": [], "lat": []}
 cross_size = 5
 
-run = 2
+run = 1
 json_str = {"robot_id":"12", "init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
 clear_route_flag = False
+
+json_str_panel = {"panel_gps": {"lng": 0, "lat": 0}, "name": "GUI_test"}
 
 def read_Init():
 	print("Initializing position")
@@ -120,6 +127,13 @@ def dot_products(a, b):
 			value = value + a[i][j] * b[j]
 		new_vector.append(value)
 	return (new_vector[0], new_vector[1])
+
+def draw_panel(img):
+	global panel_pos
+	a = [panel_pos[0] - 20/float(map_scale), panel_pos[1] - 40/float(map_scale)]
+	b = [panel_pos[0] + 20/float(map_scale), panel_pos[1] + 40/float(map_scale)]
+	cv2.rectangle(img, (int(a[0]), int(a[1])), (int(b[0]), int(b[1])), (255,255,255), -1)
+	
 
 def draw_triangle(img, x, y, bearing):
 	global triangle_size, triangle_angle
@@ -511,6 +525,11 @@ def set_Route(event, x, y, flags, param):
 	global json_str, clear_route_flag, init_lon, init_lat
 	global cross_pos
 	global lat, lon, bearing
+	global panel_pos
+	a = [panel_pos[0] - 20/float(map_scale), panel_pos[1] - 40/float(map_scale)]
+	b = [panel_pos[0] + 20/float(map_scale), panel_pos[1] + 40/float(map_scale)]
+	c = [size[0]/2.0 - (50/float(map_scale)), size[1]/2.0 - (50/float(map_scale))]
+	d = [size[0]/2.0 + (50/float(map_scale)), size[1]/2.0 + (50/float(map_scale))]
 	if event == cv2.EVENT_RBUTTONDOWN:
 		json_str["route"] = []
 		# clear_route_flag = True
@@ -521,7 +540,7 @@ def set_Route(event, x, y, flags, param):
 		lat = [init_lat]
 		lon = [init_lon]
 		bearing = [init_bearing]
-	elif event == cv2.EVENT_LBUTTONDOWN:
+	elif event == cv2.EVENT_LBUTTONDOWN and (x < a[0] or x > b[0] or y < a[1] or y > b[1]): # and (x < c[0] or x > d[0] or y < c[1] or y > d[1]):
 		cross_pos["x"].append(x)
 		cross_pos["y"].append(y)
 		cross_lon = (x - size[0]/2.0) * float(map_scale) / float(gps_scale) + init_lon
@@ -530,6 +549,19 @@ def set_Route(event, x, y, flags, param):
 		cross_latlon["lat"].append(cross_lat)
 		json_str["route"].append({"lng": cross_lon, "lat": cross_lat})
 		# print json_str
+	elif event == cv2.EVENT_LBUTTONDOWN and (x > a[0] and x < b[0] and y > a[1] and y < b[1]):
+		print "summon robot (clicked on GUI)"
+		panel_lon = (panel_pos[0] - size[0]/2.0) * float(map_scale) / float(gps_scale) + init_lon
+		panel_lat = (size[1]/2.0 - panel_pos[1]) * float(map_scale) / float(gps_scale) + init_lat
+		json_str_panel["panel_gps"]["lng"] = panel_lon
+		json_str_panel["panel_gps"]["lat"] = panel_lat
+		json_str_panel_toSend = json.dumps(json_str_panel)
+		json_pub_panel.publish(json_str_panel_toSend)
+	# elif event == cv2.EVENT_LBUTTONDOWN and (x > c[0] and x < d[0] and y > c[1] and y < d[1]):
+	# 	print "back to base"
+
+		
+
 
 def draw_base(img):
 	global init_lon, init_lat, size
@@ -562,6 +594,7 @@ if __name__ == '__main__':
 		rospy.init_node('simulator_GUI', anonymous = True)
 		rospy.Subscriber('gps', String, GPS_callback)
 		json_pub = rospy.Publisher('job', String, queue_size = 100)
+		json_pub_panel = rospy.Publisher('summon_robot', String, queue_size = 100)
 		sonar_pub = rospy.Publisher('sonar', Sonar, queue_size = 100)
 
 		read_Init()
@@ -605,6 +638,9 @@ if __name__ == '__main__':
 				check_obstacle_detected()
 				ss = publish_sonar()
 				sonar_pub.publish(ss)
+
+			if panel_flag:
+				draw_panel(frame)
 
 
 			cv2.imshow(map_name, frame)

@@ -566,8 +566,9 @@ def panel_summon_callback(data):
 	try:
 		decoded 				= json.loads(json_str)
 		panel_gps 				= decoded['panel_gps']
-		robot_drive.panel_lon 			= float(panel_gps.get(u'lng'))
-		robot_drive.panel_lat 			= float(panel_gps.get(u'lat'))
+		panel_lonlat = coordTransform_utils.gcj02_to_wgs84(float(panel_gps.get(u'lng')), float(panel_gps.get(u'lat')))
+		robot_drive.panel_lon 			= panel_lonlat[0]
+		robot_drive.panel_lat 			= panel_lonlat[1]
 		name 					= panel_gps.get(u'name')
 		robot_job.summon_mode 			= True
 		rospy.loginfo("Set to be summon mode")

@@ -736,11 +736,17 @@ def find_closest_loop_index_panel():
 
 def go_to_panel_jobs():
 	gps_num = len(gps_lon)
+	panel_stop_dist = 1000
 
 	gps_lon_tmp_1 = []
 	gps_lon_tmp_2 = []
 	gps_lat_tmp_1 = []
 	gps_lat_tmp_2 = []
+
+	d = gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, robot_drive.panel_lon, robot_drive.panel_lat)
+	# rospy.logwarn("%f", d)
+	if d <= 2*panel_stop_dist:
+		return
 
 	gps_lon_tmp_1.extend([robot_drive.lon_now])
 	gps_lat_tmp_1.extend([robot_drive.lat_now])
@@ -773,14 +779,16 @@ def go_to_panel_jobs():
 	dist1 = distance_route(gps_lon_tmp_1, gps_lat_tmp_1)
 	dist2 = distance_route(gps_lon_tmp_2, gps_lat_tmp_2)
 	# rospy.logwarn("%f, %f", dist1, dist2)
+	panel_to_closet_pt_bearing = gpsmath.bearing(robot_drive.panel_lon, robot_drive.panel_lat, gps_lon[index], gps_lat[index])
+	panel_stop_lon, panel_stop_lat = gpsmath.get_gps(robot_drive.panel_lon, robot_drive.panel_lat, panel_stop_dist, panel_to_closet_pt_bearing)
 
 	if(dist1 <= dist2):
-		gps_lon_tmp_1.extend([robot_drive.panel_lon])
-		gps_lat_tmp_1.extend([robot_drive.panel_lat])
+		gps_lon_tmp_1.extend([panel_stop_lon])
+		gps_lat_tmp_1.extend([panel_stop_lat])
 		generate_rb_jobs(gps_lon_tmp_1, gps_lat_tmp_1)
 	else:
-		gps_lon_tmp_2.extend([robot_drive.panel_lon])
-		gps_lat_tmp_2.extend([robot_drive.panel_lat])
+		gps_lon_tmp_2.extend([panel_stop_lon])
+		gps_lat_tmp_2.extend([panel_stop_lat])
 		generate_rb_jobs(gps_lon_tmp_2, gps_lat_tmp_2)
 	rospy.loginfo("Number of jobs %d", len(job_lists))
 

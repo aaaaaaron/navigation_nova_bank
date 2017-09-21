@@ -103,7 +103,7 @@ panel_lon					= 0
 panel_lat					= 0 
 robot_id 					= -1;
 
-new_command					= True
+new_command					= False
 
 
 

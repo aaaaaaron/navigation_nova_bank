@@ -35,6 +35,7 @@ arc_dist = 0.0
 
 job_before_obstacle = None
 
+mode = "O"
 
 # if not jobs in the sytem
 def process_no_job():
@@ -236,16 +237,17 @@ def generate_jobs_from_gps():
 	for i in range(loops):
 		total_gps_lon.extend(gps_lon)
 		total_gps_lat.extend(gps_lat)
-
-	# if total_gps_lon[-1] == gps_lon[0] and total_gps_lat[-1] == gps_lat[0]:
-	# 	if total_gps_lon[-2] == gps_lon[0] and total_gps_lat[-2] == gps_lat[0]:
-	# 		del total_gps_lon[-1]
-	# 		del total_gps_lat[-1]
-	# 	total_gps_lon.extend([init_lon])
-	# 	total_gps_lat.extend([init_lat])
-	# else:
-	# 	total_gps_lon.extend([gps_lon[0], init_lon])
-	# 	total_gps_lat.extend([gps_lat[0], init_lat])
+	
+	if mode == "R":
+		if total_gps_lon[-1] == gps_lon[0] and total_gps_lat[-1] == gps_lat[0]:
+			if total_gps_lon[-2] == gps_lon[0] and total_gps_lat[-2] == gps_lat[0]:
+				del total_gps_lon[-1]
+				del total_gps_lat[-1]
+			total_gps_lon.extend([init_lon])
+			total_gps_lat.extend([init_lat])
+		else:
+			total_gps_lon.extend([gps_lon[0], init_lon])
+			total_gps_lat.extend([gps_lat[0], init_lat])
 
 
 	data_for_jobs = []

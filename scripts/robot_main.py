@@ -210,7 +210,7 @@ def main_commander():
 		return
 
 
-	robot_drive.obstacle_mode_desired = True 
+	# robot_drive.obstacle_mode_desired = True 
 	#rospy.loginfo("Process job")
 	job_completed = robot_job.process_job()
 	#rospy.loginfo("Process job1")

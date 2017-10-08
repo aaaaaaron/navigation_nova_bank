@@ -415,11 +415,11 @@ def keyboard_callback(data):
 		rospy.loginfo("Resume the task");
 		robot_drive.robot_paused = 0;
 	elif (keyboard_data == 'Forward'):
-		rospy.loginfo("Command received: Start to move forward 4 m")
+		rospy.loginfo("Command received: Start to move forward 1 m")
 		robot_job.simple_move(1000.0, robot_drive.bearing_now, 'F')
 	elif (keyboard_data == 'Back'):
-		rospy.loginfo("Command received: Start to move backward 4 m")
-		robot_job.simple_move(-1000.0, robot_drive.bearing_now, 'B')
+		rospy.loginfo("Command received: Start to move backward 3 m")
+		robot_job.simple_move(3000.0, robot_drive.bearing_now, 'F')
 	elif (keyboard_data == 'Turn_West'):
 		rospy.loginfo("Command received: turn to 270 (WEST)")
 		#robot_drive.bearing_now = compass_data[compass_index]

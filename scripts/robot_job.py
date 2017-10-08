@@ -529,24 +529,26 @@ def append_regular_job(lon_now, lat_now, distance, bearing):
 	return lon_new, lat_new
 
 def define_test_job():
+	lon_new, lat_new = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 5000.0, robot_drive.bearing_now)
+	append_turn_job(lon_new, lat_new, robot_drive.bearing_now - 90.0)
 	# add a turn job to turn to 0 degree
-	append_turn_job(robot_drive.lon_now, robot_drive.lat_now, 0.0)
-	# add a move job to move 10 meters
-	lon_new, lat_new  = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 10000.0, 0.0)
-	# now turn to 90
-	append_turn_job(lon_new, lat_new , 90.0)
-	# move another 10 meters
-	lon_new, lat_new  = append_regular_job(lon_new, lat_new, 10000.0, 90.0)
-	# now turn to 180
-	append_turn_job(lon_new, lat_new , 180.0)
-	# move another 10 meters
-	lon_new, lat_new  = append_regular_job(lon_new, lat_new, 10000.0, 180.0)
-	# now turn to 270
-	append_turn_job(lon_new, lat_new , 270.0)
-	# move another 10 meters
-	lon_new, lat_new  = append_regular_job(lon_new, lat_new, 10000.0, 270.0)
-	# now turn to 270
-	append_turn_job(robot_drive.lon_now, robot_drive.lat_now, 0.0)
+	# append_turn_job(robot_drive.lon_now, robot_drive.lat_now, 0.0)
+	# # add a move job to move 10 meters
+	# lon_new, lat_new  = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 10000.0, 0.0)
+	# # now turn to 90
+	# append_turn_job(lon_new, lat_new , 90.0)
+	# # move another 10 meters
+	# lon_new, lat_new  = append_regular_job(lon_new, lat_new, 10000.0, 90.0)
+	# # now turn to 180
+	# append_turn_job(lon_new, lat_new , 180.0)
+	# # move another 10 meters
+	# lon_new, lat_new  = append_regular_job(lon_new, lat_new, 10000.0, 180.0)
+	# # now turn to 270
+	# append_turn_job(lon_new, lat_new , 270.0)
+	# # move another 10 meters
+	# lon_new, lat_new  = append_regular_job(lon_new, lat_new, 10000.0, 270.0)
+	# # now turn to 270
+	# append_turn_job(robot_drive.lon_now, robot_drive.lat_now, 0.0)
 
 # The job used to initialize the compass
 def define_initialize_job():

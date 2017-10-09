@@ -168,7 +168,7 @@ def resume_from_obstacle_avoidance():
 	clear_after_obstacle_avoidance(current_job_type)
 
 	# rospy.logerr("Amend job after obstacle avoidance")
-	robot_job.amend_regular_jobs(robot_job.job_before_obstacle, 'O', 1000)
+	robot_job.amend_regular_jobs(robot_job.job_before_obstacle, 'O', 500)
 
 	# yuqing_Jul28 new position for forward 0.5m after obstacle avoidance
 	# lon_new, lat_new = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, robot_job.dist_forward_after_obstacle, robot_drive.bearing_now)

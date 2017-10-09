@@ -14,7 +14,7 @@ import json
 import simulator
 
 
-put_info_flag = False
+put_info_flag = True
 put_route_line = True
 obstacle_flag = True
 draw_sensor_flag = True

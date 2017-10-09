@@ -40,6 +40,12 @@ last_process_time 	= 0 	# last processing time
 max_delay 			= 1.0	# max delay allowed for not receiving any signal from encooder
 last_received_time 	= 0.0 	# the time of receiving the last encoer data
 
+imu_mode	= 0
+gps_mode	= 0
+delta_imu_data		= 0.0
+prev_imu_data = 0.0
+imu_allowance = 0.1
+
 def gps_callback(data):
 	longitude = data.longitude
 	latitude = data.latitude
@@ -62,17 +68,27 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
+	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance
 	#store the past value first
-	robot_drive.past_yaw  	= robot_drive.yaw
-	if(robot_drive.show_log):
-		diff_x = -robot_drive.roll + data.x
-        	diff_y = -robot_drive.pitch + data.y
-        	diff_z = -robot_drive.yaw + data.z
+	# robot_drive.past_yaw  	= robot_drive.yaw
+	# if(robot_drive.show_log):
+	# 	diff_x = -robot_drive.roll + data.x
+ #        	diff_y = -robot_drive.pitch + data.y
+ #        	diff_z = -robot_drive.yaw + data.z
 
 		#rospy.loginfo("values (%f, %f, %f)", diff_x, diff_y, diff_z)
-	robot_drive.roll  	= data.x
-	robot_drive.pitch 	= data.y
-	robot_drive.yaw 	= data.z
+	# robot_drive.roll  	= data.x
+	# robot_drive.pitch 	= data.y
+	# robot_drive.yaw 	= data.z
+
+	if imu_mode == 1:
+		imu_yaw = data.x
+		delta_imu_data = imu_yaw - prev_imu_data
+		if abs(delta_imu_data) <= imu_allowance:
+			delta_imu_data = 0.0
+		rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f")
+		prev_imu_data = imu_yaw
+
 
 
 def serial_encoder_callback(data):

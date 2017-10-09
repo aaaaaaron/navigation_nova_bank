@@ -35,7 +35,7 @@ arc_dist = 0.0
 
 job_before_obstacle = None
 
-mode = "O"
+mode = "R"
 
 # if not jobs in the sytem
 def process_no_job():
@@ -402,7 +402,7 @@ def amend_regular_jobs(job_executed, correction_type, forward_dist_bef_turn):
 
 		# rospy.logerr(distance)
 		# rospy.logerr(bearing_from_robot)
-		if distance > robot_drive.bank_radius: # and (bearing_from_robot > 270.0 or bearing_from_robot < 90.0):
+		if distance > 2*robot_drive.bank_radius: # and (bearing_from_robot > 270.0 or bearing_from_robot < 90.0):
 			inter_pos	= get_inter_gps(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, job_executed.lon_target, job_executed.lat_target, forward_dist_bef_turn)
 			# rospy.logerr("F interpos: %d", inter_pos[0])
 			if inter_pos[0]:

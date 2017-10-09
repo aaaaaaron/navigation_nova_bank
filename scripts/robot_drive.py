@@ -15,6 +15,8 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
 linear_encode_to_mm 		 	= 0.0
 turning_encode_to_mm  			= 0.0
+dist_param						= 0.0
+angle_param						= 0.0
 turn_radius 					= 0.0
 bank_radius						= 0.0
 min_bank_dist					= 0.0

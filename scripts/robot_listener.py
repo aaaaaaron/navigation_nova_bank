@@ -44,7 +44,7 @@ imu_mode	= 0
 gps_mode	= 0
 delta_imu_data		= 0.0
 prev_imu_data = 0.0
-imu_allowance = 0.1
+imu_allowance = 0.002
 
 def gps_callback(data):
 	longitude = data.longitude
@@ -84,9 +84,13 @@ def IMU_callback(data):
 	if imu_mode == 1:
 		imu_yaw = data.x
 		delta_imu_data = imu_yaw - prev_imu_data
+		if delta_imu_data < -180.0:
+			delta_imu_data = delta_imu_data + 360.0
+		elif delta_imu_data > 180.0:
+			delta_imu_data = delta_imu_data - 360.0
 		if abs(delta_imu_data) <= imu_allowance:
 			delta_imu_data = 0.0
-		rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
+		# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
 		prev_imu_data = imu_yaw
 
 
@@ -119,7 +123,8 @@ def serial_encoder_callback(data):
 	elif multiply < 10:
 	# 	robot_drive.robot_turning 	= False
 	# 	robot_drive.robot_moving 	= False
-		rospy.logwarn("The encoder is changing on a small value")
+		# rospy.logwarn("The encoder is changing on a small value")
+		pass
 	# elif left_encode != 0 or right_encode != 0:
 	# 	#rospy.loginfo("encoder 1.3")
 	# 	robot_drive.robot_turning = True

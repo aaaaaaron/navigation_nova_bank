@@ -423,11 +423,11 @@ def keyboard_callback(data):
 	elif (keyboard_data == 'Turn_West'):
 		rospy.loginfo("Command received: turn to 270 (WEST)")
 		#robot_drive.bearing_now = compass_data[compass_index]
-		robot_job.simple_turn(270.0)
+		robot_job.simple_turn(robot_drive.bearing_now - 90.0)
 	elif (keyboard_data == 'Turn_East'):
 		rospy.loginfo('Command received: turn to 90 (EAST)')
 		#robot_drive.bearing_now = compass_data[compass_index]
-		robot_job.simple_turn(90.0)
+		robot_job.simple_turn(robot_drive.bearing_now + 90.0)
 	elif (keyboard_data == 'Stop'):
 		rospy.loginfo("Comamnd received: Clear all jobs")
 		robot_job.clear_job_list()

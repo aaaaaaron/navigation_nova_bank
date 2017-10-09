@@ -55,9 +55,9 @@ def start_turn():
 		degree_to_turn = degree_to_turn + 360.0
 
 	if (degree_to_turn < 0.0): #Left turning
- 		robot_drive.move_direction = 'L'
+ 		robot_drive.move_direction = 'Y'
  	else:  #Right turning
- 		robot_drive.move_direction = 'R'
+ 		robot_drive.move_direction = 'X'
 
 	# put more detailed spped definitioan
 	#if(abs(degree_to_turn) < angle_lowest_speed):

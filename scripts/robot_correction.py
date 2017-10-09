@@ -41,9 +41,17 @@ def get_dist_angle(left_encode, right_encode):
 	v = (2*robot_drive.turn_radius*(vl+vr))/float(2*vlr_sqrt)
 
 	dist = v * t * 1000 #mm
+	dist = dist*165.0/100.0
+	rospy.logwarn("vl: %f, vr: %f, v: %f", vl, vr, v)
 
-	theta = math.acos((2*v)/float(vl+vr))
-	theta = math.degrees(theta) #degree
+	if (left_encode == right_encode) or (left_encode + right_encode == 0.0):
+		theta = 0.0
+	else:
+		theta = math.acos((2*v)/float(vl+vr))
+		theta = math.degrees(theta) #degree
+		theta = theta * 158.3333 
+	# rospy.logwarn("vl: %f, vr: %f, v: %f", vl, vr, v)
+	rospy.logwarn("theta: %f", theta)
 	return dist, theta
 
 def update_robot_gps_new(left_encode, right_encode):
@@ -53,6 +61,8 @@ def update_robot_gps_new(left_encode, right_encode):
 		return
 	robot_drive.step_angle = 0.0
 	robot_drive.step_distance = 0.0
+
+	
 
 
 	if (robot_drive.direction == "forward" or robot_drive.direction == "backward"):
@@ -91,6 +101,8 @@ def update_robot_gps(left_encode, right_encode):
 	if test_new_formula:
 		if (left_encode == 0 and right_encode == 0):
 			return
+		if left_encode < 0.0 or right_encode < 0.0:
+			rospy.logwarn("left: %f, right: %f", left_encode, right_encode)
 
 		robot_drive.step_distance, robot_drive.step_angle = get_dist_angle(left_encode, right_encode)
 		if left_encode < right_encode:
@@ -102,6 +114,7 @@ def update_robot_gps(left_encode, right_encode):
 			rospy.loginfo("Step_angle %f degree, Step_distance calculated %f mm", robot_drive.step_angle, robot_drive.step_distance)
 		robot_drive.lon_now, robot_drive.lat_now 	= gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, robot_drive.step_distance, bearing)
 		robot_drive.bearing_now 			= bearing
+		# rospy.logwarn("bearing now: %f", robot_drive.bearing_now)
 
 	elif not test_new_formula:
 		#scenario 1, robot not moving

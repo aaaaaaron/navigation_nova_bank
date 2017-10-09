@@ -529,7 +529,7 @@ def append_regular_job(lon_now, lat_now, distance, bearing):
 	return lon_new, lat_new
 
 def define_test_job():
-	lon_new, lat_new = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 5000.0, robot_drive.bearing_now)
+	lon_new, lat_new = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 8500.0, robot_drive.bearing_now)
 	append_turn_job(lon_new, lat_new, robot_drive.bearing_now - 90.0)
 	# add a turn job to turn to 0 degree
 	# append_turn_job(robot_drive.lon_now, robot_drive.lat_now, 0.0)

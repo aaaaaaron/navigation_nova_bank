@@ -86,7 +86,7 @@ def IMU_callback(data):
 		delta_imu_data = imu_yaw - prev_imu_data
 		if abs(delta_imu_data) <= imu_allowance:
 			delta_imu_data = 0.0
-		rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f")
+		rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
 		prev_imu_data = imu_yaw
 
 

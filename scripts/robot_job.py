@@ -9,6 +9,7 @@ import robot_turn
 import robot_move
 import robot_correction
 import time
+import write_log
 
 #-------------------------------------------------------#
 #	Robot jobs module									#
@@ -60,7 +61,9 @@ def process_job():
 			rospy.loginfo("Target lon lat: %f, %f", job_lists[0].lon_target, job_lists[0].lat_target)
 			if job_lists[0].classfication == 'N' or (job_lists[0].classfication == 'C' and job_lists[0].description == 'F' and job_lists[0].value > 2 * robot_correction.min_correction_distance) :
 				job_before_obstacle = job_lists[0]
-		
+			string = "job desc ; %s ; job val ; %f ; bearing target ; %f ; bearing now ; %f\n"%(job_lists[0].description, job_lists[0].value, job_lists[0].bearing_target, robot_drive.bearing_now)
+			write_log.write_to_file(string)
+
 		if (job_lists[0].description == 'T') :
 			# rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now, robot_drive.bearing_target)
 			

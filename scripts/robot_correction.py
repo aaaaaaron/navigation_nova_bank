@@ -38,9 +38,9 @@ total_theta = 0
 #while turning, no translation is assumed
 
 def get_dist_angle(left_encode, right_encode):
-	global total_imu, total_theta
+	global total_imu, total_theta, balance_left_right
 	t = 0.1
-	vl = 0.114139/500.0 * left_encode
+	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
 
 	vlr_sqrt = math.sqrt((vl - vr)**2 + (2*robot_drive.turn_radius)**2)
@@ -80,9 +80,9 @@ def get_dist_angle(left_encode, right_encode):
 	average = 0.5 * (total_theta + total_imu)
 	# rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
-
-	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
-	write_log.write_to_file(string)
+	if not robot_drive.manual_mode:
+		string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
+		write_log.write_to_file(string)
 
 	return dist, theta_out
 

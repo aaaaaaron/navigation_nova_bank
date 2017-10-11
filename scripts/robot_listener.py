@@ -44,7 +44,7 @@ imu_mode	= 0
 gps_mode	= 0
 delta_imu_data		= 0.0
 prev_imu_data = 0.0
-imu_allowance = 0.002
+imu_allowance = 0.1
 
 def gps_callback(data):
 	longitude = data.longitude

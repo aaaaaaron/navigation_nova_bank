@@ -20,6 +20,8 @@ balance_left_right          = 0.0
 
 need_correction				= False
 odom_mode					= 1
+follow_map_gps 				= 1
+map_wgs84 					= 0
 
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
 

@@ -3,6 +3,7 @@ import serial
 import string
 import robot_drive
 import robot_obstacle
+import robot_correction
 import json
 import coordTransform_utils
 from std_msgs.msg import String
@@ -30,7 +31,13 @@ def publish_parameters():
 		count = count + 1
 		return
 	#@yuqing_publishparam
-	lon_lat = coordTransform_utils.wgs84_to_gcj02(robot_drive.lon_now, robot_drive.lat_now) 
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+	if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+		lon_lat = coordTransform_utils.wgs84_to_gcj02(robot_drive.lon_now, robot_drive.lat_now) 
+	else:
+		lon_lat = [robot_drive.lon_now, robot_drive.lat_now]
+#-------------------------------------------------------------------------------------------------------------------------------------------
+		
 	info={}
 	info["ENABLE"]      =    robot_drive.robot_enabled
 	info["MOVING"]      =    robot_drive.robot_moving
@@ -65,7 +72,13 @@ def publish_chat():
 	pub_chat.publish(chat_para)
 
 def publish_gps():
-	lon_lat = coordTransform_utils.wgs84_to_gcj02(robot_drive.lon_now, robot_drive.lat_now) 
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+	if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+		lon_lat = coordTransform_utils.wgs84_to_gcj02(robot_drive.lon_now, robot_drive.lat_now) 
+	else:
+		lon_lat = [robot_drive.lon_now, robot_drive.lat_now]
+#-------------------------------------------------------------------------------------------------------------------------------------------
+		
 	stringToSend = '%.10f %.10f %.10f' % (lon_lat[0], lon_lat[1], robot_drive.bearing_now) #might need to add \n behind the E
 	pub_gps.publish(stringToSend)
 

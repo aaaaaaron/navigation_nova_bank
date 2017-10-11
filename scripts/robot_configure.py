@@ -70,7 +70,7 @@ def read_system_config():
     # Read configure path
     print("Read configuration file")
     config_path = os.path.dirname(os.path.abspath(__file__)) + '/robot.cfg'
-    size_para   = 31
+    size_para   = 33
     ret         = [None] * size_para
 
     # Now reading configurable parameters
@@ -104,18 +104,26 @@ def read_system_config():
     ret[21], robot_drive.obstacle_mode                  = read_config_float(config_path, 'init', 'obstacle_mode')
     ret[22], robot_drive.robot_enabled                  = read_config_float(config_path, 'init', 'robot_enabled')
     ret[23], robot_drive.robot_paused                   = read_config_float(config_path, 'init', 'robot_paused')
-    ret[24], init_lon_gcj02                         	= read_config_float(config_path, 'init', 'init_lon')
-    ret[25], init_lat_gcj02                         	= read_config_float(config_path, 'init', 'init_lat')
+    ret[24], init_lon                                 	= read_config_float(config_path, 'init', 'init_lon')
+    ret[25], init_lat                               	= read_config_float(config_path, 'init', 'init_lat')
     ret[26], robot_job.init_bearing                     = read_config_float(config_path, 'init', 'init_bearing')
     ret[27], robot_correction.balance_left_right        = read_config_float(config_path, 'init', 'balance_left_right')
     #[mode]
     ret[28], robot_correction.odom_mode                 = read_config_float(config_path, 'mode', 'odom_mode')
     ret[29], robot_listener.imu_mode                    = read_config_float(config_path, 'mode', 'IMU_mode')
     ret[30], robot_listener.gps_mode                    = read_config_float(config_path, 'mode', 'GPS_mode')
+    ret[31], robot_correction.follow_map_gps            = read_config_float(config_path, 'mode', 'follow_map_gps')
+    ret[32], robot_correction.map_wgs84                 = read_config_float(config_path, 'mode', 'map_wgs84')
 
-    lonlat = coordTransform_utils.gcj02_to_wgs84(init_lon_gcj02, init_lat_gcj02)
-    robot_job.init_lon = lonlat[0]
-    robot_job.init_lat = lonlat[1]
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+    if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+        lonlat = coordTransform_utils.gcj02_to_wgs84(init_lon, init_lat)
+        robot_job.init_lon = lonlat[0]
+        robot_job.init_lat = lonlat[1]
+    else:
+        robot_job.init_lon = init_lon
+        robot_job.init_lat = init_lat
+#-------------------------------------------------------------------------------------------------------------------------------------------
 
     # check whether the reading is successful or not
     for index in range(size_para):

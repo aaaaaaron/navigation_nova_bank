@@ -49,8 +49,8 @@ imu_allowance = 0.1
 def gps_callback(data):
 	longitude = data.longitude
 	latitude = data.latitude
-	lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
-	robot_publisher.publish_gps_gaode(lonlat[0], lonlat[1])
+	# lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
+	# robot_publisher.publish_gps_gaode(lonlat[0], lonlat[1])
 
 def sonar_callback(data):
 	robot_obstacle.front_sensor[0] = data.front_0;
@@ -299,19 +299,35 @@ def job_callback(data):
 		for item in list_route:
 			lon = float(item.get(u'lng'))
 			lat = float(item.get(u'lat'))
-			lonlat = coordTransform_utils.gcj02_to_wgs84(lon, lat)		# convert gcj02 to wgs84
-			robot_job.gps_lon.extend([lonlat[0]])
-			robot_job.gps_lat.extend([lonlat[1]])
+
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+			if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+				lonlat = coordTransform_utils.gcj02_to_wgs84(lon, lat)		# convert gcj02 to wgs84
+				robot_job.gps_lon.extend([lonlat[0]])
+				robot_job.gps_lat.extend([lonlat[1]])
+			else:
+				robot_job.gps_lon.extend([lon])
+				robot_job.gps_lat.extend([lat])
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
 		robot_job.clear_job_list()
 		rospy.loginfo("Parsing route successful")
 		init_point				= decoded['init_point']
 		robot_drive.robot_id 	= decoded['robot_id']
-		init_lon_gcj02 		= float(init_point.get(u'lng'))
-		init_lat_gcj02 		= float(init_point.get(u'lat'))
-		initlonlat = coordTransform_utils.gcj02_to_wgs84(init_lon_gcj02, init_lat_gcj02)		# convert gcj02 to wgs84
-		update_base(init_lon_gcj02, init_lat_gcj02)
-		robot_job.init_lon = initlonlat[0]
-		robot_job.init_lat = initlonlat[1]
+		init_long 		= float(init_point.get(u'lng'))
+		init_lati 		= float(init_point.get(u'lat'))
+
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+		update_base(init_long, init_lati)
+		if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+			initlonlat = coordTransform_utils.gcj02_to_wgs84(init_long, init_lati)		# convert gcj02 to wgs84
+			robot_job.init_lon = initlonlat[0]
+			robot_job.init_lat = initlonlat[1]
+		else:
+			robot_job.init_lon = init_long
+			robot_job.init_lat = init_lati
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
 		rospy.loginfo("Parse init point successful")
 		no_runs 			= decoded['run']
 		rospy.loginfo("Number of runs %d", int(no_runs))
@@ -587,9 +603,16 @@ def panel_summon_callback(data):
 	try:
 		decoded 				= json.loads(json_str)
 		panel_gps 				= decoded['panel_gps']
-		panel_lonlat = coordTransform_utils.gcj02_to_wgs84(float(panel_gps.get(u'lng')), float(panel_gps.get(u'lat')))
-		robot_drive.panel_lon 			= panel_lonlat[0]
-		robot_drive.panel_lat 			= panel_lonlat[1]
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+		if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+			panel_lonlat = coordTransform_utils.gcj02_to_wgs84(float(panel_gps.get(u'lng')), float(panel_gps.get(u'lat')))
+			robot_drive.panel_lon 			= panel_lonlat[0]
+			robot_drive.panel_lat 			= panel_lonlat[1]
+		else:
+			robot_drive.panel_lon 			= float(panel_gps.get(u'lng'))
+			robot_drive.panel_lat 			= float(panel_gps.get(u'lat'))
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
 		name 					= panel_gps.get(u'name')
 		robot_job.summon_mode 			= True
 		rospy.loginfo("Set to be summon mode")

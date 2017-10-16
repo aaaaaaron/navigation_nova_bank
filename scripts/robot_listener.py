@@ -310,7 +310,7 @@ def job_callback(data):
 				robot_job.gps_lat.extend([lat])
 #-------------------------------------------------------------------------------------------------------------------------------------------
 
-		robot_job.clear_job_list()
+		# robot_job.clear_job_list()
 		rospy.loginfo("Parsing route successful")
 		init_point				= decoded['init_point']
 		robot_drive.robot_id 	= decoded['robot_id']

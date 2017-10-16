@@ -133,6 +133,26 @@ def executor_simulator(data):
 		left_encode = 0
 		right_encode = 600 + deviate_r
 		direction = 3
+	elif(command_str == 'SD000006E'):
+		left_encode = -2000 + deviate_l
+		right_encode = 2000 + deviate_r
+		direction = 3
+	elif(command_str == 'SD000005E'):
+		left_encode = -1600 + deviate_l
+		right_encode = 1600 + deviate_r
+		direction = 3
+	elif(command_str == 'SD000004E'):
+		left_encode = -1200 + deviate_l
+		right_encode = 1200 + deviate_r
+		direction = 3
+	elif(command_str == 'SD000003E'):
+		left_encode = -850 + deviate_l
+		right_encode = 850 + deviate_r
+		direction = 3
+	elif(command_str == 'SD000002E'):
+		left_encode = -600 + deviate_l
+		right_encode = 600 + deviate_r
+		direction = 3
 	elif(command_str == 'SR000006E'):
 		left_encode = 1400 + deviate_l
 		right_encode = 220 + deviate_r
@@ -172,6 +192,26 @@ def executor_simulator(data):
 	elif(command_str == 'SX000002E'):
 		left_encode = 600 + deviate_l
 		right_encode = 0
+		direction = 4
+	elif(command_str == 'SC000006E'):
+		left_encode = 2000 + deviate_l
+		right_encode = -2000 + deviate_r
+		direction = 4
+	elif(command_str == 'SC000005E'):
+		left_encode = 1600 + deviate_l
+		right_encode = -1600 + deviate_r
+		direction = 4
+	elif(command_str == 'SC000004E'):
+		left_encode = 1200 + deviate_l
+		right_encode = -1200 + deviate_r
+		direction = 4
+	elif(command_str == 'SC000003E'):
+		left_encode = 850 + deviate_l
+		right_encode = -850 + deviate_r
+		direction = 4
+	elif(command_str == 'SC000002E'):
+		left_encode = 600 + deviate_l
+		right_encode = -600 + deviate_r
 		direction = 4
 	elif(command_str == 'SO00000OE'):
 		ss.obstacle_avoidance_mode = 1

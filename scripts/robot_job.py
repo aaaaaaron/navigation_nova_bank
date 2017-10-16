@@ -25,6 +25,8 @@ init_bearing		= 0.0
 
 gps_lon 			= [] #S,A,B,C,D
 gps_lat 			= []
+gps_lon_copy 		= []
+gps_lat_copy		= []
 loops 				= 1 			#how many rounds to go
 job_lists 			= []
 
@@ -226,20 +228,56 @@ def get_inter_gps_aft(gps_lon_list, gps_lat_list):
 def generate_jobs_from_gps():
 	#step 1: Move from initial point to the loop start point
 	global init_lat, init_lon, init_bearing
-	global loops, gps_lon, gps_lat
+	global loops, gps_lon, gps_lat, gps_lon_copy, gps_lat_copy
 	global job_lists, arc_dist
-	robot_drive.lon_now = init_lon
-	robot_drive.lat_now = init_lat
-	robot_drive.bearing_now = init_bearing
 
-	# create a complete list (including the number of loops) of all the initial gps before processing
-	total_gps_lon = [init_lon]
-	total_gps_lat = [init_lat]
-	
-	rospy.loginfo("Number of loops %d", loops)
-	for i in range(loops):
-		total_gps_lon.extend(gps_lon)
-		total_gps_lat.extend(gps_lat)
+
+	if len(gps_lon_copy) == 0:
+		robot_drive.lon_now = init_lon
+		robot_drive.lat_now = init_lat
+		robot_drive.bearing_now = init_bearing
+
+		gps_lon_copy = gps_lon[:]
+		gps_lat_copy = gps_lat[:]
+
+		# create a complete list (including the number of loops) of all the initial gps before processing
+		total_gps_lon = [init_lon]
+		total_gps_lat = [init_lat]
+		
+		if mode == "O":
+			rospy.loginfo("Number of loops %d", loops)
+			for i in range(loops):
+				total_gps_lon.extend(gps_lon)
+				total_gps_lat.extend(gps_lat)
+		else:
+			total_gps_lon.extend(gps_lon)
+			total_gps_lat.extend(gps_lat)
+
+	else:
+		total_gps_lon = [robot_drive.lon_now]
+		total_gps_lat = [robot_drive.lat_now]
+
+		if mode == "O":
+			len_now = len(gps_lon) - len(gps_lon_copy)
+			gps_lon_ext = gps_lon[-len_now:]
+			gps_lat_ext = gps_lat[-len_now:]
+
+			total_gps_lon.extend(gps_lon_ext)
+			total_gps_lat.extend(gps_lat_ext)
+			rospy.loginfo("Number of loops %d", loops)
+			for i in range(loops):
+				total_gps_lon.extend(gps_lon)
+				total_gps_lat.extend(gps_lat)
+		else:
+			len_now = len(gps_lon) - len(gps_lon_copy)
+			gps_lon_ext = gps_lon[-len_now:]
+			gps_lat_ext = gps_lat[-len_now:]
+
+			total_gps_lon.extend(gps_lon_ext)
+			total_gps_lat.extend(gps_lat_ext)
+		gps_lon_copy = gps_lon[:]
+		gps_lat_copy = gps_lat[:]
+
 	
 	if mode == "O":
 		if total_gps_lon[-1] == gps_lon[0] and total_gps_lat[-1] == gps_lat[0]:
@@ -249,8 +287,8 @@ def generate_jobs_from_gps():
 			total_gps_lon.extend([init_lon])
 			total_gps_lat.extend([init_lat])
 		else:
-			total_gps_lon.extend([gps_lon[0], init_lon])
-			total_gps_lat.extend([gps_lat[0], init_lat])
+			total_gps_lon.extend([gps_lon_copy[0], init_lon])
+			total_gps_lat.extend([gps_lat_copy[0], init_lat])
 
 
 	data_for_jobs = []
@@ -259,7 +297,7 @@ def generate_jobs_from_gps():
 		rospy.logwarn("First gps point is too close, it's within 1000mm. Expect robot to make a big turn!")
 
 	#to check for the starting bearing
-	is_bearing_off = get_inter_gps(total_gps_lon[0], total_gps_lat[0], init_bearing, total_gps_lon[1], total_gps_lat[1], 500)
+	is_bearing_off = get_inter_gps(total_gps_lon[0], total_gps_lat[0], robot_drive.bearing_now, total_gps_lon[1], total_gps_lat[1], 500)
 	if is_bearing_off[0]:
 		total_gps_lon.insert(1, is_bearing_off[1])
 		total_gps_lat.insert(1, is_bearing_off[2])
@@ -287,7 +325,7 @@ def generate_jobs_from_gps():
 		b = gpsmath.bearing(total_gps_lon[0], total_gps_lat[0], total_gps_lon[1], total_gps_lat[1])
 		data_for_jobs.extend([(total_gps_lon[-1], total_gps_lat[-1], b, 'F')])
 
-	append_regular_jobs_new(data_for_jobs, init_lon, init_lat)
+	append_regular_jobs_new(data_for_jobs, robot_drive.lon_now, robot_drive.lat_now)
 	# else:
 	# 	rospy.logerr("Jobs not generated")
 	

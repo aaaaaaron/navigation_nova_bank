@@ -55,10 +55,17 @@ def start_turn():
 	elif(degree_to_turn < -180.0):
 		degree_to_turn = degree_to_turn + 360.0
 
-	if (degree_to_turn < 0.0): #Left turning
- 		robot_drive.move_direction = 'Y'
- 	else:  #Right turning
- 		robot_drive.move_direction = 'X'
+	min_bank_deg = abs(2*(math.atan(robot_drive.bank_radius/robot_drive.min_bank_dist))/math.pi*180.0)
+	if (abs(degree_to_turn) <= (180.0 - min_bank_deg)):
+		if (degree_to_turn < 0.0): #Left turning
+	 		robot_drive.move_direction = 'Y'
+	 	else:  #Right turning
+	 		robot_drive.move_direction = 'X'
+	else:
+	 	if (degree_to_turn < 0.0): #Left turning
+	 		robot_drive.move_direction = 'D'
+	 	else:  #Right turning
+	 		robot_drive.move_direction = 'C'
 
 	# put more detailed spped definitioan
 	#if(abs(degree_to_turn) < angle_lowest_speed):

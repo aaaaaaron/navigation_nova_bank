@@ -197,27 +197,28 @@ def get_inter_gps_aft(gps_lon_list, gps_lat_list):
 				temp_data.extend([(lon_new1, lat_new1, bearing1, 'F'),(lon_new2, lat_new2, bearing2, 'T')])
 
 			else :
-				if bearing_diff < 0:
-					bearing_target1 = gpsmath.format_bearing(bearing1 + 90.0)
-					bearing_target2 = gpsmath.format_bearing(bearing1 - 80.0)
+				temp_data.extend([(gps_lon_list[j], gps_lat_list[j], bearing1, 'F'),(gps_lon_list[j], gps_lat_list[j], bearing2, 'T')])
+				# if bearing_diff < 0:
+				# 	bearing_target1 = gpsmath.format_bearing(bearing1 + 90.0)
+				# 	bearing_target2 = gpsmath.format_bearing(bearing1 - 80.0)
 
-				else:
-					bearing_target1 = gpsmath.format_bearing(bearing1 - 90.0)
-					bearing_target2 = gpsmath.format_bearing(bearing1 + 80.0)
+				# else:
+				# 	bearing_target1 = gpsmath.format_bearing(bearing1 - 90.0)
+				# 	bearing_target2 = gpsmath.format_bearing(bearing1 + 80.0)
 
-				arc_dist = arc_threshold(bearing_target1, bearing1)
-				lon_new1, lat_new1 = gpsmath.get_gps(gps_lon_list[j-1], gps_lat_list[j-1], distance1 - arc_dist, bearing1)
-				lon_new2, lat_new2 = gpsmath.get_gps(gps_lon_list[j], gps_lat_list[j], arc_dist, bearing_target1)
+				# arc_dist = arc_threshold(bearing_target1, bearing1)
+				# lon_new1, lat_new1 = gpsmath.get_gps(gps_lon_list[j-1], gps_lat_list[j-1], distance1 - arc_dist, bearing1)
+				# lon_new2, lat_new2 = gpsmath.get_gps(gps_lon_list[j], gps_lat_list[j], arc_dist, bearing_target1)
 
-				arc_dist = arc_threshold(bearing_target2, bearing_target1)
-				lon_new_inter1, lat_new_inter1 = gpsmath.get_gps(lon_new2, lat_new2, arc_dist, bearing_target1)
-				lon_new3, lat_new3 = gpsmath.get_gps(lon_new_inter1, lat_new_inter1, arc_dist, bearing_target2)
+				# arc_dist = arc_threshold(bearing_target2, bearing_target1)
+				# lon_new_inter1, lat_new_inter1 = gpsmath.get_gps(lon_new2, lat_new2, arc_dist, bearing_target1)
+				# lon_new3, lat_new3 = gpsmath.get_gps(lon_new_inter1, lat_new_inter1, arc_dist, bearing_target2)
 
-				arc_dist = arc_threshold(bearing2, bearing_target2)
-				lon_new_inter2, lat_new_inter2 = gpsmath.get_gps(lon_new3, lat_new3, arc_dist, bearing_target2)
-				lon_new4, lat_new4 = gpsmath.get_gps(lon_new_inter2, lat_new_inter2, arc_dist, bearing2)
+				# arc_dist = arc_threshold(bearing2, bearing_target2)
+				# lon_new_inter2, lat_new_inter2 = gpsmath.get_gps(lon_new3, lat_new3, arc_dist, bearing_target2)
+				# lon_new4, lat_new4 = gpsmath.get_gps(lon_new_inter2, lat_new_inter2, arc_dist, bearing2)
 
-				temp_data.extend([(lon_new1, lat_new1, bearing1, 'F'),(lon_new2, lat_new2, bearing_target1, 'T'), (lon_new3, lat_new3, bearing_target2, 'T'),(lon_new4, lat_new4, bearing2, 'T')])
+				# temp_data.extend([(lon_new1, lat_new1, bearing1, 'F'),(lon_new2, lat_new2, bearing_target1, 'T'), (lon_new3, lat_new3, bearing_target2, 'T'),(lon_new4, lat_new4, bearing2, 'T')])
 		return True, temp_data
 	except IndexError:
 		rospy.logerr("Need at least 3 coordinates, %d given", len(gps_lon_list))
@@ -297,7 +298,7 @@ def generate_jobs_from_gps():
 		rospy.logwarn("First gps point is too close, it's within 1000mm. Expect robot to make a big turn!")
 
 	#to check for the starting bearing
-	is_bearing_off = get_inter_gps(total_gps_lon[0], total_gps_lat[0], robot_drive.bearing_now, total_gps_lon[1], total_gps_lat[1], 500)
+	is_bearing_off = get_inter_gps(total_gps_lon[0], total_gps_lat[0], robot_drive.bearing_now, total_gps_lon[1], total_gps_lat[1], 200)
 	if is_bearing_off[0]:
 		total_gps_lon.insert(1, is_bearing_off[1])
 		total_gps_lat.insert(1, is_bearing_off[2])

@@ -135,6 +135,7 @@ def update_robot_gps(left_encode, right_encode):
 
 	if odom_mode == 2:
 		if (left_encode == 0 and right_encode == 0):
+			robot_publisher.publish_gps()
 			if robot_listener.gps_mode:
 				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return

@@ -40,7 +40,7 @@ init_lat = 0.0
 init_bearing = 0.0
 
 map_name = 'map'
-map_scale = 5.0
+map_scale = 70.0
 gps_scale = 15000000
 
 loc_dataLength = 1000
@@ -70,6 +70,7 @@ cross_size = 5
 
 run = 1
 json_str = {"robot_id":"12", "init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
+json_str2 = {"robot_id":"12", "init_point": {"lng": 0, "lat": 0}, "route": [{"lng":0, "lat":9.444}], "run": run}
 clear_route_flag = False
 
 json_str_panel = {"panel_gps": {"lng": 0, "lat": 0}, "name": "GUI_test"}
@@ -648,7 +649,8 @@ if __name__ == '__main__':
 			c = cv2.waitKey(20) & 0xFF
 			if c == 13:
 				# key_pub.publish('Switch')
-				json_str_toSend = json.dumps(json_str)
+				# json_str_toSend = json.dumps(json_str)
+				json_str_toSend = json.dumps(json_str2)
 				json_pub.publish(json_str_toSend)
 
 			elif c == 27:

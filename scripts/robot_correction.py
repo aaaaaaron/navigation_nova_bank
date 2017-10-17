@@ -22,6 +22,7 @@ need_correction				= False
 odom_mode					= 1
 follow_map_gps 				= 1
 map_wgs84 					= 0
+indoor_coord				= 0
 
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
@@ -134,6 +135,8 @@ def update_robot_gps(left_encode, right_encode):
 
 	if odom_mode == 2:
 		if (left_encode == 0 and right_encode == 0):
+			if robot_listener.gps_mode:
+				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return
 		if left_encode < 0.0 or right_encode < 0.0:
 			rospy.logwarn("left: %f, right: %f", left_encode, right_encode)
@@ -159,6 +162,8 @@ def update_robot_gps(left_encode, right_encode):
 			#no updating of information
 					#@yuqing_continueturn
 			# robot_publisher.publish_gps()
+			if robot_listener.gps_mode:
+				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return
 
 		# loacal vaiables

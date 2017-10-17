@@ -46,6 +46,12 @@ delta_imu_data		= 0.0
 prev_imu_data = 0.0
 imu_allowance = 0.1
 
+def pose_pf_callback(data):
+	if gps_mode:
+		robot_drive.lon_now = data.x
+		robot_drive.lat_now = data.y
+		robot_drive.bearing_now = data.z
+
 def gps_callback(data):
 	longitude = data.longitude
 	latitude = data.latitude
@@ -301,10 +307,14 @@ def job_callback(data):
 			lat = float(item.get(u'lat'))
 
 #-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
-			if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
-				lonlat = coordTransform_utils.gcj02_to_wgs84(lon, lat)		# convert gcj02 to wgs84
-				robot_job.gps_lon.extend([lonlat[0]])
-				robot_job.gps_lat.extend([lonlat[1]])
+			if not robot_correction.indoor_coord:
+				if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+					lonlat = coordTransform_utils.gcj02_to_wgs84(lon, lat)		# convert gcj02 to wgs84
+					robot_job.gps_lon.extend([lonlat[0]])
+					robot_job.gps_lat.extend([lonlat[1]])
+				else:
+					robot_job.gps_lon.extend([lon])
+					robot_job.gps_lat.extend([lat])
 			else:
 				robot_job.gps_lon.extend([lon])
 				robot_job.gps_lat.extend([lat])
@@ -319,10 +329,14 @@ def job_callback(data):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
 		update_base(init_long, init_lati)
-		if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
-			initlonlat = coordTransform_utils.gcj02_to_wgs84(init_long, init_lati)		# convert gcj02 to wgs84
-			robot_job.init_lon = initlonlat[0]
-			robot_job.init_lat = initlonlat[1]
+		if not robot_correction.indoor_coord:
+			if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+				initlonlat = coordTransform_utils.gcj02_to_wgs84(init_long, init_lati)		# convert gcj02 to wgs84
+				robot_job.init_lon = initlonlat[0]
+				robot_job.init_lat = initlonlat[1]
+			else:
+				robot_job.init_lon = init_long
+				robot_job.init_lat = init_lati
 		else:
 			robot_job.init_lon = init_long
 			robot_job.init_lat = init_lati

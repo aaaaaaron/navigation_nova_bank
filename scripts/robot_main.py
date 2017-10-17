@@ -269,7 +269,7 @@ def main_listener():
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
 	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
 	# rospy.Subscriber('extended_fix', GPSFix, robot_listener.gps_callback)
-	# rospy.Subscriber('pose_aft_pf', Vector3)
+	rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
 
 
 	time_aft_obs = rospy.get_time()

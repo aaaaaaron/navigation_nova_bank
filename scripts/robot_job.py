@@ -261,20 +261,15 @@ def generate_jobs_from_gps():
 			total_gps_lat.extend(gps_lat)
 
 	else:
-		total_gps_lon = [gps_lon_copy[-1]]
-		total_gps_lat = [gps_lat_copy[-1]]
-		if len(gps_lon_copy) > 1:
-			bearing_calc = gpsmath.bearing(gps_lon_copy[-2], gps_lat_copy[-2], gps_lon_copy[-1], gps_lat_copy[-1])
-		else:
-			bearing_calc = init_bearing
-		# F_count = 0
-		# for i in robot_job.job_lists:
-		# 	if i.description == 'F':
-		# 		F_count += 1
-
-
 		if mode == "O":
-			len_now = len(gps_lon) - len(gps_lon_copy) #+ F_count
+			total_gps_lon = [gps_lon_copy[-1]]
+			total_gps_lat = [gps_lat_copy[-1]]
+			if len(gps_lon_copy) > 1:
+				bearing_calc = gpsmath.bearing(gps_lon_copy[-2], gps_lat_copy[-2], gps_lon_copy[-1], gps_lat_copy[-1])
+			else:
+				bearing_calc = init_bearing
+			
+			len_now = len(gps_lon) - len(gps_lon_copy)
 			gps_lon_ext = gps_lon[-len_now:]
 			gps_lat_ext = gps_lat[-len_now:]
 
@@ -284,8 +279,16 @@ def generate_jobs_from_gps():
 			for i in range(loops):
 				total_gps_lon.extend(gps_lon)
 				total_gps_lat.extend(gps_lat)
+				
 		else:
-			len_now = len(gps_lon) - len(gps_lon_copy) #+ F_count
+			total_gps_lon = [gps_lon_copy[-1]]
+			total_gps_lat = [gps_lat_copy[-1]]
+			if len(gps_lon_copy) > 1:
+				bearing_calc = gpsmath.bearing(gps_lon_copy[-2], gps_lat_copy[-2], gps_lon_copy[-1], gps_lat_copy[-1])
+			else:
+				bearing_calc = init_bearing
+
+			len_now = len(gps_lon) - len(gps_lon_copy)
 			gps_lon_ext = gps_lon[-len_now:]
 			gps_lat_ext = gps_lat[-len_now:]
 

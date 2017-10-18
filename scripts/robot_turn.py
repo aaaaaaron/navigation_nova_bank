@@ -63,9 +63,9 @@ def start_turn():
 	 		robot_drive.move_direction = 'X'
 	else:
 	 	if (degree_to_turn < 0.0): #Left turning
-	 		robot_drive.move_direction = 'D'
+	 		robot_drive.move_direction = 'Y'
 	 	else:  #Right turning
-	 		robot_drive.move_direction = 'C'
+	 		robot_drive.move_direction = 'X'
 
 	# put more detailed spped definitioan
 	#if(abs(degree_to_turn) < angle_lowest_speed):
@@ -186,7 +186,7 @@ def turn_degree():
 
 	degree_turned = degree_turned + step_angle
     # 1 step before the robot turn, stop the robot
-	degree_threshold = abs(degree_to_turn) - robot_correction.min_correction_angle/2.0
+	degree_threshold = abs(degree_to_turn) - robot_correction.min_correction_angle #/2.0
 	#bearing_lower_threshold = robot_drive.bearing_target - (robot_correction.min_correction_angle/2.0)
 	#bearing_upper_threshold = robot_drive.bearing_target + (robot_correction.min_correction_angle/2.0)
 	#degree_threshold = 5

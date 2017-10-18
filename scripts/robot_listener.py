@@ -50,7 +50,7 @@ def pose_pf_callback(data):
 	if gps_mode:
 		robot_drive.lon_now = data.x
 		robot_drive.lat_now = data.y
-		robot_drive.bearing_now = data.z
+		#robot_drive.bearing_now = data.z
 
 def gps_callback(data):
 	longitude = data.longitude
@@ -94,8 +94,8 @@ def IMU_callback(data):
 			delta_imu_data = delta_imu_data + 360.0
 		elif delta_imu_data > 180.0:
 			delta_imu_data = delta_imu_data - 360.0
-		if abs(delta_imu_data) <= imu_allowance:
-			delta_imu_data = 0.0
+#		if abs(delta_imu_data) < imu_allowance:
+#			delta_imu_data = 0.0
 		# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
 		prev_imu_data = imu_yaw
 

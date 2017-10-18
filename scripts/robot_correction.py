@@ -28,7 +28,7 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
 total_imu = 0
 total_theta = 0
-
+percentage = 1
 
 #-------------------------------------------------------#
 #	Robot error correction module						#
@@ -42,6 +42,7 @@ total_theta = 0
 
 def get_dist_angle(left_encode, right_encode):
 	global total_imu, total_theta, balance_left_right
+	global percentage
 	t = 0.1
 	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
@@ -71,11 +72,11 @@ def get_dist_angle(left_encode, right_encode):
 			multiple = abs(imu_theta/float(theta))
 		else:
 			multiple = 0
-		percentage = multiple * 0.1
-		if percentage >= 0.9:
-			percentage = 0.9
-		# theta_out = percentage * imu_theta + (1 - percentage) * theta
-		theta_out = 0.5 * imu_theta + 0.5 * theta
+		#percentage = multiple * 0.1
+		#if percentage >= 0.9:
+		#	percentage = 0.9
+		theta_out = percentage * imu_theta + (1 - percentage) * theta
+		# theta_out = 0.5 * imu_theta + 0.5 * theta
 	#debugging purpose only
 	total_imu += robot_listener.delta_imu_data
 	tt = theta
@@ -135,7 +136,6 @@ def update_robot_gps(left_encode, right_encode):
 
 	if odom_mode == 2:
 		if (left_encode == 0 and right_encode == 0):
-			robot_publisher.publish_gps()
 			if robot_listener.gps_mode:
 				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return

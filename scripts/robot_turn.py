@@ -9,6 +9,7 @@ import robot_correction
 import robot_job
 import robot_publisher
 import gpsmath
+import write_log
 
 #-------------------------------------------------------#
 # Robot turning module 									#
@@ -54,10 +55,17 @@ def start_turn():
 	elif(degree_to_turn < -180.0):
 		degree_to_turn = degree_to_turn + 360.0
 
-	if (degree_to_turn < 0.0): #Left turning
- 		robot_drive.move_direction = 'L'
- 	else:  #Right turning
- 		robot_drive.move_direction = 'R'
+	min_bank_deg = abs(2*(math.atan(robot_drive.bank_radius/robot_drive.min_bank_dist))/math.pi*180.0)
+	if (abs(degree_to_turn) <= (180.0 - min_bank_deg)):
+		if (degree_to_turn < 0.0): #Left turning
+	 		robot_drive.move_direction = 'Y'
+	 	else:  #Right turning
+	 		robot_drive.move_direction = 'X'
+	else:
+	 	if (degree_to_turn < 0.0): #Left turning
+	 		robot_drive.move_direction = 'Y'
+	 	else:  #Right turning
+	 		robot_drive.move_direction = 'X'
 
 	# put more detailed spped definitioan
 	#if(abs(degree_to_turn) < angle_lowest_speed):
@@ -90,6 +98,8 @@ def stop_turn():
 	# if not robot_drive.robot_turning and not robot_drive.robot_moving:
 	# if (robot_job.no_normal_jobs() >= 1 and robot_job.job_lists[1].value >= 0) or (not robot_drive.robot_turning and not robot_drive.robot_moving):	#chengyuen21/7
 	if not robot_drive.robot_turning and not robot_drive.robot_moving:
+		string = "degree to turn ; %f ; degree turned ; %f ; robot direction ; %f\n\n"%(degree_to_turn, degree_turned, robot_drive.bearing_now)
+		write_log.write_to_file(string)
 		diff = robot_drive.roll - robot_drive.roll_start
 		rospy.loginfo("Calculated roll difference %f, degreed turned %f", diff, degree_turned)
 		robot_drive.robot_on_mission = False
@@ -176,7 +186,7 @@ def turn_degree():
 
 	degree_turned = degree_turned + step_angle
     # 1 step before the robot turn, stop the robot
-	degree_threshold = abs(degree_to_turn) - robot_correction.min_correction_angle/2.0
+	degree_threshold = abs(degree_to_turn) - robot_correction.min_correction_angle #/2.0
 	#bearing_lower_threshold = robot_drive.bearing_target - (robot_correction.min_correction_angle/2.0)
 	#bearing_upper_threshold = robot_drive.bearing_target + (robot_correction.min_correction_angle/2.0)
 	#degree_threshold = 5

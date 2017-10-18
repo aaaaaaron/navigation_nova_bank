@@ -127,9 +127,10 @@ def clear_after_obstacle_avoidance(current_job_type):
 		rospy.loginfo("Robot met obstacle during normal job, finishing current job")
 		robot_correction.correction_count 	= 0
 		if robot_job.current_job().description == 'T':
-			while robot_job.current_job().description == 'T':
+			while robot_job.has_jobs_left() and robot_job.current_job().description == 'T':
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
+
 			if robot_job.has_jobs_left():
 				robot_job.job_before_obstacle = robot_job.current_job()
 				robot_job.complete_current_job()
@@ -142,10 +143,15 @@ def clear_after_obstacle_avoidance(current_job_type):
 		robot_correction.correction_count 	= 0
 		clear_correction_trial_tasks(current_job_type)
 	elif(current_job_type == 'O'):
-		if(robot_correction.correction_count  > robot_correction.max_correction_run):
+		rospy.loginfo("comapre %d  , %d", robot_correction.correction_count , robot_correction.max_correction_run)
+		val = robot_correction.max_correction_run - robot_correction.correction_count
+		rospy.loginfo("Value is %d", val)
+		if val < 0:
+			rospy.loginfo("QUitting")
 			quit_obstacle_correction(current_job_type)
 			robot_correction.correction_count = 0
 		else:
+			rospy.loginfo("Robot met obstacle obstacle job, remove all obstacle job")
 			clear_correction_trial_tasks(current_job_type)
 	else:
 		rospy.logerr("Invalid job_type found")
@@ -158,10 +164,11 @@ def resume_from_obstacle_avoidance():
 	current_job_type 	= job_executing.classfication
 	# if current_job_type == 'N' or (current_job_type == 'C' and current_job_motion == 'F' and job_executing.value > 2*robot_correction.min_correction_distance):
 	# 	robot_job.job_before_obstacle = job_executing
+	rospy.loginfo("Current job type %s", current_job_type)
 	clear_after_obstacle_avoidance(current_job_type)
 
 	# rospy.logerr("Amend job after obstacle avoidance")
-	robot_job.amend_regular_jobs(robot_job.job_before_obstacle, 'O', 1000)
+	robot_job.amend_regular_jobs(robot_job.job_before_obstacle, 'O', 500)
 
 	# yuqing_Jul28 new position for forward 0.5m after obstacle avoidance
 	# lon_new, lat_new = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, robot_job.dist_forward_after_obstacle, robot_drive.bearing_now)
@@ -232,11 +239,13 @@ def complete_obstacle_avoidance():
 	# Remove the un-finished job
 	if robot_drive.robot_on_mission and robot_job.has_jobs_left():
 		resume_from_obstacle_avoidance()
-		robot_drive.robot_on_mission = False
-
+	elif robot_job.has_jobs_left():
+		resume_from_obstacle_avoidance()
 	else:
 		rospy.loginfo("There's no mission on going")
 
+	robot_correction.correction_count = robot_correction.correction_count + 1
+	robot_drive.robot_on_mission = False
 	resume_from_obstacle = True
 	#robot_over_obstacle = False
 

@@ -11,27 +11,33 @@ from serial_handler.msg import Sonar
 # from serial_handler.msg import Status
 # from serial_handler.msg import Encoder
 import json
+import simulator
 
-put_info_flag = False
+
+put_info_flag = True
 put_route_line = True
 obstacle_flag = True
 draw_sensor_flag = True
+panel_flag = True
 
 init_gps_flag = False
 size = (600, 600)
 
-obstacle1 = [(int(size[0]/2.0 - 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 + 20)), (int(size[0]/2.0 - 20), int(size[1]/4.0 + 20))]
+# obstacle1 = [(int(size[0]/2.0 - 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 - 20)), (int(size[0]/2.0 + 20), int(size[1]/4.0 + 20)), (int(size[0]/2.0 - 20), int(size[1]/4.0 + 20))]
+obstacle1 = [(280, 130), (320, 130), (320, 170), (280, 170)]
 obstacle2 = [(135,200),(180,210),(175,220),(120,220)]
 obstacle_coord = [obstacle1, obstacle2]
 obstacle_points = []
+
+panel_pos = [500, 300]
 
 lat = []
 lon = []
 bearing = []
 
-init_lon = 121.415898
-init_lat = 31.21884
-init_bearing = 225.0
+init_lon = 0.0
+init_lat = 0.0
+init_bearing = 0.0
 
 map_name = 'map'
 map_scale = 5.0
@@ -62,9 +68,11 @@ cross_pos = {"x": [], "y": []}
 cross_latlon = {"lon": [], "lat": []}
 cross_size = 5
 
-run = 2
-json_str = {"init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
+run = 1
+json_str = {"robot_id":"12", "init_point": {"lng": init_lon, "lat": init_lat}, "route": [], "run": run}
 clear_route_flag = False
+
+json_str_panel = {"panel_gps": {"lng": 0, "lat": 0}, "name": "GUI_test"}
 
 def read_Init():
 	print("Initializing position")
@@ -82,6 +90,9 @@ def read_Init():
 	lat.append(init_lat)
 	lon.append(init_lon)
 	bearing.append(init_bearing)
+
+	json_str["init_point"]["lng"] = init_lon
+	json_str["init_point"]["lat"] = init_lat
 
 	if ret[0] and ret[1] and ret[2]:
 		init_gps_flag = True
@@ -117,6 +128,13 @@ def dot_products(a, b):
 		new_vector.append(value)
 	return (new_vector[0], new_vector[1])
 
+def draw_panel(img):
+	global panel_pos
+	a = [panel_pos[0] - 20/float(map_scale), panel_pos[1] - 40/float(map_scale)]
+	b = [panel_pos[0] + 20/float(map_scale), panel_pos[1] + 40/float(map_scale)]
+	cv2.rectangle(img, (int(a[0]), int(a[1])), (int(b[0]), int(b[1])), (255,255,255), -1)
+	
+
 def draw_triangle(img, x, y, bearing):
 	global triangle_size, triangle_angle
 	point1_bef = (0,  - triangle_size)
@@ -140,7 +158,7 @@ def draw_sensor(img, x, y, bearing):
 	global box_width, box_height, triangle_angle
 	global sensor_angle, sensor_dist, front_sensor_pose, back_sensor_pose
 	R = [[math.cos(bearing/180.0*math.pi), -math.sin(bearing/180.0*math.pi), x], [math.sin(bearing/180.0*math.pi), math.cos(bearing/180.0*math.pi), y], [0, 0, 1]]
-	
+
 	f1 = [3 * box_width/8.0, -box_height/2.0, 1]
 	f2 = [box_width/8.0, -box_height/2.0, 1]
 	f3 = [-box_width/8.0, -box_height/2.0, 1]
@@ -243,7 +261,7 @@ def draw_sensor(img, x, y, bearing):
 		cv2.line(img, f12_divide[0], f12_divide[1], (0, 0, 255), 1)
 		cv2.line(img, f23_divide[0], f23_divide[1], (0, 0, 255), 1)
 		cv2.line(img, f34_divide[0], f34_divide[1], (0, 0, 255), 1)
-		
+
 		cv2.line(img, b12_divide[0], b12_divide[1], (0, 0, 255), 1)
 		cv2.line(img, b23_divide[0], b23_divide[1], (0, 0, 255), 1)
 		cv2.line(img, b34_divide[0], b34_divide[1], (0, 0, 255), 1)
@@ -257,7 +275,7 @@ def draw_sensor(img, x, y, bearing):
 	bbound3 = [bsensor_23_near, bsensor_23_far, bsensor_34_far, bsensor_34_near]
 	bbound4 = [bsensor_34_near, bsensor_34_far, bright_boundary_far, bright_boundary_near]
 	get_sensor_boundaries([fbound1, fbound2, fbound3, fbound4, bbound1, bbound2, bbound3, bbound4])
-	
+
 def get_sensor_boundpoints(sensor_list, global_sensor_list):
 	for j in range(-1, len(sensor_list)-1):
 		p1 = sensor_list[j]
@@ -421,10 +439,10 @@ def check_obstacle_bound_detected(global_sensor_list):
 			# else:
 			# 	rospy.loginfo("no front obstacle")
 	return points_in_boundary
-	
+
 
 def check_obstacle_detected():
-	
+
 	global front_sensor_points1, front_sensor_points2, front_sensor_points3, front_sensor_points4
 	global back_sensor_points1, back_sensor_points2, back_sensor_points3, back_sensor_points4
 
@@ -438,7 +456,7 @@ def check_obstacle_detected():
 	b3_points = check_obstacle_bound_detected(back_sensor_points3)
 	b4_points = check_obstacle_bound_detected(back_sensor_points4)
 
-	
+
 	sensor_data(f1_points, 'f', 1)
 	sensor_data(f2_points, 'f', 2)
 	sensor_data(f3_points, 'f', 3)
@@ -458,7 +476,7 @@ def sensor_data(points_list, front_back, index):
 	global front_sensor_pose, back_sensor_pose
 	global front_sensor_values, back_sensor_values
 	global map_scale
-	
+
 	if front_back == 'f':
 		min_dist = 100000
 		if points_list == []:
@@ -469,7 +487,7 @@ def sensor_data(points_list, front_back, index):
 				if dist <= min_dist:
 					min_dist = dist
 			value = min_dist * map_scale / 1.2
-			final_value = int(value/30)	
+			final_value = int(value/30)
 			if final_value > 7:
 				final_value = 8
 		front_sensor_values[index] = final_value
@@ -488,9 +506,9 @@ def sensor_data(points_list, front_back, index):
 			if final_value > 7:
 				final_value = 8
 		back_sensor_values[index] = final_value
-	
-	# print front_sensor_values 
-	
+
+	# print front_sensor_values
+
 
 def put_pos(img, lon, lat, x, y, bearing = ""):
 	string1_to_put = "Lon: %.10f Lat: %.10f"%(lon, lat)
@@ -507,6 +525,11 @@ def set_Route(event, x, y, flags, param):
 	global json_str, clear_route_flag, init_lon, init_lat
 	global cross_pos
 	global lat, lon, bearing
+	global panel_pos
+	a = [panel_pos[0] - 20/float(map_scale), panel_pos[1] - 40/float(map_scale)]
+	b = [panel_pos[0] + 20/float(map_scale), panel_pos[1] + 40/float(map_scale)]
+	c = [size[0]/2.0 - (50/float(map_scale)), size[1]/2.0 - (50/float(map_scale))]
+	d = [size[0]/2.0 + (50/float(map_scale)), size[1]/2.0 + (50/float(map_scale))]
 	if event == cv2.EVENT_RBUTTONDOWN:
 		json_str["route"] = []
 		# clear_route_flag = True
@@ -517,7 +540,7 @@ def set_Route(event, x, y, flags, param):
 		lat = [init_lat]
 		lon = [init_lon]
 		bearing = [init_bearing]
-	elif event == cv2.EVENT_LBUTTONDOWN:
+	elif event == cv2.EVENT_LBUTTONDOWN and (x < a[0] or x > b[0] or y < a[1] or y > b[1]): # and (x < c[0] or x > d[0] or y < c[1] or y > d[1]):
 		cross_pos["x"].append(x)
 		cross_pos["y"].append(y)
 		cross_lon = (x - size[0]/2.0) * float(map_scale) / float(gps_scale) + init_lon
@@ -526,6 +549,19 @@ def set_Route(event, x, y, flags, param):
 		cross_latlon["lat"].append(cross_lat)
 		json_str["route"].append({"lng": cross_lon, "lat": cross_lat})
 		# print json_str
+	elif event == cv2.EVENT_LBUTTONDOWN and (x > a[0] and x < b[0] and y > a[1] and y < b[1]):
+		print "summon robot (clicked on GUI)"
+		panel_lon = (panel_pos[0] - size[0]/2.0) * float(map_scale) / float(gps_scale) + init_lon
+		panel_lat = (size[1]/2.0 - panel_pos[1]) * float(map_scale) / float(gps_scale) + init_lat
+		json_str_panel["panel_gps"]["lng"] = panel_lon
+		json_str_panel["panel_gps"]["lat"] = panel_lat
+		json_str_panel_toSend = json.dumps(json_str_panel)
+		json_pub_panel.publish(json_str_panel_toSend)
+	# elif event == cv2.EVENT_LBUTTONDOWN and (x > c[0] and x < d[0] and y > c[1] and y < d[1]):
+	# 	print "back to base"
+
+		
+
 
 def draw_base(img):
 	global init_lon, init_lat, size
@@ -558,8 +594,9 @@ if __name__ == '__main__':
 		rospy.init_node('simulator_GUI', anonymous = True)
 		rospy.Subscriber('gps', String, GPS_callback)
 		json_pub = rospy.Publisher('job', String, queue_size = 100)
+		json_pub_panel = rospy.Publisher('summon_robot', String, queue_size = 100)
 		sonar_pub = rospy.Publisher('sonar', Sonar, queue_size = 100)
-		
+
 		read_Init()
 
 		cv2.namedWindow(map_name)
@@ -601,7 +638,10 @@ if __name__ == '__main__':
 				check_obstacle_detected()
 				ss = publish_sonar()
 				sonar_pub.publish(ss)
-		
+
+			if panel_flag:
+				draw_panel(frame)
+
 
 			cv2.imshow(map_name, frame)
 

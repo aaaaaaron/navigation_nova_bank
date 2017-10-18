@@ -17,6 +17,7 @@ import json
 import math
 import robot_configure
 import webbrowser
+import coordTransform_utils
 from datetime import datetime
 from std_msgs.msg import String
 from geometry_msgs.msg import Vector3
@@ -39,6 +40,23 @@ last_process_time 	= 0 	# last processing time
 max_delay 			= 1.0	# max delay allowed for not receiving any signal from encooder
 last_received_time 	= 0.0 	# the time of receiving the last encoer data
 
+imu_mode	= 0
+gps_mode	= 0
+delta_imu_data		= 0.0
+prev_imu_data = 0.0
+imu_allowance = 0.1
+
+def pose_pf_callback(data):
+	if gps_mode:
+		robot_drive.lon_now = data.x
+		robot_drive.lat_now = data.y
+		#robot_drive.bearing_now = data.z
+
+def gps_callback(data):
+	longitude = data.longitude
+	latitude = data.latitude
+	# lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
+	# robot_publisher.publish_gps_gaode(lonlat[0], lonlat[1])
 
 def sonar_callback(data):
 	robot_obstacle.front_sensor[0] = data.front_0;
@@ -56,17 +74,31 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
+	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance
 	#store the past value first
-	robot_drive.past_yaw  	= robot_drive.yaw
-	if(robot_drive.show_log):
-		diff_x = -robot_drive.roll + data.x
-        	diff_y = -robot_drive.pitch + data.y
-        	diff_z = -robot_drive.yaw + data.z
+	# robot_drive.past_yaw  	= robot_drive.yaw
+	# if(robot_drive.show_log):
+	# 	diff_x = -robot_drive.roll + data.x
+ #        	diff_y = -robot_drive.pitch + data.y
+ #        	diff_z = -robot_drive.yaw + data.z
 
 		#rospy.loginfo("values (%f, %f, %f)", diff_x, diff_y, diff_z)
-	robot_drive.roll  	= data.x
-	robot_drive.pitch 	= data.y
-	robot_drive.yaw 	= data.z
+	# robot_drive.roll  	= data.x
+	# robot_drive.pitch 	= data.y
+	# robot_drive.yaw 	= data.z
+
+	if imu_mode == 1:
+		imu_yaw = data.x
+		delta_imu_data = imu_yaw - prev_imu_data
+		if delta_imu_data < -180.0:
+			delta_imu_data = delta_imu_data + 360.0
+		elif delta_imu_data > 180.0:
+			delta_imu_data = delta_imu_data - 360.0
+#		if abs(delta_imu_data) < imu_allowance:
+#			delta_imu_data = 0.0
+		# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
+		prev_imu_data = imu_yaw
+
 
 
 def serial_encoder_callback(data):
@@ -97,7 +129,8 @@ def serial_encoder_callback(data):
 	elif multiply < 10:
 	# 	robot_drive.robot_turning 	= False
 	# 	robot_drive.robot_moving 	= False
-		rospy.logwarn("The encoder is changing on a small value")
+		# rospy.logwarn("The encoder is changing on a small value")
+		pass
 	# elif left_encode != 0 or right_encode != 0:
 	# 	#rospy.loginfo("encoder 1.3")
 	# 	robot_drive.robot_turning = True
@@ -155,6 +188,8 @@ def status_callback(data):
 	robot_drive.battery_level = data.battery_level
 	if(robot_drive.battery_level >= 20):
 		robot_job.back_to_base_mode = False
+	else:
+		robot_job.back_to_base_mode = True
 
 	data_int  	= data.direction
 	if (data_int == 0):
@@ -207,6 +242,7 @@ def chat_callback(data):
 		chat_type = chat_obj.get(u'TYPE')
 		chat_action = chat_obj.get(u'ACTION')
 		chat_id = chat_obj.get(u'ID')
+		chat_client = chat_obj.get(u'CLIENT')
 
 		rospy.loginfo("ID: %d vs my_id %d, TYPE %d, ACTION %d", chat_id, robot_drive.robot_id, chat_type, chat_action)
 
@@ -243,6 +279,8 @@ def control_callback(data):
 	try:
 		decoded = json.loads(json_str)
 		bearing = decoded['bearing']
+		robot_drive.robot_paused = True
+		robot_drive.new_command = True
 		robot_job.append_turn_job(robot_drive.lon_now, robot_drive.lat_now, bearing)
 		lon_new, lat_new  = robot_job.append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 100000, bearing)
 		rospy.loginfo("Finish generating jobs");
@@ -267,15 +305,48 @@ def job_callback(data):
 		for item in list_route:
 			lon = float(item.get(u'lng'))
 			lat = float(item.get(u'lat'))
-			robot_job.gps_lon.extend([lon])
-			robot_job.gps_lat.extend([lat])
+
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+			if not robot_correction.indoor_coord:
+				if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+					lonlat = coordTransform_utils.gcj02_to_wgs84(lon, lat)		# convert gcj02 to wgs84
+					robot_job.gps_lon.extend([lonlat[0]])
+					robot_job.gps_lat.extend([lonlat[1]])
+				else:
+					robot_job.gps_lon.extend([lon])
+					robot_job.gps_lat.extend([lat])
+			else:
+				robot_job.gps_lon.extend([lon])
+				robot_job.gps_lat.extend([lat])
+#-------------------------------------------------------------------------------------------------------------------------------------------
+		
+		#temp
+		robot_job.gps_lon_copy = []
+		robot_job.gps_lat_copy = []
 		robot_job.clear_job_list()
+		#
+
 		rospy.loginfo("Parsing route successful")
 		init_point				= decoded['init_point']
 		robot_drive.robot_id 	= decoded['robot_id']
-		robot_job.init_lon 		= float(init_point.get(u'lng'))
-		robot_job.init_lat 		= float(init_point.get(u'lat'))
-		update_base(robot_job.init_lon, robot_job.init_lat)
+		init_long 		= float(init_point.get(u'lng'))
+		init_lati 		= float(init_point.get(u'lat'))
+
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+		update_base(init_long, init_lati)
+		if not robot_correction.indoor_coord:
+			if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+				initlonlat = coordTransform_utils.gcj02_to_wgs84(init_long, init_lati)		# convert gcj02 to wgs84
+				robot_job.init_lon = initlonlat[0]
+				robot_job.init_lat = initlonlat[1]
+			else:
+				robot_job.init_lon = init_long
+				robot_job.init_lat = init_lati
+		else:
+			robot_job.init_lon = init_long
+			robot_job.init_lat = init_lati
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
 		rospy.loginfo("Parse init point successful")
 		no_runs 			= decoded['run']
 		rospy.loginfo("Number of runs %d", int(no_runs))
@@ -400,19 +471,19 @@ def keyboard_callback(data):
 		rospy.loginfo("Resume the task");
 		robot_drive.robot_paused = 0;
 	elif (keyboard_data == 'Forward'):
-		rospy.loginfo("Command received: Start to move forward 4 m")
+		rospy.loginfo("Command received: Start to move forward 1 m")
 		robot_job.simple_move(1000.0, robot_drive.bearing_now, 'F')
 	elif (keyboard_data == 'Back'):
-		rospy.loginfo("Command received: Start to move backward 4 m")
-		robot_job.simple_move(-1000.0, robot_drive.bearing_now, 'B')
+		rospy.loginfo("Command received: Start to move backward 3 m")
+		robot_job.simple_move(3000.0, robot_drive.bearing_now, 'F')
 	elif (keyboard_data == 'Turn_West'):
 		rospy.loginfo("Command received: turn to 270 (WEST)")
 		#robot_drive.bearing_now = compass_data[compass_index]
-		robot_job.simple_turn(270.0)
+		robot_job.simple_turn(robot_drive.bearing_now - 90.0)
 	elif (keyboard_data == 'Turn_East'):
 		rospy.loginfo('Command received: turn to 90 (EAST)')
 		#robot_drive.bearing_now = compass_data[compass_index]
-		robot_job.simple_turn(90.0)
+		robot_job.simple_turn(robot_drive.bearing_now + 90.0)
 	elif (keyboard_data == 'Stop'):
 		rospy.loginfo("Comamnd received: Clear all jobs")
 		robot_job.clear_job_list()
@@ -544,6 +615,29 @@ def bluetooth_callback(data):
 	rospy.loginfo("found panel: %s", string)
 
 ######################################################################
+# same data: {"panel_gps":{"name":"PANEL1","lng":"121.620953","lat":"31.260254"}}
+def panel_summon_callback(data):
+	json_str = data.data
+	rospy.loginfo(json_str)
+	try:
+		decoded 				= json.loads(json_str)
+		panel_gps 				= decoded['panel_gps']
+#-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
+		if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:
+			panel_lonlat = coordTransform_utils.gcj02_to_wgs84(float(panel_gps.get(u'lng')), float(panel_gps.get(u'lat')))
+			robot_drive.panel_lon 			= panel_lonlat[0]
+			robot_drive.panel_lat 			= panel_lonlat[1]
+		else:
+			robot_drive.panel_lon 			= float(panel_gps.get(u'lng'))
+			robot_drive.panel_lat 			= float(panel_gps.get(u'lat'))
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
+		name 					= panel_gps.get(u'name')
+		robot_job.summon_mode 			= True
+		rospy.loginfo("Set to be summon mode")
+	except (ValueError, KeyError, TypeError):
+		rospy.loginfo('JSON format error:')
+		rospy.loginfo(json_str)
 
 # init the the encoder buffer with some empty data when system starts
 def init_encoder_buffer( size=2000 ):

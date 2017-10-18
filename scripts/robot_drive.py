@@ -15,6 +15,8 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
 linear_encode_to_mm 		 	= 0.0
 turning_encode_to_mm  			= 0.0
+dist_param						= 0.0
+angle_param						= 0.0
 turn_radius 					= 0.0
 bank_radius						= 0.0
 min_bank_dist					= 0.0
@@ -64,7 +66,7 @@ robot_turning		= False
 
 
 # Flags indicate the mode desired to minimize the startup keyboard entries
-obstacle_mode_desired 	= True
+obstacle_mode_desired 	= False
 burn_mode_desired 		= False
 robot_enabled_desired 	= True
 
@@ -99,7 +101,11 @@ robot_interacting			= False
 roll_start 					= 0.0
 
 bluetooth_panel 			= ''
+panel_lon					= 0
+panel_lat					= 0 
 robot_id 					= -1;
+
+new_command					= False
 
 
 

@@ -9,6 +9,7 @@ import gpsmath
 import robot_job
 import robot_publisher
 import robot_move
+import write_log
 
 #-------------------------------------------------------#
 #	Robot moving module									#
@@ -71,6 +72,8 @@ def stop_move():
 
 	# elif (robot_job.no_normal_jobs() >= 1) or not robot_drive.robot_moving :
 	if not robot_drive.robot_moving:
+		string = "distance completed ; %f ; robot direction ; %f\n\n"%(dist_completed, robot_drive.bearing_now)
+		write_log.write_to_file(string)
 		dist_completed = 0.0
 		robot_drive.robot_on_mission = False
 		rospy.loginfo('----------------- Robot completed a moving job -----------------')

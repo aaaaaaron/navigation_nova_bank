@@ -1,0 +1,882 @@
+job desc ; F ; job val ; -207.316657 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+enc_dist ; -45.820531 ; enc_theta ; -0.079742 ; imu_theta ; 0.000000 ; output_theta ; -0.079742
+job desc ; F ; job val ; -207.316657 ; bearing target ; 0.000000 ; bearing now ; 359.920258
+enc_dist ; -45.820531 ; enc_theta ; -0.079742 ; imu_theta ; 0.000000 ; output_theta ; -0.079742
+enc_dist ; -45.820531 ; enc_theta ; -0.079742 ; imu_theta ; 0.000000 ; output_theta ; -0.079742
+enc_dist ; -45.820531 ; enc_theta ; -0.079742 ; imu_theta ; 0.000000 ; output_theta ; -0.079742
+enc_dist ; -45.820531 ; enc_theta ; -0.079742 ; imu_theta ; 0.000000 ; output_theta ; -0.079742
+distance completed ; 183.282123 ; robot direction ; 359.601290
+
+job desc ; T ; job val ; 258.027431 ; bearing target ; 258.027431 ; bearing now ; 359.601290
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+job desc ; T ; job val ; 258.027431 ; bearing target ; 258.027431 ; bearing now ; 356.119226
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 30.396352 ; enc_theta ; -4.766795 ; imu_theta ; 0.000000 ; output_theta ; -4.766795
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+degree to turn ; -98.091794 ; degree turned ; -92.506549 ; robot direction ; 263.612676
+
+job desc ; F ; job val ; 2299.987578 ; bearing target ; 258.027431 ; bearing now ; 263.612676
+enc_dist ; 46.159524 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+job desc ; F ; job val ; 2299.987578 ; bearing target ; 258.027431 ; bearing now ; 263.609722
+enc_dist ; 46.159524 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 46.159524 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 46.159524 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 46.159524 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 46.159524 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 60.359557 ; enc_theta ; 0.002955 ; imu_theta ; 0.000000 ; output_theta ; 0.002955
+enc_dist ; 75.708399 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 75.708399 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 75.708399 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 75.708399 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+enc_dist ; 60.246559 ; enc_theta ; 0.038394 ; imu_theta ; 0.000000 ; output_theta ; 0.038394
+distance completed ; 2041.264159 ; robot direction ; 264.543010
+
+job desc ; T ; job val ; 125.065042 ; bearing target ; 125.065042 ; bearing now ; 264.543010
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+job desc ; T ; job val ; 125.065042 ; bearing target ; 125.065042 ; bearing now ; 260.975296
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 30.377519 ; enc_theta ; -4.763842 ; imu_theta ; 0.000000 ; output_theta ; -4.763842
+enc_dist ; 37.684693 ; enc_theta ; -5.909763 ; imu_theta ; 0.000000 ; output_theta ; -5.909763
+enc_dist ; 37.684693 ; enc_theta ; -5.909763 ; imu_theta ; 0.000000 ; output_theta ; -5.909763
+enc_dist ; 37.684693 ; enc_theta ; -5.909763 ; imu_theta ; 0.000000 ; output_theta ; -5.909763
+enc_dist ; 37.684693 ; enc_theta ; -5.909763 ; imu_theta ; 0.000000 ; output_theta ; -5.909763
+enc_dist ; 37.684693 ; enc_theta ; -5.909763 ; imu_theta ; 0.000000 ; output_theta ; -5.909763
+enc_dist ; 37.684693 ; enc_theta ; -5.909763 ; imu_theta ; 0.000000 ; output_theta ; -5.909763
+enc_dist ; 30.189190 ; enc_theta ; -4.734308 ; imu_theta ; 0.000000 ; output_theta ; -4.734308
+enc_dist ; 30.189190 ; enc_theta ; -4.734308 ; imu_theta ; 0.000000 ; output_theta ; -4.734308
+enc_dist ; 30.189190 ; enc_theta ; -4.734308 ; imu_theta ; 0.000000 ; output_theta ; -4.734308
+enc_dist ; 30.189190 ; enc_theta ; -4.734308 ; imu_theta ; 0.000000 ; output_theta ; -4.734308
+enc_dist ; 30.189190 ; enc_theta ; -4.734308 ; imu_theta ; 0.000000 ; output_theta ; -4.734308
+enc_dist ; 30.189190 ; enc_theta ; -4.734308 ; imu_theta ; 0.000000 ; output_theta ; -4.734308
+enc_dist ; 23.108009 ; enc_theta ; -3.623828 ; imu_theta ; 0.000000 ; output_theta ; -3.623828
+enc_dist ; 23.108009 ; enc_theta ; -3.623828 ; imu_theta ; 0.000000 ; output_theta ; -3.623828
+enc_dist ; 23.108009 ; enc_theta ; -3.623828 ; imu_theta ; 0.000000 ; output_theta ; -3.623828
+enc_dist ; 23.108009 ; enc_theta ; -3.623828 ; imu_theta ; 0.000000 ; output_theta ; -3.623828
+degree to turn ; -135.910255 ; degree turned ; -133.112910 ; robot direction ; 127.862386
+
+job desc ; F ; job val ; 4878.329711 ; bearing target ; 127.862386 ; bearing now ; 127.862386
+enc_dist ; 45.199044 ; enc_theta ; -0.082695 ; imu_theta ; 0.000000 ; output_theta ; -0.082695
+job desc ; F ; job val ; 4878.329711 ; bearing target ; 127.862386 ; bearing now ; 127.779691
+enc_dist ; 45.199044 ; enc_theta ; -0.082695 ; imu_theta ; 0.000000 ; output_theta ; -0.082695
+enc_dist ; 45.199044 ; enc_theta ; -0.082695 ; imu_theta ; 0.000000 ; output_theta ; -0.082695
+enc_dist ; 45.199044 ; enc_theta ; -0.082695 ; imu_theta ; 0.000000 ; output_theta ; -0.082695
+enc_dist ; 45.199044 ; enc_theta ; -0.082695 ; imu_theta ; 0.000000 ; output_theta ; -0.082695
+enc_dist ; 45.199044 ; enc_theta ; -0.082695 ; imu_theta ; 0.000000 ; output_theta ; -0.082695
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 60.886879 ; enc_theta ; 0.050208 ; imu_theta ; 0.000000 ; output_theta ; 0.050208
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 74.653754 ; enc_theta ; 0.005908 ; imu_theta ; 0.000000 ; output_theta ; 0.005908
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+enc_dist ; 60.660884 ; enc_theta ; 0.085649 ; imu_theta ; 0.000000 ; output_theta ; 0.085649
+distance completed ; 4474.969017 ; robot direction ; 129.020164
+
+job desc ; T ; job val ; 26.474509 ; bearing target ; 26.474509 ; bearing now ; 129.020164
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+job desc ; T ; job val ; 26.474509 ; bearing target ; 26.474509 ; bearing now ; 125.490845
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+enc_dist ; 22.505355 ; enc_theta ; -3.529319 ; imu_theta ; 0.000000 ; output_theta ; -3.529319
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 30.321020 ; enc_theta ; -4.754982 ; imu_theta ; 0.000000 ; output_theta ; -4.754982
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+enc_dist ; 22.204028 ; enc_theta ; -3.482065 ; imu_theta ; 0.000000 ; output_theta ; -3.482065
+degree to turn ; -99.016336 ; degree turned ; -93.436872 ; robot direction ; 32.053973
+
+job desc ; F ; job val ; 3758.876174 ; bearing target ; 32.053973 ; bearing now ; 32.053973
+enc_dist ; 44.765886 ; enc_theta ; 0.073835 ; imu_theta ; 0.000000 ; output_theta ; 0.073835
+job desc ; F ; job val ; 3758.876174 ; bearing target ; 32.053973 ; bearing now ; 32.127809
+enc_dist ; 44.765886 ; enc_theta ; 0.073835 ; imu_theta ; 0.000000 ; output_theta ; 0.073835
+enc_dist ; 44.765886 ; enc_theta ; 0.073835 ; imu_theta ; 0.000000 ; output_theta ; 0.073835
+enc_dist ; 44.765886 ; enc_theta ; 0.073835 ; imu_theta ; 0.000000 ; output_theta ; 0.073835
+enc_dist ; 44.765886 ; enc_theta ; 0.073835 ; imu_theta ; 0.000000 ; output_theta ; 0.073835
+enc_dist ; 44.765886 ; enc_theta ; 0.073835 ; imu_theta ; 0.000000 ; output_theta ; 0.073835
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 60.058230 ; enc_theta ; -0.091556 ; imu_theta ; 0.000000 ; output_theta ; -0.091556
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+enc_dist ; 75.576568 ; enc_theta ; 0.121090 ; imu_theta ; 0.000000 ; output_theta ; 0.121090
+distance completed ; 2667.270918 ; robot direction ; 33.970735
+
+job desc ; F ; job val ; 178.460798 ; bearing target ; 33.970734 ; bearing now ; 33.970735
+enc_dist ; 45.236710 ; enc_theta ; 0.088602 ; imu_theta ; 0.000000 ; output_theta ; 0.088602
+job desc ; F ; job val ; 178.460798 ; bearing target ; 33.970734 ; bearing now ; 34.059337
+enc_dist ; 45.236710 ; enc_theta ; 0.088602 ; imu_theta ; 0.000000 ; output_theta ; 0.088602
+enc_dist ; 45.236710 ; enc_theta ; 0.088602 ; imu_theta ; 0.000000 ; output_theta ; 0.088602
+enc_dist ; 45.236710 ; enc_theta ; 0.088602 ; imu_theta ; 0.000000 ; output_theta ; 0.088602
+distance completed ; 135.710130 ; robot direction ; 34.325144
+
+job desc ; T ; job val ; 26.501902 ; bearing target ; 26.501902 ; bearing now ; 34.325144
+enc_dist ; 22.260527 ; enc_theta ; -3.490925 ; imu_theta ; 0.000000 ; output_theta ; -3.490925
+job desc ; T ; job val ; 26.501902 ; bearing target ; 26.501902 ; bearing now ; 30.834219
+enc_dist ; 22.260527 ; enc_theta ; -3.490925 ; imu_theta ; 0.000000 ; output_theta ; -3.490925
+job desc ; F ; job val ; 829.226770 ; bearing target ; 26.501902 ; bearing now ; 27.343294
+enc_dist ; 45.443872 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+job desc ; F ; job val ; 829.226770 ; bearing target ; 26.501902 ; bearing now ; 27.369875
+enc_dist ; 45.443872 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 45.443872 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 45.443872 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 45.443872 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 45.443872 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.568573 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 45.443872 ; enc_theta ; -0.008859 ; imu_theta ; 0.000000 ; output_theta ; -0.008859
+enc_dist ; 45.443872 ; enc_theta ; -0.008859 ; imu_theta ; 0.000000 ; output_theta ; -0.008859
+enc_dist ; 45.443872 ; enc_theta ; -0.008859 ; imu_theta ; 0.000000 ; output_theta ; -0.008859
+distance completed ; 780.530991 ; robot direction ; 27.496899
+
+job desc ; T ; job val ; 265.347541 ; bearing target ; 265.347541 ; bearing now ; 27.496899
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+job desc ; T ; job val ; 265.347541 ; bearing target ; 265.347541 ; bearing now ; 24.038462
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+enc_dist ; 22.053365 ; enc_theta ; -3.458437 ; imu_theta ; 0.000000 ; output_theta ; -3.458437
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 37.910688 ; enc_theta ; -5.945204 ; imu_theta ; 0.000000 ; output_theta ; -5.945204
+enc_dist ; 37.910688 ; enc_theta ; -5.945204 ; imu_theta ; 0.000000 ; output_theta ; -5.945204
+enc_dist ; 37.910688 ; enc_theta ; -5.945204 ; imu_theta ; 0.000000 ; output_theta ; -5.945204
+enc_dist ; 30.622347 ; enc_theta ; -4.802236 ; imu_theta ; 0.000000 ; output_theta ; -4.802236
+enc_dist ; 30.622347 ; enc_theta ; -4.802236 ; imu_theta ; 0.000000 ; output_theta ; -4.802236
+enc_dist ; 30.622347 ; enc_theta ; -4.802236 ; imu_theta ; 0.000000 ; output_theta ; -4.802236
+enc_dist ; 30.622347 ; enc_theta ; -4.802236 ; imu_theta ; 0.000000 ; output_theta ; -4.802236
+enc_dist ; 30.622347 ; enc_theta ; -4.802236 ; imu_theta ; 0.000000 ; output_theta ; -4.802236
+enc_dist ; 30.622347 ; enc_theta ; -4.802236 ; imu_theta ; 0.000000 ; output_theta ; -4.802236
+enc_dist ; 23.013844 ; enc_theta ; -3.609061 ; imu_theta ; 0.000000 ; output_theta ; -3.609061
+enc_dist ; 23.013844 ; enc_theta ; -3.609061 ; imu_theta ; 0.000000 ; output_theta ; -3.609061
+enc_dist ; 23.013844 ; enc_theta ; -3.609061 ; imu_theta ; 0.000000 ; output_theta ; -3.609061
+enc_dist ; 23.013844 ; enc_theta ; -3.609061 ; imu_theta ; 0.000000 ; output_theta ; -3.609061
+degree to turn ; -118.690921 ; degree turned ; -115.492898 ; robot direction ; 268.545564
+
+job desc ; F ; job val ; 3059.250711 ; bearing target ; 265.347541 ; bearing now ; 268.545564
+enc_dist ; 45.029548 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.002952
+job desc ; F ; job val ; 3059.250711 ; bearing target ; 265.347541 ; bearing now ; 268.548516
+enc_dist ; 45.029548 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.002952
+enc_dist ; 45.029548 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.002952
+enc_dist ; 45.029548 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.002952
+enc_dist ; 45.029548 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.002952
+enc_dist ; 45.029548 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.002952
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 61.188206 ; enc_theta ; -0.002955 ; imu_theta ; 0.000000 ; output_theta ; -0.002955
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 74.785585 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+distance completed ; 2067.592602 ; robot direction ; 268.400833
+
+job desc ; F ; job val ; 154.256147 ; bearing target ; 268.400833 ; bearing now ; 268.400833
+enc_dist ; 45.104879 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+job desc ; F ; job val ; 154.256147 ; bearing target ; 268.400833 ; bearing now ; 268.391972
+enc_dist ; 45.104879 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 45.104879 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+enc_dist ; 45.104879 ; enc_theta ; -0.008860 ; imu_theta ; 0.000000 ; output_theta ; -0.008860
+distance completed ; 135.314638 ; robot direction ; 268.365391
+
+job desc ; T ; job val ; 252.616993 ; bearing target ; 252.616993 ; bearing now ; 268.365391
+enc_dist ; 22.128697 ; enc_theta ; -3.470251 ; imu_theta ; 0.000000 ; output_theta ; -3.470251
+job desc ; T ; job val ; 252.616993 ; bearing target ; 252.616993 ; bearing now ; 264.895140
+enc_dist ; 22.128697 ; enc_theta ; -3.470251 ; imu_theta ; 0.000000 ; output_theta ; -3.470251
+enc_dist ; 22.128697 ; enc_theta ; -3.470251 ; imu_theta ; 0.000000 ; output_theta ; -3.470251
+degree to turn ; -12.278148 ; degree turned ; -6.940502 ; robot direction ; 257.954638
+
+job desc ; F ; job val ; 706.708365 ; bearing target ; 252.616993 ; bearing now ; 257.954638
+enc_dist ; 45.048381 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+job desc ; F ; job val ; 706.708365 ; bearing target ; 252.616993 ; bearing now ; 257.919198
+enc_dist ; 45.048381 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 45.048381 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 45.048381 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 45.048381 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 45.048381 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 61.112874 ; enc_theta ; 0.026581 ; imu_theta ; 0.000000 ; output_theta ; 0.026581
+enc_dist ; 61.112874 ; enc_theta ; 0.026581 ; imu_theta ; 0.000000 ; output_theta ; 0.026581
+enc_dist ; 61.112874 ; enc_theta ; 0.026581 ; imu_theta ; 0.000000 ; output_theta ; 0.026581
+enc_dist ; 61.112874 ; enc_theta ; 0.026581 ; imu_theta ; 0.000000 ; output_theta ; 0.026581
+enc_dist ; 61.112874 ; enc_theta ; 0.026581 ; imu_theta ; 0.000000 ; output_theta ; 0.026581
+enc_dist ; 45.029548 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 45.029548 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 45.029548 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+distance completed ; 665.894916 ; robot direction ; 257.812876
+
+job desc ; T ; job val ; 261.297711 ; bearing target ; 261.297711 ; bearing now ; 257.812876
+job desc ; F ; job val ; 88.332470 ; bearing target ; 261.297711 ; bearing now ; 257.812876
+distance completed ; 0.000000 ; robot direction ; 257.812876
+
+job desc ; F ; job val ; -207.316657 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+enc_dist ; -45.029548 ; enc_theta ; -0.126996 ; imu_theta ; 0.000000 ; output_theta ; -0.126996
+job desc ; F ; job val ; -207.316657 ; bearing target ; 0.000000 ; bearing now ; 359.873004
+enc_dist ; -45.029548 ; enc_theta ; -0.126996 ; imu_theta ; 0.000000 ; output_theta ; -0.126996
+enc_dist ; -45.029548 ; enc_theta ; -0.126996 ; imu_theta ; 0.000000 ; output_theta ; -0.126996
+enc_dist ; -45.029548 ; enc_theta ; -0.126996 ; imu_theta ; 0.000000 ; output_theta ; -0.126996
+enc_dist ; -45.029548 ; enc_theta ; -0.126996 ; imu_theta ; 0.000000 ; output_theta ; -0.126996
+distance completed ; 180.118190 ; robot direction ; 359.365018
+
+job desc ; T ; job val ; 258.027431 ; bearing target ; 258.027431 ; bearing now ; 359.365018
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+job desc ; T ; job val ; 258.027431 ; bearing target ; 258.027431 ; bearing now ; 355.888860
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+enc_dist ; 22.166362 ; enc_theta ; -3.476158 ; imu_theta ; 0.000000 ; output_theta ; -3.476158
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 30.660013 ; enc_theta ; -4.808143 ; imu_theta ; 0.000000 ; output_theta ; -4.808143
+enc_dist ; 22.919680 ; enc_theta ; -3.594294 ; imu_theta ; 0.000000 ; output_theta ; -3.594294
+enc_dist ; 22.919680 ; enc_theta ; -3.594294 ; imu_theta ; 0.000000 ; output_theta ; -3.594294
+enc_dist ; 22.919680 ; enc_theta ; -3.594294 ; imu_theta ; 0.000000 ; output_theta ; -3.594294
+enc_dist ; 22.919680 ; enc_theta ; -3.594294 ; imu_theta ; 0.000000 ; output_theta ; -3.594294
+degree to turn ; -97.861429 ; degree turned ; -92.931839 ; robot direction ; 262.957021
+
+job desc ; F ; job val ; 2299.987578 ; bearing target ; 258.027431 ; bearing now ; 262.957021
+enc_dist ; 46.084192 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+job desc ; F ; job val ; 2299.987578 ; bearing target ; 258.027431 ; bearing now ; 262.959978
+enc_dist ; 46.084192 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 46.084192 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 46.084192 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 46.084192 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 46.084192 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 59.851067 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
+enc_dist ; 74.766752 ; enc_theta ; 0.064975 ; imu_theta ; 0.000000 ; output_theta ; 0.064975
+enc_dist ; 74.766752 ; enc_theta ; 0.064975 ; imu_theta ; 0.000000 ; output_theta ; 0.064975
+enc_dist ; 74.766752 ; enc_theta ; 0.064975 ; imu_theta ; 0.000000 ; output_theta ; 0.064975
+enc_dist ; 74.766752 ; enc_theta ; 0.064975 ; imu_theta ; 0.000000 ; output_theta ; 0.064975
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+enc_dist ; 59.851067 ; enc_theta ; -0.047255 ; imu_theta ; 0.000000 ; output_theta ; -0.047255
+distance completed ; 2025.764653 ; robot direction ; 262.206877
+
+job desc ; T ; job val ; 125.065042 ; bearing target ; 125.065042 ; bearing now ; 262.206877
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+job desc ; T ; job val ; 125.065042 ; bearing target ; 125.065042 ; bearing now ; 258.639163
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 22.750183 ; enc_theta ; -3.567713 ; imu_theta ; 0.000000 ; output_theta ; -3.567713
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 29.567703 ; enc_theta ; -4.636846 ; imu_theta ; 0.000000 ; output_theta ; -4.636846
+enc_dist ; 37.854189 ; enc_theta ; -5.936343 ; imu_theta ; 0.000000 ; output_theta ; -5.936343
+enc_dist ; 37.854189 ; enc_theta ; -5.936343 ; imu_theta ; 0.000000 ; output_theta ; -5.936343
+enc_dist ; 37.854189 ; enc_theta ; -5.936343 ; imu_theta ; 0.000000 ; output_theta ; -5.936343
+enc_dist ; 37.854189 ; enc_theta ; -5.936343 ; imu_theta ; 0.000000 ; output_theta ; -5.936343
+enc_dist ; 37.854189 ; enc_theta ; -5.936343 ; imu_theta ; 0.000000 ; output_theta ; -5.936343
+enc_dist ; 37.854189 ; enc_theta ; -5.936343 ; imu_theta ; 0.000000 ; output_theta ; -5.936343
+enc_dist ; 30.076192 ; enc_theta ; -4.716588 ; imu_theta ; 0.000000 ; output_theta ; -4.716588
+enc_dist ; 30.076192 ; enc_theta ; -4.716588 ; imu_theta ; 0.000000 ; output_theta ; -4.716588
+enc_dist ; 30.076192 ; enc_theta ; -4.716588 ; imu_theta ; 0.000000 ; output_theta ; -4.716588
+enc_dist ; 30.076192 ; enc_theta ; -4.716588 ; imu_theta ; 0.000000 ; output_theta ; -4.716588
+enc_dist ; 30.076192 ; enc_theta ; -4.716588 ; imu_theta ; 0.000000 ; output_theta ; -4.716588
+enc_dist ; 30.076192 ; enc_theta ; -4.716588 ; imu_theta ; 0.000000 ; output_theta ; -4.716588
+enc_dist ; 22.844348 ; enc_theta ; -3.582480 ; imu_theta ; 0.000000 ; output_theta ; -3.582480
+enc_dist ; 22.844348 ; enc_theta ; -3.582480 ; imu_theta ; 0.000000 ; output_theta ; -3.582480
+enc_dist ; 22.844348 ; enc_theta ; -3.582480 ; imu_theta ; 0.000000 ; output_theta ; -3.582480
+degree to turn ; -133.574122 ; degree turned ; -128.529226 ; robot direction ; 130.109937
+
+job desc ; F ; job val ; 4843.881149 ; bearing target ; 130.109937 ; bearing now ; 130.109937
+enc_dist ; 44.954216 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
+job desc ; F ; job val ; 4843.881149 ; bearing target ; 130.109937 ; bearing now ; 130.130611
+enc_dist ; 44.954216 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
+enc_dist ; 44.954216 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
+enc_dist ; 44.954216 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
+enc_dist ; 44.954216 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
+enc_dist ; 44.954216 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 60.717382 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+enc_dist ; 75.463571 ; enc_theta ; 0.103369 ; imu_theta ; 0.000000 ; output_theta ; 0.103369
+distance completed ; 2070.587038 ; robot direction ; 132.295458
+
+job desc ; F ; job val ; 176.696065 ; bearing target ; 132.295458 ; bearing now ; 132.295458
+enc_dist ; 45.519204 ; enc_theta ; 0.056115 ; imu_theta ; 0.000000 ; output_theta ; 0.056115
+job desc ; F ; job val ; 176.696065 ; bearing target ; 132.295458 ; bearing now ; 132.351573
+enc_dist ; 45.519204 ; enc_theta ; 0.056115 ; imu_theta ; 0.000000 ; output_theta ; 0.056115
+enc_dist ; 45.519204 ; enc_theta ; 0.056115 ; imu_theta ; 0.000000 ; output_theta ; 0.056115
+enc_dist ; 45.519204 ; enc_theta ; 0.056115 ; imu_theta ; 0.000000 ; output_theta ; 0.056115
+distance completed ; 136.557612 ; robot direction ; 132.519917
+
+job desc ; T ; job val ; 124.216645 ; bearing target ; 124.216645 ; bearing now ; 132.519917
+enc_dist ; 23.164508 ; enc_theta ; -3.632688 ; imu_theta ; 0.000000 ; output_theta ; -3.632688
+job desc ; T ; job val ; 124.216645 ; bearing target ; 124.216645 ; bearing now ; 128.887229
+enc_dist ; 23.164508 ; enc_theta ; -3.632688 ; imu_theta ; 0.000000 ; output_theta ; -3.632688
+job desc ; F ; job val ; 2514.091782 ; bearing target ; 124.216645 ; bearing now ; 125.254540
+enc_dist ; 45.425039 ; enc_theta ; -0.059068 ; imu_theta ; 0.000000 ; output_theta ; -0.059068
+job desc ; F ; job val ; 2514.091782 ; bearing target ; 124.216645 ; bearing now ; 125.195472
+enc_dist ; 45.425039 ; enc_theta ; -0.059068 ; imu_theta ; 0.000000 ; output_theta ; -0.059068
+enc_dist ; 45.425039 ; enc_theta ; -0.059068 ; imu_theta ; 0.000000 ; output_theta ; -0.059068
+enc_dist ; 45.425039 ; enc_theta ; -0.059068 ; imu_theta ; 0.000000 ; output_theta ; -0.059068
+enc_dist ; 45.425039 ; enc_theta ; -0.059068 ; imu_theta ; 0.000000 ; output_theta ; -0.059068
+enc_dist ; 45.425039 ; enc_theta ; -0.059068 ; imu_theta ; 0.000000 ; output_theta ; -0.059068
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 60.453721 ; enc_theta ; 0.118136 ; imu_theta ; 0.000000 ; output_theta ; 0.118136
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 76.047392 ; enc_theta ; 0.053161 ; imu_theta ; 0.000000 ; output_theta ; 0.053161
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+enc_dist ; 60.171227 ; enc_theta ; 0.138810 ; imu_theta ; 0.000000 ; output_theta ; 0.138810
+distance completed ; 2026.725133 ; robot direction ; 127.918512
+
+job desc ; T ; job val ; 26.474509 ; bearing target ; 26.474509 ; bearing now ; 127.918512
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+job desc ; T ; job val ; 26.474509 ; bearing target ; 26.474509 ; bearing now ; 124.395100
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+enc_dist ; 22.467689 ; enc_theta ; -3.523412 ; imu_theta ; 0.000000 ; output_theta ; -3.523412
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 30.490516 ; enc_theta ; -4.781562 ; imu_theta ; 0.000000 ; output_theta ; -4.781562
+enc_dist ; 22.561854 ; enc_theta ; -3.538179 ; imu_theta ; 0.000000 ; output_theta ; -3.538179
+enc_dist ; 22.561854 ; enc_theta ; -3.538179 ; imu_theta ; 0.000000 ; output_theta ; -3.538179
+enc_dist ; 22.561854 ; enc_theta ; -3.538179 ; imu_theta ; 0.000000 ; output_theta ; -3.538179
+enc_dist ; 22.561854 ; enc_theta ; -3.538179 ; imu_theta ; 0.000000 ; output_theta ; -3.538179
+degree to turn ; -97.920591 ; degree turned ; -92.671940 ; robot direction ; 31.723160
+
+job desc ; F ; job val ; 4033.697758 ; bearing target ; 31.723160 ; bearing now ; 31.723160
+enc_dist ; 45.462705 ; enc_theta ; -0.041348 ; imu_theta ; 0.000000 ; output_theta ; -0.041348
+job desc ; F ; job val ; 4033.697758 ; bearing target ; 31.723160 ; bearing now ; 31.681813
+enc_dist ; 45.462705 ; enc_theta ; -0.041348 ; imu_theta ; 0.000000 ; output_theta ; -0.041348
+enc_dist ; 45.462705 ; enc_theta ; -0.041348 ; imu_theta ; 0.000000 ; output_theta ; -0.041348
+enc_dist ; 45.462705 ; enc_theta ; -0.041348 ; imu_theta ; 0.000000 ; output_theta ; -0.041348
+enc_dist ; 45.462705 ; enc_theta ; -0.041348 ; imu_theta ; 0.000000 ; output_theta ; -0.041348
+enc_dist ; 45.462705 ; enc_theta ; -0.041348 ; imu_theta ; 0.000000 ; output_theta ; -0.041348
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 59.587406 ; enc_theta ; 0.047255 ; imu_theta ; 0.000000 ; output_theta ; 0.047255
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 75.312907 ; enc_theta ; 0.026580 ; imu_theta ; 0.000000 ; output_theta ; 0.026580
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+enc_dist ; 60.340724 ; enc_theta ; 0.112229 ; imu_theta ; 0.000000 ; output_theta ; 0.112229
+distance completed ; 3759.486983 ; robot direction ; 34.153810
+
+job desc ; T ; job val ; 290.754754 ; bearing target ; 290.754754 ; bearing now ; 34.153810
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+job desc ; T ; job val ; 290.754754 ; bearing target ; 290.754754 ; bearing now ; 30.648118
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+enc_dist ; 22.354692 ; enc_theta ; -3.505692 ; imu_theta ; 0.000000 ; output_theta ; -3.505692
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 30.678846 ; enc_theta ; -4.811097 ; imu_theta ; 0.000000 ; output_theta ; -4.811097
+enc_dist ; 23.032677 ; enc_theta ; -3.612014 ; imu_theta ; 0.000000 ; output_theta ; -3.612014
+enc_dist ; 23.032677 ; enc_theta ; -3.612014 ; imu_theta ; 0.000000 ; output_theta ; -3.612014
+enc_dist ; 23.032677 ; enc_theta ; -3.612014 ; imu_theta ; 0.000000 ; output_theta ; -3.612014
+degree to turn ; -99.893364 ; degree turned ; -94.414448 ; robot direction ; 296.233670
+
+job desc ; F ; job val ; 3639.869673 ; bearing target ; 296.233670 ; bearing now ; 296.233670
+enc_dist ; 45.387373 ; enc_theta ; 0.135857 ; imu_theta ; 0.000000 ; output_theta ; 0.135857
+job desc ; F ; job val ; 3639.869673 ; bearing target ; 296.233670 ; bearing now ; 296.369526
+enc_dist ; 45.387373 ; enc_theta ; 0.135857 ; imu_theta ; 0.000000 ; output_theta ; 0.135857
+enc_dist ; 45.387373 ; enc_theta ; 0.135857 ; imu_theta ; 0.000000 ; output_theta ; 0.135857
+enc_dist ; 45.387373 ; enc_theta ; 0.135857 ; imu_theta ; 0.000000 ; output_theta ; 0.135857
+enc_dist ; 45.387373 ; enc_theta ; 0.135857 ; imu_theta ; 0.000000 ; output_theta ; 0.135857
+enc_dist ; 45.387373 ; enc_theta ; 0.135857 ; imu_theta ; 0.000000 ; output_theta ; 0.135857
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 60.472554 ; enc_theta ; 0.032487 ; imu_theta ; 0.000000 ; output_theta ; 0.032487
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+enc_dist ; 74.879750 ; enc_theta ; -0.088602 ; imu_theta ; 0.000000 ; output_theta ; -0.088602
+distance completed ; 2061.396566 ; robot direction ; 296.230714
+
+job desc ; F ; job val ; 172.991742 ; bearing target ; 296.230714 ; bearing now ; 296.230714
+enc_dist ; 45.425039 ; enc_theta ; -0.023627 ; imu_theta ; 0.000000 ; output_theta ; -0.023627
+job desc ; F ; job val ; 172.991742 ; bearing target ; 296.230714 ; bearing now ; 296.207087
+enc_dist ; 45.425039 ; enc_theta ; -0.023627 ; imu_theta ; 0.000000 ; output_theta ; -0.023627
+enc_dist ; 45.425039 ; enc_theta ; -0.023627 ; imu_theta ; 0.000000 ; output_theta ; -0.023627
+enc_dist ; 45.425039 ; enc_theta ; -0.023627 ; imu_theta ; 0.000000 ; output_theta ; -0.023627
+distance completed ; 136.275118 ; robot direction ; 296.136206
+
+job desc ; T ; job val ; 286.873030 ; bearing target ; 286.873030 ; bearing now ; 296.136206
+enc_dist ; 23.051510 ; enc_theta ; -3.614968 ; imu_theta ; 0.000000 ; output_theta ; -3.614968
+job desc ; T ; job val ; 286.873030 ; bearing target ; 286.873030 ; bearing now ; 292.521238
+enc_dist ; 23.051510 ; enc_theta ; -3.614968 ; imu_theta ; 0.000000 ; output_theta ; -3.614968
+job desc ; F ; job val ; 1319.156165 ; bearing target ; 286.873030 ; bearing now ; 288.906270
+enc_dist ; 46.046526 ; enc_theta ; 0.008860 ; imu_theta ; 0.000000 ; output_theta ; 0.008860
+job desc ; F ; job val ; 1319.156165 ; bearing target ; 286.873030 ; bearing now ; 288.915131
+enc_dist ; 46.046526 ; enc_theta ; 0.008860 ; imu_theta ; 0.000000 ; output_theta ; 0.008860
+enc_dist ; 46.046526 ; enc_theta ; 0.008860 ; imu_theta ; 0.000000 ; output_theta ; 0.008860
+enc_dist ; 46.046526 ; enc_theta ; 0.008860 ; imu_theta ; 0.000000 ; output_theta ; 0.008860
+enc_dist ; 46.046526 ; enc_theta ; 0.008860 ; imu_theta ; 0.000000 ; output_theta ; 0.008860
+enc_dist ; 46.046526 ; enc_theta ; 0.008860 ; imu_theta ; 0.000000 ; output_theta ; 0.008860
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 59.568573 ; enc_theta ; -0.020674 ; imu_theta ; 0.000000 ; output_theta ; -0.020674
+enc_dist ; 46.008860 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+enc_dist ; 46.008860 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+enc_dist ; 46.008860 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+enc_dist ; 46.008860 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+distance completed ; 1307.796672 ; robot direction ; 288.448493
+
+job desc ; T ; job val ; 156.857622 ; bearing target ; 156.857622 ; bearing now ; 288.448493
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+job desc ; T ; job val ; 156.857622 ; bearing target ; 156.857622 ; bearing now ; 284.922128
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+enc_dist ; 22.486522 ; enc_theta ; -3.526366 ; imu_theta ; 0.000000 ; output_theta ; -3.526366
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 30.452850 ; enc_theta ; -4.775656 ; imu_theta ; 0.000000 ; output_theta ; -4.775656
+enc_dist ; 38.136683 ; enc_theta ; -5.980644 ; imu_theta ; 0.000000 ; output_theta ; -5.980644
+enc_dist ; 38.136683 ; enc_theta ; -5.980644 ; imu_theta ; 0.000000 ; output_theta ; -5.980644
+enc_dist ; 38.136683 ; enc_theta ; -5.980644 ; imu_theta ; 0.000000 ; output_theta ; -5.980644
+enc_dist ; 38.136683 ; enc_theta ; -5.980644 ; imu_theta ; 0.000000 ; output_theta ; -5.980644
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 30.283354 ; enc_theta ; -4.749075 ; imu_theta ; 0.000000 ; output_theta ; -4.749075
+enc_dist ; 22.656019 ; enc_theta ; -3.552946 ; imu_theta ; 0.000000 ; output_theta ; -3.552946
+enc_dist ; 22.656019 ; enc_theta ; -3.552946 ; imu_theta ; 0.000000 ; output_theta ; -3.552946
+enc_dist ; 22.656019 ; enc_theta ; -3.552946 ; imu_theta ; 0.000000 ; output_theta ; -3.552946
+degree to turn ; -128.064506 ; degree turned ; -122.412725 ; robot direction ; 162.509403
+
+job desc ; F ; job val ; 172.747817 ; bearing target ; 162.509403 ; bearing now ; 162.509403
+enc_dist ; 44.803552 ; enc_theta ; -0.073835 ; imu_theta ; 0.000000 ; output_theta ; -0.073835
+job desc ; F ; job val ; 172.747817 ; bearing target ; 162.509403 ; bearing now ; 162.435567
+enc_dist ; 44.803552 ; enc_theta ; -0.073835 ; imu_theta ; 0.000000 ; output_theta ; -0.073835
+enc_dist ; 44.803552 ; enc_theta ; -0.073835 ; imu_theta ; 0.000000 ; output_theta ; -0.073835
+enc_dist ; 44.803552 ; enc_theta ; -0.073835 ; imu_theta ; 0.000000 ; output_theta ; -0.073835
+distance completed ; 134.410657 ; robot direction ; 162.214062
+
+job desc ; T ; job val ; 153.067585 ; bearing target ; 153.067585 ; bearing now ; 162.214062
+enc_dist ; 22.298193 ; enc_theta ; -3.496832 ; imu_theta ; 0.000000 ; output_theta ; -3.496832
+job desc ; T ; job val ; 153.067585 ; bearing target ; 153.067585 ; bearing now ; 158.717231
+enc_dist ; 22.298193 ; enc_theta ; -3.496832 ; imu_theta ; 0.000000 ; output_theta ; -3.496832
+job desc ; F ; job val ; 783.585796 ; bearing target ; 153.067585 ; bearing now ; 155.220399
+enc_dist ; 45.274376 ; enc_theta ; 0.041348 ; imu_theta ; 0.000000 ; output_theta ; 0.041348
+job desc ; F ; job val ; 783.585796 ; bearing target ; 153.067585 ; bearing now ; 155.261747
+enc_dist ; 45.274376 ; enc_theta ; 0.041348 ; imu_theta ; 0.000000 ; output_theta ; 0.041348
+enc_dist ; 45.274376 ; enc_theta ; 0.041348 ; imu_theta ; 0.000000 ; output_theta ; 0.041348
+enc_dist ; 45.274376 ; enc_theta ; 0.041348 ; imu_theta ; 0.000000 ; output_theta ; 0.041348
+enc_dist ; 45.274376 ; enc_theta ; 0.041348 ; imu_theta ; 0.000000 ; output_theta ; 0.041348
+enc_dist ; 45.274376 ; enc_theta ; 0.041348 ; imu_theta ; 0.000000 ; output_theta ; 0.041348
+enc_dist ; 60.905712 ; enc_theta ; 0.000000 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.905712 ; enc_theta ; 0.000000 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.905712 ; enc_theta ; 0.000000 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.905712 ; enc_theta ; 0.000000 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.905712 ; enc_theta ; 0.000000 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.905712 ; enc_theta ; 0.000000 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.860051 ; enc_theta ; 0.035441 ; imu_theta ; 0.000000 ; output_theta ; 0.035441
+enc_dist ; 44.860051 ; enc_theta ; 0.035441 ; imu_theta ; 0.000000 ; output_theta ; 0.035441
+enc_dist ; 44.860051 ; enc_theta ; 0.035441 ; imu_theta ; 0.000000 ; output_theta ; 0.035441
+enc_dist ; 44.860051 ; enc_theta ; 0.035441 ; imu_theta ; 0.000000 ; output_theta ; 0.035441
+distance completed ; 771.246354 ; robot direction ; 155.610250
+
+job desc ; T ; job val ; 261.297711 ; bearing target ; 261.297711 ; bearing now ; 155.610250
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+job desc ; T ; job val ; 261.297711 ; bearing target ; 261.297711 ; bearing now ; 159.115942
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+enc_dist ; 22.354692 ; enc_theta ; 3.505692 ; imu_theta ; 0.000000 ; output_theta ; 3.505692
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 29.680701 ; enc_theta ; 4.654566 ; imu_theta ; 0.000000 ; output_theta ; 4.654566
+enc_dist ; 22.693684 ; enc_theta ; 3.558853 ; imu_theta ; 0.000000 ; output_theta ; 3.558853
+enc_dist ; 22.693684 ; enc_theta ; 3.558853 ; imu_theta ; 0.000000 ; output_theta ; 3.558853
+enc_dist ; 22.693684 ; enc_theta ; 3.558853 ; imu_theta ; 0.000000 ; output_theta ; 3.558853
+degree to turn ; 102.181769 ; degree turned ; 96.874635 ; robot direction ; 255.990577
+
+job desc ; F ; job val ; -325.740897 ; bearing target ; 261.297711 ; bearing now ; 255.990577
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+job desc ; F ; job val ; -325.740897 ; bearing target ; 261.297711 ; bearing now ; 255.961042
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+enc_dist ; -45.613369 ; enc_theta ; -0.029534 ; imu_theta ; 0.000000 ; output_theta ; -0.029534
+distance completed ; 319.293580 ; robot direction ; 255.754302
+

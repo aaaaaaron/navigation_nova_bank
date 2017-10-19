@@ -40,7 +40,7 @@ init_lat = 0.0
 init_bearing = 0.0
 
 map_name = 'map'
-map_scale = 5.0
+map_scale = 50.0
 gps_scale = 15000000
 
 loc_dataLength = 1000

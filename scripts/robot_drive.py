@@ -13,6 +13,8 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 #	Robot drive module									#
 #-------------------------------------------------------#
 
+
+
 linear_encode_to_mm 		 	= 0.0
 turning_encode_to_mm  			= 0.0
 dist_param						= 0.0

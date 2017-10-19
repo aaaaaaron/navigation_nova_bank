@@ -232,6 +232,7 @@ def generate_jobs_from_gps():
 	global init_lat, init_lon, init_bearing
 	global loops, gps_lon, gps_lat, gps_lon_copy, gps_lat_copy
 	global job_lists, arc_dist
+	global mode
 
 	if (len(gps_lon_copy)==0) or (not gps_lon_copy[0] == gps_lon[0]):
 		first_time = True

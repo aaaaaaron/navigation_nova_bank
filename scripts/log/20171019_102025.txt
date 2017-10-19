@@ -1,0 +1,23 @@
+job desc ; F ; job val ; -131.320193 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+enc_dist ; -44.615223 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+job desc ; F ; job val ; -131.320193 ; bearing target ; 0.000000 ; bearing now ; 359.949792
+enc_dist ; -44.615223 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+enc_dist ; -44.615223 ; enc_theta ; -0.050208 ; imu_theta ; 0.000000 ; output_theta ; -0.050208
+distance completed ; 89.230446 ; robot direction ; 359.849376
+
+job desc ; T ; job val ; 269.771241 ; bearing target ; 269.771241 ; bearing now ; 359.849376
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+job desc ; T ; job val ; 269.771241 ; bearing target ; 269.771241 ; bearing now ; 356.246222
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 22.976178 ; enc_theta ; -3.603154 ; imu_theta ; 0.000000 ; output_theta ; -3.603154
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469
+enc_dist ; 30.528182 ; enc_theta ; -4.787469 ; imu_theta ; 0.000000 ; output_theta ; -4.787469

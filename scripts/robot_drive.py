@@ -140,6 +140,12 @@ def accum_encoder_data(encoder_data, encoder_received, encoder_processed):
 
 # just send a command to stop robot
 def stop_robot():
+	odd_even = 0
+	dist = 0
+	angle = 0
+	robot_publisher.publish_command(odd_even, dist, angle)
+
+def stop_robot_old():
 	speed_now = 0
 	desired_speed = 0
 	move_direction = 'K' #P

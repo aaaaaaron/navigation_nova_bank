@@ -8,6 +8,7 @@ import robot_drive
 import robot_turn
 import robot_move
 import robot_correction
+import robot_publisher
 import robot_job
 import time
 import write_log
@@ -40,6 +41,8 @@ arc_dist = 0.0
 job_before_obstacle = None
 
 mode = "None"
+ACK = 0
+ack_check = 0
 
 # if not jobs in the sytem
 def process_no_job():
@@ -52,8 +55,37 @@ def process_no_job():
 	else: 							#aaron comment
 		time.sleep(0.1) 			#aaron comment
 
-# Process all kinds of robot job as required
+
 def process_job():
+	global gps_lon_copy, gps_lat_copy, ACK, ack_check
+	job_completed = False
+	try:
+		if not robot_drive.robot_on_mission:
+			rospy.loginfo("\n================== Moving to a new location ==================")
+			rospy.loginfo("Target location: %f, %f", gps_lon_copy[0], gps_lat_copy[0])
+
+		distance = gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, gps_lon_copy[0], gps_lat_copy[0])
+		bearing = gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, gps_lon_copy[0], gps_lat_copy[0])
+		bearing_turn_send = gpsmath.format_bearing(bearing - robot_drive.bearing_now)
+		bearing_turn_show = bearing_turn_send
+		if bearing_turn_send > 180.0:
+			bearing_turn_show = bearing_turn_send - 360.0
+		rospy.loginfo("distance to move: %f, global bearing to face: %f, bearing now: %f", distance, bearing, robot_drive.bearing_now)
+		rospy.loginfo("bearing to turn: %f, bearing sent: %f\n", bearing_turn_show, bearing_turn_send)
+		if not (ack_check == acknowledge): # change acknowledge to a valid variable
+			if ACK == 1:
+				ACK = 0
+			elif ACK == 0:
+				ACK = 1
+			job_completed = True
+		ack_check = acknowledge
+		robot_publisher.publish_command(ACK, distance, bearing_turn_send)
+	except IndexError:
+		rospy.logwarn("Location list empty, returning.")
+		process_no_job()
+
+# Process all kinds of robot job as required
+def process_job_old():
 	job_completed = False
 	global job_lists, job_before_obstacle
 	try:
@@ -226,8 +258,20 @@ def get_inter_gps_aft(gps_lon_list, gps_lat_list):
 		return False, None
 
 
-# generate robot jobs based on robot gps route
 def generate_jobs_from_gps():
+	global init_lon, init_lat, init_bearing
+	global loops, gps_lon, gps_lat, gps_lon_copy, gps_lat_copy
+
+	robot_drive.lon_now = init_lon
+	robot_drive.lat_now = init_lat
+	robot_drive.bearing_now = init_bearing
+
+	gps_lon_copy = gps_lon[:]
+	gps_lat_copy = gps_lat[:]
+
+
+# generate robot jobs based on robot gps route
+def generate_jobs_from_gps_old():
 	#step 1: Move from initial point to the loop start point
 	global init_lat, init_lon, init_bearing
 	global loops, gps_lon, gps_lat, gps_lon_copy, gps_lat_copy
@@ -249,8 +293,8 @@ def generate_jobs_from_gps():
 		# gps_lat_copy = gps_lat[:]
 
 		# create a complete list (including the number of loops) of all the initial gps before processing
-		total_gps_lon = [init_lon]
-		total_gps_lat = [init_lat]
+		total_gps_lon = [robot_drive.lon_now]
+		total_gps_lat = [robot_drive.lat_now]
 		
 		if mode == "O":
 			rospy.loginfo("Number of loops %d", loops)
@@ -525,6 +569,10 @@ def turn_aft_move():
 		insert_compensation_jobs(new_job, 'C')
 
 def has_jobs_left():
+	global gps_lon_copy, gps_lat_copy
+	return len(gps_lat_copy) > 0
+
+def has_jobs_left_old():
 	global job_lists
 	#rospy.loginfo("No of jobs left %d", len(job_lists))
 	return len(job_lists) > 0
@@ -554,7 +602,14 @@ def remove_job(idx):
 
 # If return value is false, then need coorecction
 # If return value is true, then no need correction for the current job
+
 def complete_current_job():
+	global gps_lon_copy, gps_lat_copy
+	del gps_lon_copy[0]
+	del gps_lat_copy[0]
+
+
+def complete_current_job_old():
 	global job_lists
 	if job_lists[0].classfication == 'N':
 		robot_drive.lon_target 		= job_lists[0].lon_target;

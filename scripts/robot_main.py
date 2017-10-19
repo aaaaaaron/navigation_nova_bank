@@ -113,17 +113,17 @@ def main_commander():
 			time_start_obs = rospy.get_time()
 			if time_start_obs - time_aft_obs > 15.0: #if obstacle avoidance mode is triggered within 5s, count +1
 				robot_correction.correction_count = 0
-		time.sleep(0.1)
-		return
+		# time.sleep(0.1)
+		# return
 
 	# Robot obstancle avoidence is over, now resume to normal operation
 	if robot_obstacle.robot_over_obstacle:
 		rospy.logerr("Finished %d obstacle avoidance", robot_correction.correction_count)
 		rospy.loginfo("Robot over obstacle")
-		robot_obstacle.complete_obstacle_avoidance()
+		# robot_obstacle.complete_obstacle_avoidance()
 		time_aft_obs = rospy.get_time()
-		time.sleep(0.1)
-		return
+		# time.sleep(0.1)
+		# return
 
 	# First time button pressed, enter interaction mode
 	if robot_drive.interaction_mode:
@@ -227,13 +227,13 @@ def main_commander():
 	if job_completed:
 		# no_correction_jobs = robot_job.no_correction_jobs()
 		rospy.logerr("%f", robot_drive.bearing_now)
-		job_executed = robot_job.current_job()
+		# job_executed = robot_job.current_job()
 		robot_job.complete_current_job()
 		# rospy.logerr(robot_move.move_amend)
-		if robot_move.move_amend or robot_turn.turn_amend: # or (not robot_job.has_jobs_left()):
-			robot_job.amend_regular_jobs(job_executed, 'C', 2*robot_correction.min_correction_distance)
-			robot_move.move_amend = False
-			robot_turn.turn_amend = False
+		# if robot_move.move_amend or robot_turn.turn_amend: # or (not robot_job.has_jobs_left()):
+		# 	robot_job.amend_regular_jobs(job_executed, 'C', 2*robot_correction.min_correction_distance)
+		# 	robot_move.move_amend = False
+		# 	robot_turn.turn_amend = False
 
 		# if no_correction_jobs == 0:
 		# 	rospy.loginfo("Complete a normal job, check whether correction is needed")

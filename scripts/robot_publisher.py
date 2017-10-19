@@ -92,8 +92,22 @@ def publish_gps():
 	pub_gps.publish(stringToSend)
 
 
+def publish_command(odd_even_location, dist, angle):
+	dist = int(round(dist/10.0))
+	if dist > 255:
+		dist = 255
+	dist_str = str(dist)
+	if len(dist_str) < 3:
+		dist_str = (3-len(dist_str))*'0' + dist_str
+	angle_str = str(angle)
+	if len(angle_str) < 3:
+		angle_str = (3-len(angle_str))*'0' + angle_str
+	stringToSend = 'S%d%s%sE\n'%(odd_even_location, dist_str, angle_str)
+	pub_command.publish(stringToSend)
+	rospy.loginfo(str(stringToSend))
+
 # Helper function which can send commands to robot
-def publish_command(command_string, speed):
+def publish_command_old(command_string, speed):
 	#sending the string
 	#handle the format of the string
 	stringToSend = 'S%s00000%dE\n' % (command_string, speed) #might need to add \n behind the E

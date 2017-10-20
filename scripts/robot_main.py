@@ -13,6 +13,7 @@ import robot_turn
 import robot_configure
 import execute_command    #only here to init command buffer
 from std_msgs.msg import String
+from geometry_msgs.msg import PoseWithCovarianceStamped
 from geometry_msgs.msg import Vector3
 from serial_handler.msg import Status   #getting the msg file from the serial_handler package
 from serial_handler.msg import Encoder
@@ -269,7 +270,14 @@ def main_listener():
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
 	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
 	# rospy.Subscriber('extended_fix', GPSFix, robot_listener.gps_callback)
+<<<<<<< HEAD
+	if robot_listener.gps_mode:
+		rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
+	if robot_listener.ekf_mode:
+		rospy.Subscriber('robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, robot_listener.odom_combined_callback)
+=======
 	rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
+>>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 
 
 	time_aft_obs = rospy.get_time()

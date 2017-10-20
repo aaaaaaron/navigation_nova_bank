@@ -5,9 +5,20 @@ import robot_drive
 import robot_obstacle
 import robot_correction
 import json
+<<<<<<< HEAD
+import math
+# import random
+import coordTransform_utils
+from tf import transformations as t
+from std_msgs.msg import String
+from sensor_msgs.msg import NavSatFix
+from sensor_msgs.msg import Imu
+from nav_msgs.msg import Odometry
+=======
 import coordTransform_utils
 from std_msgs.msg import String
 from sensor_msgs.msg import NavSatFix
+>>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 from geometry_msgs.msg import Vector3
 
 pub_param 		= rospy.Publisher('parameters', String, queue_size = 1)
@@ -16,8 +27,56 @@ pub_command 	= rospy.Publisher('command', 	String, queue_size=1)
 pub_chat 		= rospy.Publisher('chat', String, queue_size = 1)
 # pub_gps_gaode	= rospy.Publisher('gps_gaode', NavSatFix, queue_size = 10)
 pub_pose_pf 	= rospy.Publisher('pose_bef_pf', Vector3, queue_size = 10)
+<<<<<<< HEAD
+pub_ekf_odom	= rospy.Publisher('odom', Odometry, queue_size = 10)
+pub_ekf_imu		= rospy.Publisher('imu_data', Imu, queue_size = 10)
 count = 0
 
+def publish_ekf_odom(lon, lat, bearing, step_dist, step_angle):
+	oo = Odometry()
+	oo.header.stamp = rospy.get_rostime()
+
+	oo.pose.pose.position.x = lon
+	oo.pose.pose.position.y = lat
+
+	q = t.quaternion_from_euler(0,0,math.radians(bearing))
+	oo.pose.pose.orientation.x = q[0]
+	oo.pose.pose.orientation.y = q[1]
+	oo.pose.pose.orientation.z = q[2]
+	oo.pose.pose.orientation.w = q[3]
+
+	oo.pose.covariance[0] = (step_dist * math.cos(bearing)) ** 2 # + random.random()/100.0
+	oo.pose.covariance[7] = (step_dist * math.sin(bearing)) ** 2 # + random.random()/100.0
+	oo.pose.covariance[14] = 0.0001
+	oo.pose.covariance[21] = 0.0001
+	oo.pose.covariance[28] = 0.0001
+	oo.pose.covariance[35] = math.radians(step_angle) ** 2 # + random.random()/100.0
+
+	pub_ekf_odom.publish(oo)
+
+
+def publish_ekf_imu(yaw, delta_yaw):
+	ii = Imu()
+	ii.header.stamp = rospy.get_rostime()
+	ii.header.frame_id = 'base_footprint'
+
+	q = t.quaternion_from_euler(0,0,math.radians(yaw))
+	ii.orientation.x = q[0]
+	ii.orientation.y = q[1]
+	ii.orientation.z = q[2]
+	ii.orientation.w = q[3]
+
+	ii.orientation_covariance[0] = 0.0001
+	ii.orientation_covariance[4] = 0.0001
+	ii.orientation_covariance[8] = math.radians(delta_yaw) ** 2 # + random.random()/100.0
+
+	pub_ekf_imu.publish(ii)
+
+
+=======
+count = 0
+
+>>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 def publish_pose_pf(lon, lat, bearing):
 	xy_theta = Vector3()
 	xy_theta.x = lon

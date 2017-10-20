@@ -146,8 +146,8 @@ def update_robot_gps(left_encode, right_encode):
 			robot_publisher.publish_gps()
 			if robot_listener.gps_mode:
 				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
-			if robot_listener.ekf_mode:
-				robot_publisher.publish_ekf_odom(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, 0, 0)
+#			if robot_listener.ekf_mode:
+#				robot_publisher.publish_ekf_odom(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, 0, 0)
 				# robot_publisher.publish_ekf_imu(robot_drive.bearing_now, 0)
 
 			return

@@ -6,6 +6,7 @@ import robot_obstacle
 import robot_correction
 import json
 import math
+import gpsmath
 # import random
 import coordTransform_utils
 from tf import transformations as t
@@ -38,12 +39,12 @@ def publish_ekf_odom(lon, lat, bearing, step_dist, step_angle):
 	oo.pose.pose.orientation.z = q[2]
 	oo.pose.pose.orientation.w = q[3]
 
-	oo.pose.covariance[0] = (step_dist * math.cos(bearing)) ** 2 # + random.random()/100.0
-	oo.pose.covariance[7] = (step_dist * math.sin(bearing)) ** 2 # + random.random()/100.0
+	oo.pose.covariance[0] = (step_dist / float(gpsmath.scale) * math.cos(bearing) + 0.01) ** 2 # + random.random()/100.0
+	oo.pose.covariance[7] = (step_dist / float(gpsmath.scale) * math.sin(bearing) + 0.01) ** 2 # + random.random()/100.0
 	oo.pose.covariance[14] = 0.0001
 	oo.pose.covariance[21] = 0.0001
 	oo.pose.covariance[28] = 0.0001
-	oo.pose.covariance[35] = math.radians(step_angle) ** 2 # + random.random()/100.0
+	oo.pose.covariance[35] = math.radians(step_angle + 0.5) ** 2 # + random.random()/100.0
 
 	pub_ekf_odom.publish(oo)
 
@@ -61,7 +62,9 @@ def publish_ekf_imu(yaw, delta_yaw):
 
 	ii.orientation_covariance[0] = 0.0001
 	ii.orientation_covariance[4] = 0.0001
-	ii.orientation_covariance[8] = math.radians(delta_yaw) ** 2 # + random.random()/100.0
+	ii.orientation_covariance[8] = math.radians(delta_yaw + 0.5) ** 2 # + random.random()/100.0
+	if ii.orientation_covariance[8] == 0:
+		ii.orientation_covariance = math.radians(0.5)**2	
 
 	pub_ekf_imu.publish(ii)
 

@@ -77,6 +77,9 @@ def get_dist_angle(left_encode, right_encode):
 		#	percentage = 0.9
 		theta_out = percentage * imu_theta + (1 - percentage) * theta
 		# theta_out = 0.5 * imu_theta + 0.5 * theta
+		if robot_job.has_jobs_left():
+			if robot_job.job_lists[0].description == 'T':
+				dist = math.radians(abs(theta_out))*robot_drive.bank_radius
 	#debugging purpose only
 	total_imu += robot_listener.delta_imu_data
 	tt = theta

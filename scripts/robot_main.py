@@ -210,7 +210,7 @@ def main_commander():
 		return
 
 
-#	robot_drive.obstacle_mode_desired = True 
+	#robot_drive.obstacle_mode_desired = True #abc
 	#rospy.loginfo("Process job")
 	job_completed = robot_job.process_job()
 	#rospy.loginfo("Process job1")
@@ -278,6 +278,7 @@ def main_listener():
 	get_ip_service()
 	# Step 2:
 	# Start the main loop
+
 	while not rospy.is_shutdown():
 		main_commander()
 	rospy.spin()

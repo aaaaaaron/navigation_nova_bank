@@ -50,7 +50,7 @@ def pose_pf_callback(data):
 	if gps_mode:
 		robot_drive.lon_now = data.x
 		robot_drive.lat_now = data.y
-		#robot_drive.bearing_now = data.z
+		robot_drive.bearing_now = data.z
 
 def gps_callback(data):
 	longitude = data.longitude

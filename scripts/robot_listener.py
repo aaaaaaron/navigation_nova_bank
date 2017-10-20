@@ -18,10 +18,7 @@ import math
 import robot_configure
 import webbrowser
 import coordTransform_utils
-<<<<<<< HEAD
 from tf import transformations as t
-=======
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 from datetime import datetime
 from std_msgs.msg import String
 from geometry_msgs.msg import Vector3
@@ -46,15 +43,11 @@ last_received_time 	= 0.0 	# the time of receiving the last encoer data
 
 imu_mode	= 0
 gps_mode	= 0
-<<<<<<< HEAD
 ekf_mode	= 0
-=======
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 delta_imu_data		= 0.0
 prev_imu_data = 0.0
 imu_allowance = 0.1
 
-<<<<<<< HEAD
 def odom_combined_callback(data):
 	x_lng = data.pose.pose.position.x
 	y_lat = data.pose.pose.position.y
@@ -72,17 +65,12 @@ def odom_combined_callback(data):
 	robot_drive.lat_now = y_lat
 	robot_drive.bearing_now = yaw_bearing
 
-=======
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 def pose_pf_callback(data):
 	if gps_mode:
 		robot_drive.lon_now = data.x
 		robot_drive.lat_now = data.y
-<<<<<<< HEAD
 		# robot_drive.bearing_now = data.z
-=======
-		robot_drive.bearing_now = data.z
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
+
 
 def gps_callback(data):
 	longitude = data.longitude
@@ -106,11 +94,8 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
-<<<<<<< HEAD
 	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance, ekf_mode
-=======
-	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
+
 	#store the past value first
 	# robot_drive.past_yaw  	= robot_drive.yaw
 	# if(robot_drive.show_log):
@@ -123,7 +108,6 @@ def IMU_callback(data):
 	# robot_drive.pitch 	= data.y
 	# robot_drive.yaw 	= data.z
 
-<<<<<<< HEAD
 	# if imu_mode == 1:
 	imu_yaw = data.x
 	delta_imu_data = imu_yaw - prev_imu_data
@@ -138,21 +122,7 @@ def IMU_callback(data):
 		robot_publisher.publish_ekf_imu(imu_yaw, delta_imu_data)
 
 	prev_imu_data = imu_yaw
-=======
-	if imu_mode == 1:
-		imu_yaw = data.x
-		delta_imu_data = imu_yaw - prev_imu_data
-		if delta_imu_data < -180.0:
-			delta_imu_data = delta_imu_data + 360.0
-		elif delta_imu_data > 180.0:
-			delta_imu_data = delta_imu_data - 360.0
-#		if abs(delta_imu_data) < imu_allowance:
-#			delta_imu_data = 0.0
-		# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
-		prev_imu_data = imu_yaw
 
-
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 
 def serial_encoder_callback(data):
 	global encoder_data

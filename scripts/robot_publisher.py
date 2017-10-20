@@ -5,7 +5,6 @@ import robot_drive
 import robot_obstacle
 import robot_correction
 import json
-<<<<<<< HEAD
 import math
 # import random
 import coordTransform_utils
@@ -14,11 +13,6 @@ from std_msgs.msg import String
 from sensor_msgs.msg import NavSatFix
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
-=======
-import coordTransform_utils
-from std_msgs.msg import String
-from sensor_msgs.msg import NavSatFix
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 from geometry_msgs.msg import Vector3
 
 pub_param 		= rospy.Publisher('parameters', String, queue_size = 1)
@@ -27,7 +21,6 @@ pub_command 	= rospy.Publisher('command', 	String, queue_size=1)
 pub_chat 		= rospy.Publisher('chat', String, queue_size = 1)
 # pub_gps_gaode	= rospy.Publisher('gps_gaode', NavSatFix, queue_size = 10)
 pub_pose_pf 	= rospy.Publisher('pose_bef_pf', Vector3, queue_size = 10)
-<<<<<<< HEAD
 pub_ekf_odom	= rospy.Publisher('odom', Odometry, queue_size = 10)
 pub_ekf_imu		= rospy.Publisher('imu_data', Imu, queue_size = 10)
 count = 0
@@ -73,10 +66,7 @@ def publish_ekf_imu(yaw, delta_yaw):
 	pub_ekf_imu.publish(ii)
 
 
-=======
-count = 0
 
->>>>>>> e66c04de05be5b10aeaad4bf16ff2e3f9edae985
 def publish_pose_pf(lon, lat, bearing):
 	xy_theta = Vector3()
 	xy_theta.x = lon

@@ -124,7 +124,7 @@ def continue_turn(step_angle):
 	if not robot_drive.robot_turning:
 		rospy.loginfo("Robot stopped during the mission, start to turn again")
 		robot_drive.start()
-
+	angle_lower_speed2 = angle_lower_speed + 20.0
 	#if(abs(degree_to_turn) - abs(degree_turned) < angle_lowest_speed):
 	#	robot_drive.desired_speed = 4
 	#	rospy.loginfo("Only 2 degrees left, redusing turning speed to 3")
@@ -135,6 +135,8 @@ def continue_turn(step_angle):
 		robot_drive.speed_desired = turn_lowest_speed
 	elif (abs(degree_to_turn) - abs(degree_turned) < angle_lower_speed or abs(degree_turned) < angle_lower_speed):
 		robot_drive.speed_desired = turn_lower_speed
+#	elif (abs(degree_to_turn) - abs(degree_turned) < angle_lower_speed2 or abs(degree_turned) < angle_lower_speed2):
+#		robot_drive.speed_desired = turn_lower_speed
 	else:
 		robot_drive.speed_desired = turn_full_speed
 

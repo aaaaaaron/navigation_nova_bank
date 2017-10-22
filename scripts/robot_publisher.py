@@ -15,15 +15,15 @@ pub_gps			= rospy.Publisher('gps', 	String, queue_size=10)
 pub_command 	= rospy.Publisher('command', 	String, queue_size=1)
 pub_chat 		= rospy.Publisher('chat', String, queue_size = 1)
 # pub_gps_gaode	= rospy.Publisher('gps_gaode', NavSatFix, queue_size = 10)
-pub_pose_pf 	= rospy.Publisher('pose_bef_pf', Vector3, queue_size = 10)
+# pub_pose_pf 	= rospy.Publisher('pose_bef_pf', Vector3, queue_size = 10)
 count = 0
 
-def publish_pose_pf(lon, lat, bearing):
-	xy_theta = Vector3()
-	xy_theta.x = lon
-	xy_theta.y = lat
-	xy_theta.z = bearing
-	pub_pose_pf.publish(xy_theta)
+# def publish_pose_pf(lon, lat, bearing):
+# 	xy_theta = Vector3()
+# 	xy_theta.x = lon
+# 	xy_theta.y = lat
+# 	xy_theta.z = bearing
+# 	pub_pose_pf.publish(xy_theta)
 
 # Used to publish gcj02 coordinates for gaode_map
 # def publish_gps_gaode(lon, lat):

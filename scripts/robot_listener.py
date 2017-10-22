@@ -46,11 +46,11 @@ delta_imu_data		= 0.0
 prev_imu_data = 0.0
 imu_allowance = 0.1
 
-def pose_pf_callback(data):
-	if gps_mode:
-		robot_drive.lon_now = data.x
-		robot_drive.lat_now = data.y
-		#robot_drive.bearing_now = data.z
+# def pose_pf_callback(data):
+# 	if gps_mode:
+# 		robot_drive.lon_now = data.x
+# 		robot_drive.lat_now = data.y
+# 		#robot_drive.bearing_now = data.z
 
 def gps_callback(data):
 	longitude = data.longitude
@@ -149,6 +149,7 @@ def face_detection_callback(data):
 	robot_drive.face_detected, robot_drive.face_x, robot_drive.face_y, robot_drive.face_w, robot_drive.face_h = data_string.split(",")
 
 def status_callback(data):
+	robot_job.acknowledge				= data.unlocked
 	robot_drive.burn_mode				= False
 	robot_obstacle.on_obstacle	 		= data.over_obstacle #when over obstacle avoidance, = 1, else 0
 	robot_drive.manual_mode				= data.manual_mode
@@ -472,10 +473,16 @@ def keyboard_callback(data):
 		robot_drive.robot_paused = 0;
 	elif (keyboard_data == 'Forward'):
 		rospy.loginfo("Command received: Start to move forward 1 m")
-		robot_job.simple_move(1000.0, robot_drive.bearing_now, 'F')
+		# robot_job.simple_move(1000.0, robot_drive.bearing_now, 'F')
+		a,b = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, 1000.0, robot_drive.bearing_now)
+		robot_job.gps_lon_copy.append(a)
+		robot_job.gps_lat_copy.append(b)
 	elif (keyboard_data == 'Back'):
 		rospy.loginfo("Command received: Start to move backward 3 m")
-		robot_job.simple_move(3000.0, robot_drive.bearing_now, 'F')
+		# robot_job.simple_move(3000.0, robot_drive.bearing_now, 'F')
+		a,b = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, 3000.0, robot_drive.bearing_now)
+		robot_job.gps_lon_copy.append(a)
+		robot_job.gps_lat_copy.append(b)
 	elif (keyboard_data == 'Turn_West'):
 		rospy.loginfo("Command received: turn to 270 (WEST)")
 		#robot_drive.bearing_now = compass_data[compass_index]
@@ -547,24 +554,24 @@ def keyboard_callback(data):
 
 #@yuqing_obstacledriverread
 #read obstacle finish data thro driver node
-def obstacle_status_callback(data):
-	string = data.data
-	obstacle_mode, obstacle_detected, obstacle_finish_status = string.split(" ")
-	#rospy.loginfo('obstacle callback: %s, length: %d ',  string, len(string))
-	#rospy.loginfo('robot_on_obstacle: %d', robot_obstacle.robot_on_obstacle)
-	if (obstacle_finish_status == 1): 					#this will only happen when obstacle mode is on
-		robot_obstacle.obstacle_is_over()
-		#robot_obstacle.unlock_from_obstacle()			#unlock robot from obstacle
-	#elif(obstacle_finish_status == 0 and robot_obstacle.robot_over_obstacle == True): 		#robot successfully unlocked
-	#	robot_obstacle.obstacle_avoidance_ended() 		#change flags
-	elif(obstacle_mode == 1 and obstacle_detected == 0 and obstacle_finish_status == 0):	#if on, no obstacle
-		robot_obstacle.obstacle_avoidance_do_nothing()
-	elif(obstacle_mode == 1 and obstacle_detected == 1 and obstacle_finish_status == 0):	#if on, detected obstacle
-		robot_obstacle.start_obstacle_avoidance()
-	else: 												#
-		robot_obstacle.obstacle_avoidance_do_nothing()
+# def obstacle_status_callback(data):
+# 	string = data.data
+# 	obstacle_mode, obstacle_detected, obstacle_finish_status = string.split(" ")
+# 	#rospy.loginfo('obstacle callback: %s, length: %d ',  string, len(string))
+# 	#rospy.loginfo('robot_on_obstacle: %d', robot_obstacle.robot_on_obstacle)
+# 	if (obstacle_finish_status == 1): 					#this will only happen when obstacle mode is on
+# 		robot_obstacle.obstacle_is_over()
+# 		#robot_obstacle.unlock_from_obstacle()			#unlock robot from obstacle
+# 	#elif(obstacle_finish_status == 0 and robot_obstacle.robot_over_obstacle == True): 		#robot successfully unlocked
+# 	#	robot_obstacle.obstacle_avoidance_ended() 		#change flags
+# 	elif(obstacle_mode == 1 and obstacle_detected == 0 and obstacle_finish_status == 0):	#if on, no obstacle
+# 		robot_obstacle.obstacle_avoidance_do_nothing()
+# 	elif(obstacle_mode == 1 and obstacle_detected == 1 and obstacle_finish_status == 0):	#if on, detected obstacle
+# 		robot_obstacle.start_obstacle_avoidance()
+# 	else: 												#
+# 		robot_obstacle.obstacle_avoidance_do_nothing()
 
-	return
+# 	return
 
 	#if(string == 'FINISH'):
 	#	if robot_obstacle.robot_on_obstacle:

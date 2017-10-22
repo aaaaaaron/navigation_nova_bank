@@ -107,7 +107,7 @@ def main_commander():
 	# ----------------------------------------------------------------------------------------#
 	# The flag would be set by hardware, we cannot do anything but blankly calculate the gps coordinates
 	if robot_obstacle.robot_on_obstacle:
-		robot_obstacle.resume_from_obstacle = False
+		# robot_obstacle.resume_from_obstacle = False
 		rospy.loginfo("Robot on obstacle avoidence, please wait")
 		if time_start_obs <= time_aft_obs:
 			time_start_obs = rospy.get_time()
@@ -226,7 +226,7 @@ def main_commander():
 	# ----------------------------------------------------------------------------------------#
 	if job_completed:
 		# no_correction_jobs = robot_job.no_correction_jobs()
-		rospy.logerr("%f", robot_drive.bearing_now)
+		# rospy.logerr("%f", robot_drive.bearing_now)
 		# job_executed = robot_job.current_job()
 		robot_job.complete_current_job()
 		# rospy.logerr(robot_move.move_amend)
@@ -269,7 +269,7 @@ def main_listener():
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
 	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
 	# rospy.Subscriber('extended_fix', GPSFix, robot_listener.gps_callback)
-	rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
+	# rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
 
 
 	time_aft_obs = rospy.get_time()

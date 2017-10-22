@@ -43,6 +43,7 @@ job_before_obstacle = None
 mode = "None"
 ACK = 0
 ack_check = 0
+acknowledge = 0
 
 # if not jobs in the sytem
 def process_no_job():
@@ -57,12 +58,13 @@ def process_no_job():
 
 
 def process_job():
-	global gps_lon_copy, gps_lat_copy, ACK, ack_check
+	global gps_lon_copy, gps_lat_copy, ACK, ack_check, acknowledge
 	job_completed = False
 	try:
 		if not robot_drive.robot_on_mission:
 			rospy.loginfo("\n================== Moving to a new location ==================")
 			rospy.loginfo("Target location: %f, %f", gps_lon_copy[0], gps_lat_copy[0])
+			robot_drive.robot_on_mission = True
 
 		distance = gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, gps_lon_copy[0], gps_lat_copy[0])
 		bearing = gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, gps_lon_copy[0], gps_lat_copy[0])
@@ -72,11 +74,12 @@ def process_job():
 			bearing_turn_show = bearing_turn_send - 360.0
 		rospy.loginfo("distance to move: %f, global bearing to face: %f, bearing now: %f", distance, bearing, robot_drive.bearing_now)
 		rospy.loginfo("bearing to turn: %f, bearing sent: %f\n", bearing_turn_show, bearing_turn_send)
-		if not (ack_check == acknowledge): # change acknowledge to a valid variable
+		if acknowledge and not (ack_check == acknowledge): 
 			if ACK == 1:
 				ACK = 0
 			elif ACK == 0:
 				ACK = 1
+			robot_drive.robot_on_mission = False
 			job_completed = True
 		ack_check = acknowledge
 		robot_publisher.publish_command(ACK, distance, bearing_turn_send)
@@ -648,8 +651,14 @@ def append_regular_job(lon_now, lat_now, distance, bearing):
 	return lon_new, lat_new
 
 def define_test_job():
-	lon_new, lat_new = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 8500.0, robot_drive.bearing_now)
-	append_turn_job(lon_new, lat_new, robot_drive.bearing_now - 90.0)
+	a,b = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, 8500.0, robot_drive.bearing_now)
+	c,d = gpsmath.get_gps(a, b, 1000.0, robot_drive.bearing_now - 90.0)
+	robot_job.gps_lon_copy.append(a)
+	robot_job.gps_lat_copy.append(b)
+	robot_job.gps_lon_copy.append(c)
+	robot_job.gps_lat_copy.append(d)
+	# lon_new, lat_new = append_regular_job(robot_drive.lon_now, robot_drive.lat_now, 8500.0, robot_drive.bearing_now)
+	# append_turn_job(lon_new, lat_new, robot_drive.bearing_now - 90.0)
 	#append_turn_job(lon_new, lat_new, robot_drive.bearing_now)
 	# add a turn job to turn to 0 degree
 	# append_turn_job(robot_drive.lon_now, robot_drive.lat_now, 0.0)

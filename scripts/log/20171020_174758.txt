@@ -1,6 +1,0 @@
-enc_dist ; 38.607517 ; enc_theta ; 0.005907 ; imu_theta ; 0.000000 ; output_theta ; 0.005907
-enc_dist ; 29.059219 ; enc_theta ; 0.020674 ; imu_theta ; 0.000000 ; output_theta ; 0.020674
-enc_dist ; 13.126556 ; enc_theta ; 0.044301 ; imu_theta ; 0.000000 ; output_theta ; 0.044301
-enc_dist ; 0.790983 ; enc_theta ; -0.035441 ; imu_theta ; 0.000000 ; output_theta ; -0.035441
-enc_dist ; 0.018833 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957
-enc_dist ; 0.018833 ; enc_theta ; 0.002957 ; imu_theta ; 0.000000 ; output_theta ; 0.002957

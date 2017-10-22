@@ -1,1 +1,0 @@
-enc_dist ; -0.018833 ; enc_theta ; -0.002957 ; imu_theta ; 0.000000 ; output_theta ; -0.002957

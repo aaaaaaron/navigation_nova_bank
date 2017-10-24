@@ -11,7 +11,7 @@ import robot_correction
 import robot_publisher
 import robot_job
 import time
-import write_log
+# import write_log
 
 #-------------------------------------------------------#
 #	Robot jobs module									#
@@ -29,6 +29,8 @@ gps_lon 			= [] #S,A,B,C,D
 gps_lat 			= []
 gps_lon_copy 		= []
 gps_lat_copy		= []
+gps_lon_job			= []
+gps_lat_job			= []
 loops 				= 1 			#how many rounds to go
 job_lists 			= []
 
@@ -44,6 +46,7 @@ mode = "None"
 ACK = 0
 ack_check = 0
 acknowledge = 0
+job_completed_count = 0
 
 # if not jobs in the sytem
 def process_no_job():
@@ -58,7 +61,7 @@ def process_no_job():
 
 
 def process_job():
-	global gps_lon_copy, gps_lat_copy, ACK, ack_check, acknowledge
+	global gps_lon_copy, gps_lat_copy, ACK, ack_check, acknowledge, job_completed_count
 	job_completed = False
 	try:
 		if not robot_drive.robot_on_mission:
@@ -79,8 +82,9 @@ def process_job():
 				ACK = 0
 			elif ACK == 0:
 				ACK = 1
-			robot_drive.robot_on_mission = False
+			robot_drive.robot_on_mission = False			
 			job_completed = True
+			job_completed_count += 1
 		ack_check = acknowledge
 		robot_publisher.publish_command(ACK, distance, bearing_turn_send)
 	except IndexError:
@@ -99,8 +103,8 @@ def process_job_old():
 			rospy.loginfo("Target lon lat: %f, %f", job_lists[0].lon_target, job_lists[0].lat_target)
 			if job_lists[0].classfication == 'N' or (job_lists[0].classfication == 'C' and job_lists[0].description == 'F' and job_lists[0].value > 2 * robot_correction.min_correction_distance) :
 				job_before_obstacle = job_lists[0]
-			string = "job desc ; %s ; job val ; %f ; bearing target ; %f ; bearing now ; %f\n"%(job_lists[0].description, job_lists[0].value, job_lists[0].bearing_target, robot_drive.bearing_now)
-			write_log.write_to_file(string)
+			# string = "job desc ; %s ; job val ; %f ; bearing target ; %f ; bearing now ; %f\n"%(job_lists[0].description, job_lists[0].value, job_lists[0].bearing_target, robot_drive.bearing_now)
+			# write_log.write_to_file(string)
 
 		if (job_lists[0].description == 'T') :
 			# rospy.loginfo("Bearing now %f, bearing target %f", robot_drive.bearing_now, robot_drive.bearing_target)
@@ -263,11 +267,34 @@ def get_inter_gps_aft(gps_lon_list, gps_lat_list):
 
 def generate_jobs_from_gps():
 	global init_lon, init_lat, init_bearing
-	global loops, gps_lon, gps_lat, gps_lon_copy, gps_lat_copy
+	global loops, gps_lon, gps_lat, gps_lon_copy, gps_lat_copy, gps_lon_job, gps_lat_job
 
-	robot_drive.lon_now = init_lon
-	robot_drive.lat_now = init_lat
-	robot_drive.bearing_now = init_bearing
+	if not gps_lon_copy:
+
+		robot_drive.lon_now = init_lon
+		robot_drive.lat_now = init_lat
+		robot_drive.bearing_now = init_bearing
+
+		gps_lon_job = gps_lon[:]
+		gps_lat_job = gps_lat[:]
+		job_completed_count = 0
+
+	else:
+
+		for i in range(len(gps_lon_copy)):
+			if gps_lon_copy[i] == gps_lon[i]:
+				ctn = True
+			else:
+				ctn = False
+				break
+
+		if not ctn:
+			gps_lon_job = gps_lon[:]
+			gps_lat_job = gps_lat[:]
+			job_completed_count = 0
+		else:
+			gps_lon_job = gps_lon[job_completed_count:]
+			gps_lat_job = gps_lat[job_completed_count:]
 
 	gps_lon_copy = gps_lon[:]
 	gps_lat_copy = gps_lat[:]

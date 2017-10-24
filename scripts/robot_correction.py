@@ -8,7 +8,7 @@ import robot_drive
 import robot_job
 import robot_publisher
 import robot_listener
-import write_log
+# import write_log
 
 ############################################################
 min_correction_distance 	= 0.0
@@ -84,9 +84,9 @@ def get_dist_angle(left_encode, right_encode):
 	average = 0.5 * (total_theta + total_imu)
 	# rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
-	if not robot_drive.manual_mode:
-		string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
-		write_log.write_to_file(string)
+	# if not robot_drive.manual_mode:
+	# 	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
+	# 	write_log.write_to_file(string)
 
 	return dist, theta_out
 

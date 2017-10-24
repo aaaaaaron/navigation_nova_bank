@@ -322,9 +322,9 @@ def job_callback(data):
 #-------------------------------------------------------------------------------------------------------------------------------------------
 		
 		#temp
-		robot_job.gps_lon_copy = []
-		robot_job.gps_lat_copy = []
-		robot_job.clear_job_list()
+		# robot_job.gps_lon_copy = []
+		# robot_job.gps_lat_copy = []
+		# robot_job.clear_job_list()
 		#
 
 		rospy.loginfo("Parsing route successful")

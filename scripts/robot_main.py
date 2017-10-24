@@ -19,6 +19,7 @@ from serial_handler.msg import Status   #getting the msg file from the serial_ha
 from serial_handler.msg import Encoder
 from serial_handler.msg import Sonar
 # from gps_common.msg import GPSFix
+from sensor_msgs.msg import NavSatFix
 from navigation_nova_bank.srv import *
 
 time_aft_obs		= 0
@@ -271,9 +272,10 @@ def main_listener():
 	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
 	# rospy.Subscriber('extended_fix', GPSFix, robot_listener.gps_callback)
 	if robot_listener.gps_mode:
-		rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
-	if robot_listener.ekf_mode:
-		rospy.Subscriber('robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, robot_listener.odom_combined_callback)
+		rospy.Subscriber('fix', NavSatFix, robot_listener.gps_callback)
+		# rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
+	# if robot_listener.ekf_mode:
+	# 	rospy.Subscriber('robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, robot_listener.odom_combined_callback)
 
 
 	time_aft_obs = rospy.get_time()

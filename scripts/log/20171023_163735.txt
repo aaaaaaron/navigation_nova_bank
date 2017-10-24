@@ -1,0 +1,25 @@
+job desc ; T ; job val ; 0.000000 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+job desc ; T ; job val ; 0.000000 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+job desc ; F ; job val ; 1000.000000 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+enc_dist ; 44.351562 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+job desc ; F ; job val ; 1000.000000 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+enc_dist ; 44.351562 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.351562 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.351562 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.351562 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.351562 ; enc_theta ; 0.002952 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 60.058230 ; enc_theta ; 0.091556 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.784719 ; enc_theta ; 0.023627 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.784719 ; enc_theta ; 0.023627 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+enc_dist ; 44.784719 ; enc_theta ; 0.023627 ; imu_theta ; 0.000000 ; output_theta ; 0.000000
+distance completed ; 956.694265 ; robot direction ; 0.000000
+

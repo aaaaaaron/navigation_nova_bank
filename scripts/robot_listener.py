@@ -65,16 +65,17 @@ def odom_combined_callback(data):
 	robot_drive.lat_now = y_lat
 	robot_drive.bearing_now = yaw_bearing
 
-def pose_pf_callback(data):
-	if gps_mode:
-		robot_drive.lon_now = data.x
-		robot_drive.lat_now = data.y
-		# robot_drive.bearing_now = data.z
+# def pose_pf_callback(data):
+# 	if gps_mode:
+# 		robot_drive.lon_now = data.x
+# 		robot_drive.lat_now = data.y
+# 		# robot_drive.bearing_now = data.z
 
 
 def gps_callback(data):
 	longitude = data.longitude
 	latitude = data.latitude
+	fix = data.status.status
 	# lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
 	# robot_publisher.publish_gps_gaode(lonlat[0], lonlat[1])
 

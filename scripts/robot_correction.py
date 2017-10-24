@@ -8,6 +8,7 @@ import robot_drive
 import robot_job
 import robot_publisher
 import robot_listener
+import robot_obstacle
 import write_log
 
 ############################################################
@@ -69,7 +70,7 @@ def get_dist_angle(left_encode, right_encode):
 	# rospy.logwarn("vl: %f, vr: %f, v: %f", vl, vr, v)
 	# rospy.logwarn("theta: %f", theta)
 
-	if robot_listener.imu_mode == 1 and not robot_listener.ekf_mode:
+	if robot_listener.imu_mode == 1: # and not robot_listener.ekf_mode:
 		imu_theta = robot_listener.delta_imu_data
 		if not theta == 0:
 			multiple = abs(imu_theta/float(theta))
@@ -81,7 +82,7 @@ def get_dist_angle(left_encode, right_encode):
 		theta_out = percentage * imu_theta + (1 - percentage) * theta
 		# theta_out = 0.5 * imu_theta + 0.5 * theta
 		if robot_job.has_jobs_left():
-			if robot_job.job_lists[0].description == 'T':
+			if robot_job.job_lists[0].description == 'T' and not robot_obstacle.robot_on_obstacle:
 				dist = math.radians(abs(theta_out))*robot_drive.bank_radius
 	#debugging purpose only
 	total_imu += robot_listener.delta_imu_data
@@ -144,8 +145,8 @@ def update_robot_gps(left_encode, right_encode):
 		if (left_encode == 0 and right_encode == 0):
 
 			robot_publisher.publish_gps()
-			if robot_listener.gps_mode:
-				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
+			# if robot_listener.gps_mode:
+			# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 #			if robot_listener.ekf_mode:
 #				robot_publisher.publish_ekf_odom(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, 0, 0)
 				# robot_publisher.publish_ekf_imu(robot_drive.bearing_now, 0)
@@ -175,8 +176,8 @@ def update_robot_gps(left_encode, right_encode):
 
 		# rospy.logwarn("bearing now: %f", robot_drive.bearing_now)
 		robot_publisher.publish_gps()
-		if robot_listener.gps_mode:
-			robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
+		# if robot_listener.gps_mode:
+		# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 
 	elif odom_mode == 1:
 		#scenario 1, robot not moving
@@ -184,8 +185,8 @@ def update_robot_gps(left_encode, right_encode):
 			#no updating of information
 					#@yuqing_continueturn
 			# robot_publisher.publish_gps()
-			if robot_listener.gps_mode:
-				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
+			# if robot_listener.gps_mode:
+			# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return
 
 		# loacal vaiables
@@ -223,8 +224,8 @@ def update_robot_gps(left_encode, right_encode):
 			robot_drive.lon_now, robot_drive.lat_now = gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now , right_dist, robot_drive.bearing_now) 		#chengyuen16/7
 			#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 			robot_publisher.publish_gps()
-			if robot_listener.gps_mode:
-				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
+			# if robot_listener.gps_mode:
+			# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return
 		# scenario 02 robot moving forward with slight
 		# robot not so perfectly walking forward, eigher left wheel is faster or right wheel is faster
@@ -265,8 +266,8 @@ def update_robot_gps(left_encode, right_encode):
 		robot_drive.lon_now, robot_drive.lat_now 	= gpsmath.get_gps(robot_drive.lon_now, robot_drive.lat_now, dist, bearing)
 		robot_drive.bearing_now 			= bearing
 		robot_publisher.publish_gps()
-		if robot_listener.gps_mode:
-			robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
+		# if robot_listener.gps_mode:
+		# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 		#rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 	else:
 		rospy.logerror("Invalid odom mode")

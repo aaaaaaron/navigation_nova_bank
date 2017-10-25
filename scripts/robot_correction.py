@@ -181,7 +181,7 @@ def update_robot_gps(left_encode, right_encode, imu_val):
 			bearing_a 			= bearing
 			robot_publisher.publish_ekf_odom(lon_a, lat_a, bearing_a, robot_drive.step_distance, robot_drive.step_angle)
 			# robot_publisher.publish_ekf_imu(bearing_a + random.uniform(-2,2), robot_drive.step_angle + random.uniform(-2,2))
-		# rospy.loginfo("lonlat: %f, %f", robot_drive.lon_now, robot_drive.lat_now)
+		rospy.loginfo("lonlat: %f, %f bearing: %f", robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 		# rospy.logwarn("bearing now: %f", robot_drive.bearing_now)
 		robot_publisher.publish_gps()
 		# if robot_listener.gps_mode:

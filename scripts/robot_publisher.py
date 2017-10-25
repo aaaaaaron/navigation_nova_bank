@@ -99,7 +99,7 @@ def publish_command(odd_even_location, dist, angle):
 	dist_str = str(dist)
 	if len(dist_str) < 3:
 		dist_str = (3-len(dist_str))*'0' + dist_str
-	angle_str = str(angle)
+	angle_str = str(int(round(angle)))
 	if len(angle_str) < 3:
 		angle_str = (3-len(angle_str))*'0' + angle_str
 	stringToSend = 'S%d%s%sE\n'%(odd_even_location, dist_str, angle_str)

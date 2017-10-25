@@ -214,9 +214,12 @@ def main_commander():
 		return
 
 
-#	robot_drive.obstacle_mode_desired = True 
+	robot_drive.obstacle_mode_desired = True #abc 
 	#rospy.loginfo("Process job")
+	rospy.loginfo("x: %s", str(robot_job.gps_lon_job))
+	rospy.loginfo("y: %s", str(robot_job.gps_lat_job))
 	job_completed = robot_job.process_job()
+	rospy.logwarn("job_completed: %d", job_completed)
 	#rospy.loginfo("Process job1")
 	# ----------------------------------------------------------------------------------------#
 	#  Robot's doing the initialization jobs, not normal jobs      							  #

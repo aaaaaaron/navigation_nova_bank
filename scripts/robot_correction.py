@@ -83,7 +83,7 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 	tt = theta
 	total_theta += tt
 	average = percentage * total_imu + (1-percentage) * total_theta
-	rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
+#	rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
 	# if not robot_drive.manual_mode:
 	# 	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)

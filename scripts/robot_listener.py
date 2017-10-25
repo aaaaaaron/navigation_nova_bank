@@ -78,7 +78,7 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
-	global imu_mode, delta_imu_data #, prev_imu_data, imu_allowance
+	global imu_mode, delta_imu_data, prev_imu_data #, imu_allowance
 	global imu_data, imu_received_index, take_imu_data
 
 	#store the past value first
@@ -479,10 +479,13 @@ def keyboard_callback(data):
 		else:
 			rospy.loginfo('Received keyboard command to enter burn mode')
 			robot_drive.burn_mode_desired = True
-	elif (keyboard_data == 'Pause'):
+	elif (keyboard_data == 'pause'):
 		rospy.loginfo("Pause the task");
-		robot_drive.robot_paused = 1;
-		robot_job.pause_robot();
+		if robot_drive.robot_paused:
+			robot_drive.robot_paused = 0
+		else:
+			robot_drive.robot_paused = 1;
+			robot_job.pause_robot();
 	elif (keyboard_data == 'Resume'):
 		rospy.loginfo("Resume the task");
 		robot_drive.robot_paused = 0;

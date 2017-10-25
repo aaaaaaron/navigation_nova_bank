@@ -46,6 +46,8 @@ dist_for_gps = 0.0
 def get_dist_angle(left_encode, right_encode, imu_val, t):
 	global total_imu, total_theta, balance_left_right
 	global percentage
+
+	rospy.loginfo("left: %d, right: %d", left_encode, right_encode)
 	# t = 0.1
 	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
@@ -92,7 +94,7 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 	tt = theta
 	total_theta += tt
 	average = percentage * total_imu + (1-percentage) * total_theta
-	rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
+#	rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
 	# if not robot_drive.manual_mode:
 	# 	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
@@ -181,6 +183,7 @@ def update_robot_gps(left_encode, right_encode, imu_val):
 			bearing_a 			= bearing
 			robot_publisher.publish_ekf_odom(lon_a, lat_a, bearing_a, robot_drive.step_distance, robot_drive.step_angle)
 			# robot_publisher.publish_ekf_imu(bearing_a + random.uniform(-2,2), robot_drive.step_angle + random.uniform(-2,2))
+		rospy.loginfo("step_dist: %f, step_angle: %f", robot_drive.step_distance, robot_drive.step_angle)
 		rospy.loginfo("lonlat: %f, %f bearing: %f", robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 		# rospy.logwarn("bearing now: %f", robot_drive.bearing_now)
 		robot_publisher.publish_gps()

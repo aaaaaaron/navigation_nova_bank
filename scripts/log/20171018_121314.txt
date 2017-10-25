@@ -1,0 +1,3 @@
+job desc ; F ; job val ; 0.000000 ; bearing target ; 0.000000 ; bearing now ; 0.000000
+distance completed ; 0.000000 ; robot direction ; 0.000000
+

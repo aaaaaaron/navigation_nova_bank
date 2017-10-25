@@ -51,6 +51,7 @@ take_imu_data = False
 imu_data = []
 imu_received_index = 0
 imu_processed_index = 0
+perc_imu = 0.5
 
 glon = []
 glat = []
@@ -163,8 +164,8 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
-	global imu_mode, delta_imu_data, prev_imu_data #imu_allowance, ekf_mode
-	global imu_data, imu_received_index, take_imu_data
+	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance #, ekf_mode
+	global imu_data, imu_received_index, take_imu_data, perc_imu
 
 	#store the past value first
 	# robot_drive.past_yaw  	= robot_drive.yaw
@@ -186,8 +187,8 @@ def IMU_callback(data):
 		delta_imu_data = delta_imu_data + 360.0
 	elif delta_imu_data > 180.0:
 		delta_imu_data = delta_imu_data - 360.0
-#		if abs(delta_imu_data) < imu_allowance:
-#			delta_imu_data = 0.0
+	if abs(delta_imu_data) < imu_allowance:
+		delta_imu_data = delta_imu_data * perc_imu
 	# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
 	# if ekf_mode:
 	# 	robot_publisher.publish_ekf_imu(imu_yaw, delta_imu_data)

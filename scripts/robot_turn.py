@@ -9,7 +9,7 @@ import robot_correction
 import robot_job
 import robot_publisher
 import gpsmath
-import write_log
+# import write_log
 
 #-------------------------------------------------------#
 # Robot turning module 									#
@@ -98,8 +98,8 @@ def stop_turn():
 	# if not robot_drive.robot_turning and not robot_drive.robot_moving:
 	# if (robot_job.no_normal_jobs() >= 1 and robot_job.job_lists[1].value >= 0) or (not robot_drive.robot_turning and not robot_drive.robot_moving):	#chengyuen21/7
 	if not robot_drive.robot_turning and not robot_drive.robot_moving:
-		string = "degree to turn ; %f ; degree turned ; %f ; robot direction ; %f\n\n"%(degree_to_turn, degree_turned, robot_drive.bearing_now)
-		write_log.write_to_file(string)
+		# string = "degree to turn ; %f ; degree turned ; %f ; robot direction ; %f\n\n"%(degree_to_turn, degree_turned, robot_drive.bearing_now)
+		# write_log.write_to_file(string)
 		diff = robot_drive.roll - robot_drive.roll_start
 		rospy.loginfo("Calculated roll difference %f, degreed turned %f", diff, degree_turned)
 		robot_drive.robot_on_mission = False

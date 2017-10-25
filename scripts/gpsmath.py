@@ -5,7 +5,7 @@ import robot_correction
 
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
-scale = 900
+scale = 1000.0
 
 # just make sure the angle is between [0-360)
 # def correct_angle(angle):

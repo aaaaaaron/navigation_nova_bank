@@ -9,7 +9,8 @@ import robot_job
 import robot_publisher
 import robot_listener
 import robot_obstacle
-import write_log
+import robot_main
+# import write_log
 
 ############################################################
 min_correction_distance 	= 0.0
@@ -30,6 +31,7 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 total_imu = 0
 total_theta = 0
 percentage = 1
+dist_for_gps = 0.0
 
 #-------------------------------------------------------#
 #	Robot error correction module						#
@@ -41,13 +43,13 @@ percentage = 1
 #so this solution is only suitable for demo, while direction is straight, no deviation is assumed
 #while turning, no translation is assumed
 
-def get_dist_angle(left_encode, right_encode):
+def get_dist_angle(left_encode, right_encode, imu_val, t):
 	global total_imu, total_theta, balance_left_right
 	global percentage
-	t = 0.1
+	# t = 0.1
 	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
-
+	# rospy.logwarn("t: %f", t)
 	vlr_sqrt = math.sqrt((vl - vr)**2 + (2*robot_drive.turn_radius)**2)
 
 
@@ -71,29 +73,30 @@ def get_dist_angle(left_encode, right_encode):
 	# rospy.logwarn("theta: %f", theta)
 
 	if robot_listener.imu_mode == 1: # and not robot_listener.ekf_mode:
-		imu_theta = robot_listener.delta_imu_data
-		if not theta == 0:
-			multiple = abs(imu_theta/float(theta))
-		else:
-			multiple = 0
+		# imu_theta = robot_listener.delta_imu_data
+		# if not theta == 0:
+		# 	multiple = abs(imu_theta/float(theta))
+		# else:
+		# 	multiple = 0
 		#percentage = multiple * 0.1
 		#if percentage >= 0.9:
 		#	percentage = 0.9
-		theta_out = percentage * imu_theta + (1 - percentage) * theta
+		# theta_out = percentage * imu_theta + (1 - percentage) * theta
+		theta_out = percentage * imu_val + (1 - percentage) * theta
 		# theta_out = 0.5 * imu_theta + 0.5 * theta
-		if robot_job.has_jobs_left():
-			if robot_job.job_lists[0].description == 'T' and not robot_obstacle.robot_on_obstacle:
-				dist = math.radians(abs(theta_out))*robot_drive.bank_radius
+		# if robot_job.has_jobs_left():
+		# 	if robot_job.job_lists[0].description == 'T' and not robot_obstacle.robot_on_obstacle and not robot_drive.manual_mode:
+		# 		dist = math.radians(abs(theta_out))*robot_drive.bank_radius
 	#debugging purpose only
-	total_imu += robot_listener.delta_imu_data
-	tt = theta
-	total_theta += tt
-	average = 0.5 * (total_theta + total_imu)
+	# total_imu += robot_listener.delta_imu_data
+	# tt = theta
+	# total_theta += tt
+	# average = 0.5 * (total_theta + total_imu)
 	# rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
-	if not robot_drive.manual_mode:
-		string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
-		write_log.write_to_file(string)
+	# if not robot_drive.manual_mode:
+	# 	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
+	# 	write_log.write_to_file(string)
 
 	return dist, theta_out
 
@@ -135,15 +138,15 @@ def get_dist_angle(left_encode, right_encode):
 # 	if robot_drive.show_log:
 # 		rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 
-def update_robot_gps(left_encode, right_encode):
-	global odom_mode
+def update_robot_gps(left_encode, right_encode, imu_val):
+	global odom_mode, dist_for_gps
 
 	robot_drive.step_angle = 0.0
 	robot_drive.step_distance = 0.0
 
 	if odom_mode == 2:
 		if (left_encode == 0 and right_encode == 0):
-
+			robot_main.odom_last_time = rospy.get_time()
 			robot_publisher.publish_gps()
 			# if robot_listener.gps_mode:
 			# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
@@ -155,7 +158,12 @@ def update_robot_gps(left_encode, right_encode):
 		if left_encode < 0.0 or right_encode < 0.0:
 			rospy.logwarn("left: %f, right: %f", left_encode, right_encode)
 
-		robot_drive.step_distance, robot_drive.step_angle = get_dist_angle(left_encode, right_encode)
+		robot_main.odom_current_time = rospy.get_time()
+		dt = robot_main.odom_current_time - robot_main.odom_last_time
+		robot_drive.step_distance, robot_drive.step_angle = get_dist_angle(left_encode, right_encode, imu_val, dt)
+		robot_main.odom_last_time = rospy.get_time()
+		# rospy.loginfo("step_distance: %f", robot_drive.step_distance)
+		dist_for_gps += robot_drive.step_distance
 		# if left_encode < right_encode:
 		# 	robot_drive.step_angle = - robot_drive.step_angle
 		bearing 				= robot_drive.bearing_now + robot_drive.step_angle
@@ -173,7 +181,7 @@ def update_robot_gps(left_encode, right_encode):
 			bearing_a 			= bearing
 			robot_publisher.publish_ekf_odom(lon_a, lat_a, bearing_a, robot_drive.step_distance, robot_drive.step_angle)
 			# robot_publisher.publish_ekf_imu(bearing_a + random.uniform(-2,2), robot_drive.step_angle + random.uniform(-2,2))
-
+		# rospy.loginfo("lonlat: %f, %f", robot_drive.lon_now, robot_drive.lat_now)
 		# rospy.logwarn("bearing now: %f", robot_drive.bearing_now)
 		robot_publisher.publish_gps()
 		# if robot_listener.gps_mode:

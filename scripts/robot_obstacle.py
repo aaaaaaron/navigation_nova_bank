@@ -148,7 +148,8 @@ def clear_after_obstacle_avoidance(current_job_type):
 		rospy.loginfo("Value is %d", val)
 		if val < 0:
 			rospy.loginfo("QUitting")
-			quit_obstacle_correction(current_job_type)
+			# quit_obstacle_correction(current_job_type)
+			clear_correction_trial_tasks(current_job_type)  # not clearing jobs even if the robot keeps getting into obstacle avoidance
 			robot_correction.correction_count = 0
 		else:
 			rospy.loginfo("Robot met obstacle obstacle job, remove all obstacle job")

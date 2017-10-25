@@ -47,6 +47,19 @@ ekf_mode	= 0
 delta_imu_data		= 0.0
 prev_imu_data = 0.0
 imu_allowance = 0.1
+take_imu_data = False
+imu_data = []
+imu_received_index = 0
+imu_processed_index = 0
+
+glon = []
+glat = []
+rlon = []
+rlat = []
+
+alpha = 100.0
+sigma = 1500.0
+beta = 1000.0
 
 def odom_combined_callback(data):
 	x_lng = data.pose.pose.position.x
@@ -73,11 +86,66 @@ def odom_combined_callback(data):
 
 
 def gps_callback(data):
+	global glon, glat, rlon, rlat
+	global alpha, sigma, beta
+
 	longitude = data.longitude
 	latitude = data.latitude
+	
+	if not robot_correction.map_wgs84 and robot_correction.follow_map_gps:
+		lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
+	else:
+		lonlat = [longitude, latitude]
+	
+	glon.append(lonlat[0])
+	glat.append(lonlat[1])
+	# rlon.append(robot_drive.lon_now)
+	# rlat.append(robot_drive.lat_now)
+
 	fix = data.status.status
-	# lonlat = coordTransform_utils.wgs84_to_gcj02(longitude, latitude)
-	# robot_publisher.publish_gps_gaode(lonlat[0], lonlat[1])
+
+	if fix >= 0:
+		if len(glon) > 2:
+			glon = glon[-2:]
+			glat = glat[-2:]
+			# rlon = rlon[-2:]
+			# rlat = rlat[-2:]
+
+		if len(glon) == 2:
+			# r_dist = gpsmath.haversine(rlon[0], rlat[0], rlon[1], rlat[1])
+			g_dist = gpsmath.haversine(glon[0], glat[0], glon[1], glat[1])
+			rospy.logwarn("g_dist: %f", g_dist)
+			# delta_d = abs(r_dist - g_dist)
+			delta_d = abs(g_dist - robot_correction.dist_for_gps)
+			rospy.logwarn("stepaccum_dist: %f", robot_correction.dist_for_gps)
+			robot_correction.dist_for_gps = 0.0
+			rospy.logwarn("delta_d: %f", delta_d)
+			if delta_d > alpha:
+				del glon[0]
+				del glat[0]
+				# del rlon[0]
+				# del rlat[0]
+			else:
+				# rg_dist = gpsmath.haversine(rlon[-1], rlat[-1], glon[-1], glat[-1])
+				rg_dist = gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, glon[-1], glat[-1])
+				rospy.logwarn("%.10f, %.10f, %.10f, %.10f", robot_drive.lon_now, robot_drive.lat_now, glon[-1], glat[-1])
+				rospy.logwarn("rg_dist: %f", rg_dist)
+				prob = math.exp(-(rg_dist**2)/(2*float(sigma)**2))
+				rospy.logwarn("true prob: %f", prob)
+				if robot_drive.step_distance == 0.0 and prob >= 0.001:
+					prob = 0.001
+				if rg_dist < 1000.0:
+					prob = 0.0
+				rospy.logwarn("prob: %f", prob)
+				#position
+				# robot_drive.lon_now = glon[-1]*prob + rlon[-1]*(1.0-prob)
+				# robot_drive.lat_now = glat[-1]*prob + rlat[-1]*(1.0-prob)
+				robot_drive.lon_now = glon[-1]*prob + robot_drive.lon_now*(1.0-prob)
+				robot_drive.lat_now = glat[-1]*prob + robot_drive.lat_now*(1.0-prob)
+				#angle - might not be using this!
+				if g_dist > beta:
+					g_angle = gpsmath.bearing(glon[0], glat[0], glon[1], glat[1])
+					robot_drive.bearing_now = prob*g_angle + (1.0-prob)*robot_drive.bearing_now
 
 def sonar_callback(data):
 	robot_obstacle.front_sensor[0] = data.front_0;
@@ -95,7 +163,8 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
-	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance, ekf_mode
+	global imu_mode, delta_imu_data, prev_imu_data #imu_allowance, ekf_mode
+	global imu_data, imu_received_index, take_imu_data
 
 	#store the past value first
 	# robot_drive.past_yaw  	= robot_drive.yaw
@@ -119,8 +188,11 @@ def IMU_callback(data):
 #		if abs(delta_imu_data) < imu_allowance:
 #			delta_imu_data = 0.0
 	# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
-	if ekf_mode:
-		robot_publisher.publish_ekf_imu(imu_yaw, delta_imu_data)
+	# if ekf_mode:
+	# 	robot_publisher.publish_ekf_imu(imu_yaw, delta_imu_data)
+	if take_imu_data:
+		imu_data[imu_received_index] = float(delta_imu_data)
+		imu_received_index = (imu_received_index+1) % 1000
 
 	prev_imu_data = imu_yaw
 
@@ -128,6 +200,7 @@ def IMU_callback(data):
 def serial_encoder_callback(data):
 	global encoder_data
 	global encoder_received
+	global take_imu_data 
 	robot_drive.burn_mode = False
 	#accumulate encoder data
 	#Step 1: Get encoder data and convert them to number for later use
@@ -138,7 +211,9 @@ def serial_encoder_callback(data):
 	multiply = left_encode * right_encode
 
 	if left_encode == 0 and right_encode == 0:
-		pass
+		take_imu_data = False
+	else:
+		take_imu_data = True
 		#rospy.loginfo("encoder 0,0")
 	# 	robot_drive.robot_moving 	= False
 	# 	robot_drive.robot_turning 	= False
@@ -150,11 +225,11 @@ def serial_encoder_callback(data):
 	# 	#rospy.loginfo("encode 1.1")
 	# 	robot_drive.robot_turning 	= True
 	# 	robot_drive.robot_moving 	= False
-	elif multiply < 10:
+	# elif multiply < 10:
 	# 	robot_drive.robot_turning 	= False
 	# 	robot_drive.robot_moving 	= False
 		# rospy.logwarn("The encoder is changing on a small value")
-		pass
+		# pass
 	# elif left_encode != 0 or right_encode != 0:
 	# 	#rospy.loginfo("encoder 1.3")
 	# 	robot_drive.robot_turning = True
@@ -345,9 +420,9 @@ def job_callback(data):
 #-------------------------------------------------------------------------------------------------------------------------------------------
 		
 		#temp
-		robot_job.gps_lon_copy = []
-		robot_job.gps_lat_copy = []
-		robot_job.clear_job_list()
+		# robot_job.gps_lon_copy = []
+		# robot_job.gps_lat_copy = []
+		# robot_job.clear_job_list()
 		#
 
 		rospy.loginfo("Parsing route successful")
@@ -665,11 +740,17 @@ def panel_summon_callback(data):
 
 # init the the encoder buffer with some empty data when system starts
 def init_encoder_buffer( size=2000 ):
-	global encoder_data
+	global encoder_data, imu_data
 	if(len(encoder_data) == size):
-		return
-	for i in range(size - len(encoder_data)):
-		encoder_data.append(0)
+		pass
+	else:
+		for i in range(size - len(encoder_data)):
+			encoder_data.append(0)
+	if(len(imu_data) == size):
+		pass
+	else:
+		for j in range(size - len(imu_data)):
+			imu_data.append(0)
 
 # init the compass buffer with some empty data when sytem states
 def init_compass_buffer(size = 10):
@@ -700,15 +781,16 @@ def process_encoder_delay():
 
 # Very import step, based on the encoder data, we do the conversion and calcuation
 def process_encoder_data():
-	global encoder_data
-	global encoder_received
-	global encoder_processed
+	global encoder_data, imu_data
+	global encoder_received, imu_received_index
+	global encoder_processed, imu_processed_index
 	# Accumulate all available encoder data
-	left_encode, right_encode = robot_drive.accum_encoder_data(encoder_data, encoder_received, encoder_processed)
+	left_encode, right_encode, imu_val = robot_drive.accum_encoder_data(encoder_data, encoder_received, encoder_processed, imu_data, imu_received_index, imu_processed_index)
 	# After process, update the proccessed index the same as received index
 	encoder_processed = encoder_received
+	imu_processed_index = imu_received_index
 	# dynamically calculate and update the gps data, step_angle, step_distance etc while the robot moving
-	robot_correction.update_robot_gps(left_encode, right_encode)
+	robot_correction.update_robot_gps(left_encode, right_encode, imu_val)
 	#robot_correction.update_robot_gps_new(left_encode, right_encode) #aaron
 
 def print_config():

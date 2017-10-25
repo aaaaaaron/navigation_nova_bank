@@ -30,7 +30,7 @@ from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
 total_imu = 0
 total_theta = 0
-percentage = 1
+percentage = 1.0
 dist_for_gps = 0.0
 
 #-------------------------------------------------------#
@@ -88,11 +88,11 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 		# 	if robot_job.job_lists[0].description == 'T' and not robot_obstacle.robot_on_obstacle and not robot_drive.manual_mode:
 		# 		dist = math.radians(abs(theta_out))*robot_drive.bank_radius
 	#debugging purpose only
-	# total_imu += robot_listener.delta_imu_data
-	# tt = theta
-	# total_theta += tt
-	# average = 0.5 * (total_theta + total_imu)
-	# rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
+	total_imu += imu_val
+	tt = theta
+	total_theta += tt
+	average = percentage * total_imu + (1-percentage) * total_theta
+	rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
 	# if not robot_drive.manual_mode:
 	# 	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)

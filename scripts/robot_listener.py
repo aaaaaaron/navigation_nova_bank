@@ -181,6 +181,7 @@ def IMU_callback(data):
 	# if imu_mode == 1:
 	imu_yaw = data.x
 	delta_imu_data = imu_yaw - prev_imu_data
+#	rospy.logwarn("imu_delta_from listener: %f", delta_imu_data)
 	if delta_imu_data < -180.0:
 		delta_imu_data = delta_imu_data + 360.0
 	elif delta_imu_data > 180.0:

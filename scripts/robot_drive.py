@@ -120,9 +120,10 @@ def start():
 	robot_publisher.publish_command(move_direction, speed_now)
 
 # Get all the encoder not processed
-def accum_encoder_data(encoder_data, encoder_received, encoder_processed):
+def accum_encoder_data(encoder_data, encoder_received, encoder_processed, imu_data, imu_received_index, imu_processed_index):
 	left_encode = 0
 	right_encode = 0
+	imu_val = 0
 	#in case data received is faster than the processing time
 	if(encoder_received > encoder_processed):
 		for x in range(encoder_processed, encoder_received):
@@ -133,10 +134,21 @@ def accum_encoder_data(encoder_data, encoder_received, encoder_processed):
 		for x in range(encoder_processed, 1000):
 			left_encode 	+= encoder_data[2 * x]
 			right_encode 	+= encoder_data[2 * x + 1]
-			for x in range(0, encoder_received):
-				left_encode 	+= encoder_data[2 * x]
-				right_encode 	+= encoder_data[2 * x + 1]
-	return left_encode, right_encode
+		for x in range(0, encoder_received):
+			left_encode 	+= encoder_data[2 * x]
+			right_encode 	+= encoder_data[2 * x + 1]
+	
+	if (imu_received_index > imu_processed_index):
+		for y in range(imu_processed_index,imu_received_index):
+			imu_val += imu_data[y]
+
+	if (imu_received_index < imu_processed_index):
+		for y in range(imu_processed_index, 1000):
+			imu_val += imu_data[y]
+		for y in range(0, imu_received_index):
+			imu_val += imu_data[y]
+
+	return left_encode, right_encode, imu_val
 
 # just send a command to stop robot
 def stop_robot():

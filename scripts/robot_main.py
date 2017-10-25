@@ -23,15 +23,19 @@ from navigation_nova_bank.srv import *
 time_aft_obs		= 0
 time_start_obs		= 0
 
+odom_last_time		= 0
+odom_current_time = 0
+
 # The main progream process the robot logic
 def main_commander():
-	global time_aft_obs, time_start_obs
+	global time_aft_obs, time_start_obs, odom_last_time, odom_current_time
 	# ----------------------------------------------------------------------------------------#
 	#  If robot is on burn mode, it does not receive any encoder data                 		  #
 	#  If robot is eanbled or received command to off the burn mode, the robot shall 		  #
 	#   exit from burn mode and enter normal working mode                                     #
 	# ----------------------------------------------------------------------------------------#
 	if robot_drive.burn_mode:
+		odom_last_time = rospy.get_time()
 		if not robot_drive.robot_enabled or robot_drive.burn_mode_desired:
 			rospy.loginfo("Robot is on burn mode and robot disabled")
 			time.sleep(0.1)
@@ -274,6 +278,9 @@ def main_listener():
 
 	time_aft_obs = rospy.get_time()
 	time_start_obs = rospy.get_time()
+	odom_last_time = rospy.get_time()
+	odom_current_time = rospy.get_time()
+
 	# Provide a service for getting ip of wireless network 
 	get_ip_service()
 	# Step 2:

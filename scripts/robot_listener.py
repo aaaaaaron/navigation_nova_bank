@@ -45,6 +45,10 @@ gps_mode	= 0
 delta_imu_data		= 0.0
 prev_imu_data = 0.0
 imu_allowance = 0.1
+take_imu_data = False
+imu_data = []
+imu_received_index = 0
+imu_processed_index = 0
 
 # def pose_pf_callback(data):
 # 	if gps_mode:
@@ -74,7 +78,9 @@ def sonar_callback(data):
 
 
 def IMU_callback(data):
-	global imu_mode, delta_imu_data, prev_imu_data, imu_allowance
+	global imu_mode, delta_imu_data #, prev_imu_data, imu_allowance
+	global imu_data, imu_received_index, take_imu_data
+
 	#store the past value first
 	# robot_drive.past_yaw  	= robot_drive.yaw
 	# if(robot_drive.show_log):
@@ -87,23 +93,30 @@ def IMU_callback(data):
 	# robot_drive.pitch 	= data.y
 	# robot_drive.yaw 	= data.z
 
-	if imu_mode == 1:
-		imu_yaw = data.x
-		delta_imu_data = imu_yaw - prev_imu_data
-		if delta_imu_data < -180.0:
-			delta_imu_data = delta_imu_data + 360.0
-		elif delta_imu_data > 180.0:
-			delta_imu_data = delta_imu_data - 360.0
+	# if imu_mode == 1:
+	imu_yaw = data.x
+	delta_imu_data = imu_yaw - prev_imu_data
+	if delta_imu_data < -180.0:
+		delta_imu_data = delta_imu_data + 360.0
+	elif delta_imu_data > 180.0:
+		delta_imu_data = delta_imu_data - 360.0
 #		if abs(delta_imu_data) < imu_allowance:
 #			delta_imu_data = 0.0
-		# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
-		prev_imu_data = imu_yaw
+	# rospy.logwarn("imu current data: %f, imu prev data: %f, change in angle: %f", imu_yaw, prev_imu_data, delta_imu_data)
+	
+	if take_imu_data:
+		imu_data[imu_received_index] = float(delta_imu_data)
+		imu_received_index = (imu_received_index+1) % 1000
+
+	prev_imu_data = imu_yaw
 
 
 
 def serial_encoder_callback(data):
 	global encoder_data
 	global encoder_received
+	global take_imu_data
+
 	robot_drive.burn_mode = False
 	#accumulate encoder data
 	#Step 1: Get encoder data and convert them to number for later use
@@ -114,7 +127,9 @@ def serial_encoder_callback(data):
 	multiply = left_encode * right_encode
 
 	if left_encode == 0 and right_encode == 0:
-		pass
+		take_imu_data = False
+	else:
+		take_imu_data = True
 		#rospy.loginfo("encoder 0,0")
 	# 	robot_drive.robot_moving 	= False
 	# 	robot_drive.robot_turning 	= False
@@ -126,11 +141,11 @@ def serial_encoder_callback(data):
 	# 	#rospy.loginfo("encode 1.1")
 	# 	robot_drive.robot_turning 	= True
 	# 	robot_drive.robot_moving 	= False
-	elif multiply < 10:
+	# elif multiply < 10:
 	# 	robot_drive.robot_turning 	= False
 	# 	robot_drive.robot_moving 	= False
 		# rospy.logwarn("The encoder is changing on a small value")
-		pass
+		# pass
 	# elif left_encode != 0 or right_encode != 0:
 	# 	#rospy.loginfo("encoder 1.3")
 	# 	robot_drive.robot_turning = True
@@ -660,11 +675,18 @@ def panel_summon_callback(data):
 
 # init the the encoder buffer with some empty data when system starts
 def init_encoder_buffer( size=2000 ):
-	global encoder_data
+	global encoder_data, imu_data
 	if(len(encoder_data) == size):
-		return
-	for i in range(size - len(encoder_data)):
-		encoder_data.append(0)
+		pass
+	else:
+		for i in range(size - len(encoder_data)):
+			encoder_data.append(0)
+
+	if(len(imu_data) == size):
+		pass
+	else:
+		for j in range(size - len(imu_data)):
+			imu_data.append(0)
 
 # init the compass buffer with some empty data when sytem states
 def init_compass_buffer(size = 10):
@@ -695,15 +717,16 @@ def process_encoder_delay():
 
 # Very import step, based on the encoder data, we do the conversion and calcuation
 def process_encoder_data():
-	global encoder_data
-	global encoder_received
-	global encoder_processed
+	global encoder_data, imu_data
+	global encoder_received, imu_received_index
+	global encoder_processed, imu_processed_index
 	# Accumulate all available encoder data
-	left_encode, right_encode = robot_drive.accum_encoder_data(encoder_data, encoder_received, encoder_processed)
+	left_encode, right_encode, imu_val = robot_drive.accum_encoder_data(encoder_data, encoder_received, encoder_processed, imu_data, imu_received_index, imu_processed_index)
 	# After process, update the proccessed index the same as received index
 	encoder_processed = encoder_received
+	imu_processed_index = imu_received_index
 	# dynamically calculate and update the gps data, step_angle, step_distance etc while the robot moving
-	robot_correction.update_robot_gps(left_encode, right_encode)
+	robot_correction.update_robot_gps(left_encode, right_encode, imu_val)
 	#robot_correction.update_robot_gps_new(left_encode, right_encode) #aaron
 
 def print_config():

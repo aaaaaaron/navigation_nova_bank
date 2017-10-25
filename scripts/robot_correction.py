@@ -8,6 +8,7 @@ import robot_drive
 import robot_job
 import robot_publisher
 import robot_listener
+import robot_main
 # import write_log
 
 ############################################################
@@ -40,10 +41,10 @@ percentage = 1
 #so this solution is only suitable for demo, while direction is straight, no deviation is assumed
 #while turning, no translation is assumed
 
-def get_dist_angle(left_encode, right_encode):
+def get_dist_angle(left_encode, right_encode, imu_val, t):
 	global total_imu, total_theta, balance_left_right
 	global percentage
-	t = 0.1
+	# t = 0.1
 	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
 
@@ -67,22 +68,22 @@ def get_dist_angle(left_encode, right_encode):
 	# rospy.logwarn("vl: %f, vr: %f, v: %f", vl, vr, v)
 	# rospy.logwarn("theta: %f", theta)
 	if robot_listener.imu_mode == 1:
-		imu_theta = robot_listener.delta_imu_data
-		if not theta == 0:
-			multiple = abs(imu_theta/float(theta))
-		else:
-			multiple = 0
+		# imu_theta = robot_listener.delta_imu_data
+		# if not theta == 0:
+		# 	multiple = abs(imu_theta/float(theta))
+		# else:
+		# 	multiple = 0
 		#percentage = multiple * 0.1
 		#if percentage >= 0.9:
 		#	percentage = 0.9
-		theta_out = percentage * imu_theta + (1 - percentage) * theta
+		theta_out = percentage * imu_val + (1 - percentage) * theta
 		# theta_out = 0.5 * imu_theta + 0.5 * theta
 	#debugging purpose only
-	total_imu += robot_listener.delta_imu_data
+	total_imu += imu_val
 	tt = theta
 	total_theta += tt
-	average = 0.5 * (total_theta + total_imu)
-	# rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
+	average = percentage * total_imu + (1-percentage) * total_theta
+	rospy.logerr("imu_total_theta: %f, encoder_theta_total: %f, average: %f", total_imu, total_theta, average)
 	# rospy.loginfo("theta out: %f", theta_out)
 	# if not robot_drive.manual_mode:
 	# 	string = "enc_dist ; %f ; enc_theta ; %f ; imu_theta ; %f ; output_theta ; %f\n"%(dist, theta, robot_listener.delta_imu_data, theta_out)
@@ -128,7 +129,7 @@ def get_dist_angle(left_encode, right_encode):
 # 	if robot_drive.show_log:
 # 		rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 
-def update_robot_gps(left_encode, right_encode):
+def update_robot_gps(left_encode, right_encode, imu_val):
 	global odom_mode
 
 	robot_drive.step_angle = 0.0
@@ -136,13 +137,17 @@ def update_robot_gps(left_encode, right_encode):
 
 	if odom_mode == 2:
 		if (left_encode == 0 and right_encode == 0):
+			robot_main.odom_last_time = rospy.get_time()
 			if robot_listener.gps_mode:
 				robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 			return
 		if left_encode < 0.0 or right_encode < 0.0:
 			rospy.logwarn("left: %f, right: %f", left_encode, right_encode)
 
-		robot_drive.step_distance, robot_drive.step_angle = get_dist_angle(left_encode, right_encode)
+		robot_main.odom_current_time = rospy.get_time()
+		dt = robot_main.odom_current_time - robot_main.odom_last_time
+		robot_drive.step_distance, robot_drive.step_angle = get_dist_angle(left_encode, right_encode, imu_val, dt)
+		robot_main.odom_last_time = rospy.get_time()
 		# if left_encode < right_encode:
 		# 	robot_drive.step_angle = - robot_drive.step_angle
 		bearing 				= robot_drive.bearing_now + robot_drive.step_angle

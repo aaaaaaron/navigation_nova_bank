@@ -51,7 +51,7 @@ take_imu_data = False
 imu_data = []
 imu_received_index = 0
 imu_processed_index = 0
-perc_imu = 0.5
+perc_imu = 0.25
 
 glon = []
 glat = []
@@ -85,6 +85,9 @@ def odom_combined_callback(data):
 # 		robot_drive.lat_now = data.y
 # 		# robot_drive.bearing_now = data.z
 
+def kf_callback(data):
+	robot_drive.lon_now = data.longitude
+	robot_drive.lat_now = data.latitude
 
 def gps_callback(data):
 	global glon, glat, rlon, rlat

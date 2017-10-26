@@ -25,6 +25,7 @@ odom_mode					= 1
 follow_map_gps 				= 1
 map_wgs84 					= 0
 indoor_coord				= 0
+correction_mode				= 0
 
 from math import radians, cos, sin, asin, sqrt, atan2, degrees
 
@@ -47,7 +48,7 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 	global total_imu, total_theta, balance_left_right
 	global percentage
 
-	rospy.loginfo("left: %d, right: %d", left_encode, right_encode)
+	# rospy.loginfo("left: %d, right: %d", left_encode, right_encode)
 	# t = 0.1
 	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
@@ -89,6 +90,9 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 		# if robot_job.has_jobs_left():
 		# 	if robot_job.job_lists[0].description == 'T' and not robot_obstacle.robot_on_obstacle and not robot_drive.manual_mode:
 		# 		dist = math.radians(abs(theta_out))*robot_drive.bank_radius
+	if dist >= 500.0:
+		rospy.logwarn("sudden surge in distance: %f, removed", dist)
+		dist = 0.0
 	#debugging purpose only
 	total_imu += imu_val
 	tt = theta
@@ -150,6 +154,7 @@ def update_robot_gps(left_encode, right_encode, imu_val):
 		if (left_encode == 0 and right_encode == 0):
 			robot_main.odom_last_time = rospy.get_time()
 			robot_publisher.publish_gps()
+			robot_publisher.publish_pose(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, 0.0, 0.0)
 			# if robot_listener.gps_mode:
 			# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 #			if robot_listener.ekf_mode:
@@ -157,8 +162,8 @@ def update_robot_gps(left_encode, right_encode, imu_val):
 				# robot_publisher.publish_ekf_imu(robot_drive.bearing_now, 0)
 
 			return
-		if left_encode < 0.0 or right_encode < 0.0:
-			rospy.logwarn("left: %f, right: %f", left_encode, right_encode)
+		# if left_encode < 0.0 or right_encode < 0.0:
+		# 	rospy.logwarn("left: %f, right: %f", left_encode, right_encode)
 
 		robot_main.odom_current_time = rospy.get_time()
 		dt = robot_main.odom_current_time - robot_main.odom_last_time
@@ -187,6 +192,7 @@ def update_robot_gps(left_encode, right_encode, imu_val):
 		rospy.loginfo("lonlat: %f, %f bearing: %f", robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 		# rospy.logwarn("bearing now: %f", robot_drive.bearing_now)
 		robot_publisher.publish_gps()
+		robot_publisher.publish_pose(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, robot_drive.step_distance, dt)
 		# if robot_listener.gps_mode:
 		# 	robot_publisher.publish_pose_pf(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now)
 

@@ -241,6 +241,9 @@ def main_commander():
 			robot_job.amend_regular_jobs(job_executed, 'C', 2*robot_correction.min_correction_distance)
 			robot_move.move_amend = False
 			robot_turn.turn_amend = False
+		elif robot_move.move_amend2:
+			robot_job.back_to_path(robot_move.next_lon, robot_move.next_lat, job_executed, 'C', 2*robot_correction.min_correction_distance)
+			robot_move.move_amend2 = False
 
 		# if no_correction_jobs == 0:
 		# 	rospy.loginfo("Complete a normal job, check whether correction is needed")
@@ -276,8 +279,10 @@ def main_listener():
 	rospy.Subscriber('bluetooth', String, robot_listener.bluetooth_callback)
 	rospy.Subscriber('summon_robot', String, robot_listener.panel_summon_callback)
 	# rospy.Subscriber('extended_fix', GPSFix, robot_listener.gps_callback)
-	if robot_listener.gps_mode and not robot_correction.indoor_coord:
+	if robot_listener.gps_mode == 1 and not robot_correction.indoor_coord:
 		rospy.Subscriber('fix', NavSatFix, robot_listener.gps_callback)
+	elif robot_listener.gps_mode == 2 and not robot_correction.indoor_coord:
+		rospy.Subscriber('kf', NavSatFix, robot_listener.kf_callback)
 		# rospy.Subscriber('pose_aft_pf', Vector3, robot_listener.pose_pf_callback)
 	# if robot_listener.ekf_mode:
 	# 	rospy.Subscriber('robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, robot_listener.odom_combined_callback)

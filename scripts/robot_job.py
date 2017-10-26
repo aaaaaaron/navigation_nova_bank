@@ -38,6 +38,8 @@ FtoT_flag = True
 arc_dist = 0.0
 
 job_before_obstacle = None
+supposed_lon = 0.0
+supposed_lat = 0.0
 
 mode = "None"
 
@@ -55,7 +57,7 @@ def process_no_job():
 # Process all kinds of robot job as required
 def process_job():
 	job_completed = False
-	global job_lists, job_before_obstacle
+	global job_lists, job_before_obstacle, supposed_lon, supposed_lat
 	try:
 
 		if not robot_drive.robot_on_mission:
@@ -64,6 +66,9 @@ def process_job():
 			rospy.loginfo("Target lon lat: %f, %f", job_lists[0].lon_target, job_lists[0].lat_target)
 			if job_lists[0].classfication == 'N' or (job_lists[0].classfication == 'C' and job_lists[0].description == 'F' and job_lists[0].value > 2 * robot_correction.min_correction_distance) :
 				job_before_obstacle = job_lists[0]
+			if job_lists[0]. classfication == 'N':
+				supposed_lon = robot_drive.lon_now
+				supposed_lat = robot_drive.lat_now
 			# string = "job desc ; %s ; job val ; %f ; bearing target ; %f ; bearing now ; %f\n"%(job_lists[0].description, job_lists[0].value, job_lists[0].bearing_target, robot_drive.bearing_now)
 			# write_log.write_to_file(string)
 
@@ -927,3 +932,28 @@ def arc_threshold(next_angle, current_angle):
     value = robot_drive.bank_radius * math.tan((angle/2.0) / 180.0 * math.pi)
     value = abs(value) #+ robot_correction.min_correction_distance
     return value
+
+
+def back_to_path(next_lon, next_lat, job_executed, correction_type, forward_dist_bef_turn):
+	rospy.loginfo("Amended a job from F to move from (%f, %f) to (%f, %f) before moving towards target", robot_drive.lon_now, robot_drive.lat_now, next_lon, next_lat)
+	bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, next_lon, next_lat)
+	distance 	= gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, next_lon, next_lat)
+	bearing_from_robot = gpsmath.format_bearing(bearing - robot_drive.bearing_now)
+
+	
+	inter_pos	= get_inter_gps(robot_drive.lon_now, robot_drive.lat_now, robot_drive.bearing_now, next_lon, next_lat, forward_dist_bef_turn)
+	# 		# rospy.logerr("F interpos: %d", inter_pos[0])
+	if inter_pos[0]:
+		lon_list = [robot_drive.lon_now, inter_pos[1], next_lon, job_executed.lon_target]
+		lat_list = [robot_drive.lat_now, inter_pos[2], next_lat, job_executed.lat_target]
+	else:
+		lon_list = [robot_drive.lon_now, next_lon, job_executed.lon_target]
+		lat_list = [robot_drive.lat_now, next_lat, job_executed.lat_target] 
+	
+	obtain_success, new_job = get_inter_gps_aft(lon_list, lat_list)
+	distance_to_move = gpsmath.haversine(new_job[-1][0], new_job[-1][1], job_executed.lon_target, job_executed.lat_target)
+	move_job = Job(job_executed.lon_target, job_executed.lat_target, new_job[-1][2], correction_type, 'F', distance_to_move)
+	job_lists.insert(0, move_job)
+	if obtain_success:
+		insert_compensation_jobs(new_job, correction_type)
+	

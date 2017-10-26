@@ -70,7 +70,7 @@ def read_system_config():
     # Read configure path
     print("Read configuration file")
     config_path = os.path.dirname(os.path.abspath(__file__)) + '/robot.cfg'
-    size_para   = 35
+    size_para   = 36
     ret         = [None] * size_para
 
     # Now reading configurable parameters
@@ -116,6 +116,7 @@ def read_system_config():
     ret[32], robot_correction.map_wgs84                 = read_config_float(config_path, 'mode', 'map_wgs84')
     ret[33], robot_correction.indoor_coord              = read_config_float(config_path, 'mode', 'indoor_coord')
     ret[34], robot_listener.ekf_mode                    = read_config_float(config_path, 'mode', 'ekf_mode')
+    ret[35], robot_correction.correction_mode           = read_config_float(config_path, 'mode', 'correction_mode')
 
 #-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
     if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:

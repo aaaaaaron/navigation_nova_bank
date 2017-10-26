@@ -6,6 +6,7 @@ from std_msgs.msg import String
 import robot_drive
 import robot_correction
 import gpsmath
+import math
 import robot_job
 import robot_publisher
 import robot_move
@@ -30,6 +31,11 @@ linear_lower_speed 		= 0.0
 linear_lowest_speed		= 0.0
 
 move_amend = False
+move_amend2 = False
+
+next_lon = 0.0
+next_lat = 0.0
+next_pt_dist = 2000.0
 
 status_pub = rospy.Publisher('status', String, queue_size = 100)
 # Starts the robot for moving, put the control variables into proper value
@@ -133,7 +139,8 @@ def move_distance(dist):
 	global dist_completed
 	global dist_to_run
 	global angle_to_correct
-	global move_amend
+	global move_amend, move_amend2
+	global next_lon, next_lat, next_pt_dist
 	# global dist_completed_to_correct
 
 	dist_to_run = dist
@@ -175,22 +182,74 @@ def move_distance(dist):
 	#if travel over 5m, job_completed to 1, start to correct
 	# rospy.logerr("Dist completed: %.10f"%robot_move.dist_completed)
 	
-	if (dist_completed >= dist_to_correct):
+	
 		
-		bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
-		diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
-		if (diff_angle > 180.0):
-			diff_angle = diff_angle - 360.0
-		# rospy.logerr("Diff Angle: %.10f"%diff_angle)
-		# rospy.logerr(diff_angle)
-		if  abs(diff_angle) >= robot_correction.min_correction_angle:# and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0:
-			rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
-			# if not amend_check:
-			# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
-			move_amend = True
-		
-			stop_move()
-			return not robot_drive.robot_on_mission
+	''' insert correction to go back to path instead of just heading '''
+	if robot_correction.correction_mode == 1:
+		if robot_job.supposed_lon == robot_job.job_lists[0].lon_target:
+			rospy.logwarn("source and target location are the same")
+		else:
+			dist_from_source = gpsmath.haversine(robot_job.supposed_lon, robot_job.supposed_lat, robot_drive.lon_now, robot_drive.lat_now)
+			angle_from_source = gpsmath.bearing(robot_job.supposed_lon, robot_job.supposed_lat, robot_drive.lon_now, robot_drive.lat_now)
+			angle_target = gpsmath.bearing(robot_job.supposed_lon, robot_job.supposed_lat, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+			alpha = angle_target - angle_from_source
+			if(alpha > 180.0):
+				alpha = alpha - 360.0
+			elif(alpha < -180.0):
+				alpha = alpha + 360.0
+			alpha = abs(alpha)
+
+			projected_dist = abs(dist_from_source * math.cos(math.radians(alpha)))
+			# rospy.logwarn("projected dist: %f", projected_dist)
+			closest_point_lon, closest_point_lat = gpsmath.get_gps(robot_job.supposed_lon, robot_job.supposed_lat, projected_dist, angle_target)
+			# rospy.logerr("closest: %f, %f", closest_point_lon, closest_point_lat)
+			closest_dist = gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, closest_point_lon, closest_point_lat)
+			rospy.logwarn("closest dist: %f", closest_dist)
+			if closest_dist >= 1000.0:
+				rospy.loginfo("-----------------dist_off_course: %f, start to correct", closest_dist)
+				next_lon, next_lat = gpsmath.get_gps(closest_point_lon, closest_point_lat, next_pt_dist, angle_target)
+				# rospy.logerr("next: %f, %f", next_lon, next_lat)
+				end_dist_from_closest_pt = gpsmath.haversine(closest_point_lon, closest_point_lat, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+				if end_dist_from_closest_pt <= next_pt_dist or (abs(end_dist_from_closest_pt - next_pt_dist) <= 2*robot_drive.bank_radius):
+					pass
+				else:
+					move_amend2 = True
+					stop_move()
+					return not robot_drive.robot_on_mission
+
+		if (dist_completed >= dist_to_correct):
+			bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+			diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
+			if (diff_angle > 180.0):
+				diff_angle = diff_angle - 360.0
+			# rospy.logerr("Diff Angle: %.10f"%diff_angle)
+			# rospy.logerr(diff_angle)
+			if  abs(diff_angle) >= robot_correction.min_correction_angle:# and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0:
+				rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
+				# if not amend_check:
+				# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+				move_amend = True
+			
+				stop_move()
+				return not robot_drive.robot_on_mission
+
+
+	elif robot_correction.correction_mode == 0:
+		if (dist_completed >= dist_to_correct):	
+			bearing 	= gpsmath.bearing(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+			diff_angle = (bearing - robot_drive.bearing_now + 360.0) % 360.0
+			if (diff_angle > 180.0):
+				diff_angle = diff_angle - 360.0
+			# rospy.logerr("Diff Angle: %.10f"%diff_angle)
+			# rospy.logerr(diff_angle)
+			if  abs(diff_angle) >= robot_correction.min_correction_angle:# and abs(diff_angle) <= robot_correction.min_correction_angle + 5.0:
+				rospy.loginfo("-----------------dist_completed: %f, angle_off_course: %f, start to correct", dist_completed, diff_angle)
+				# if not amend_check:
+				# 	robot_job.amend_regular_jobs(robot_drive.lon_now, robot_drive.lat_now, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
+				move_amend = True
+			
+				stop_move()
+				return not robot_drive.robot_on_mission
 
 #chengyuen-todo 18/7
 # correction_yq begin

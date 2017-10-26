@@ -14,14 +14,14 @@ from std_msgs.msg import String
 from sensor_msgs.msg import NavSatFix
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Vector3
+# from geometry_msgs.msg import Vector3
 
 pub_param 		= rospy.Publisher('parameters', String, queue_size = 1)
 pub_gps			= rospy.Publisher('gps', 	String, queue_size=10)
 pub_command 	= rospy.Publisher('command', 	String, queue_size=1)
 pub_chat 		= rospy.Publisher('chat', String, queue_size = 1)
 # pub_gps_gaode	= rospy.Publisher('gps_gaode', NavSatFix, queue_size = 10)
-pub_pose_pf 	= rospy.Publisher('pose_bef_pf', Vector3, queue_size = 10)
+pub_pose 	= rospy.Publisher('pose', Odometry, queue_size = 10)
 pub_ekf_odom	= rospy.Publisher('odom', Odometry, queue_size = 10)
 pub_ekf_imu		= rospy.Publisher('imu_data', Imu, queue_size = 10)
 count = 0
@@ -70,12 +70,21 @@ def publish_ekf_imu(yaw, delta_yaw):
 
 
 
-def publish_pose_pf(lon, lat, bearing):
-	xy_theta = Vector3()
-	xy_theta.x = lon
-	xy_theta.y = lat
-	xy_theta.z = bearing
-	pub_pose_pf.publish(xy_theta)
+def publish_pose(lon, lat, bearing, step_dist, dt):
+	xy_theta = Odometry()
+	xy_theta.pose.pose.position.x = lon
+	xy_theta.pose.pose.position.y = lat
+
+	if step_dist == 0.0:
+		xy_theta.twist.twist.linear.x = 0.0
+		xy_theta.twist.twist.linear.y = 0.0
+	else:
+		bearing = -(bearing - 90.0)
+		bearing = gpsmath.format_bearing(bearing)
+		step_dist = step_dist/1000.0
+		xy_theta.twist.twist.linear.x = math.cos(math.radians(bearing)) * step_dist / float(dt)
+		xy_theta.twist.twist.linear.y = math.sin(math.radians(bearing)) * step_dist / float(dt)
+	pub_pose.publish(xy_theta)
 
 # Used to publish gcj02 coordinates for gaode_map
 # def publish_gps_gaode(lon, lat):

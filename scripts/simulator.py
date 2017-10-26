@@ -54,23 +54,23 @@ def executor_simulator(data):
 		rospy.loginfo("Turn to burn mode")
 		burn_mode = True
 	elif (command_str == 'SF000006E'):
-		left_encode = 2000 + deviate_l
+		left_encode = 2000 + deviate_l + 50
 		right_encode  = 2000 + deviate_r
 		direction = 1
 	elif (command_str == 'SF000005E'):
-		left_encode = 1600 + deviate_l
+		left_encode = 1600 + deviate_l + 50
 		right_encode  = 1600 + deviate_r
 		direction = 1
 	elif(command_str == 'SF000004E'):
-		left_encode = 1200 + deviate_l
+		left_encode = 1200 + deviate_l + 50
 		right_encode = 1200 + deviate_r
 		direction = 1
 	elif(command_str == 'SF000003E'):
-		left_encode = 850 + deviate_l
+		left_encode = 850 + deviate_l + 50
 		right_encode = 850 + deviate_r
 		direction = 1
 	elif(command_str == 'SF000002E'):
-		left_encode = 600 + deviate_l
+		left_encode = 600 + deviate_l + 50
 		right_encode = 600 + deviate_r
 		direction = 1
 	elif(command_str == 'SB000006E'):

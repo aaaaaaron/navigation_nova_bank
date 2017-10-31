@@ -192,7 +192,10 @@ def move_distance(dist):
 			dist_from_source = gpsmath.haversine(robot_job.supposed_lon, robot_job.supposed_lat, robot_drive.lon_now, robot_drive.lat_now)
 			angle_from_source = gpsmath.bearing(robot_job.supposed_lon, robot_job.supposed_lat, robot_drive.lon_now, robot_drive.lat_now)
 			angle_target = gpsmath.bearing(robot_job.supposed_lon, robot_job.supposed_lat, robot_job.job_lists[0].lon_target, robot_job.job_lists[0].lat_target)
-			alpha = angle_target - angle_from_source
+			if (angle_from_source == None) or (angle_target == None):
+				alpha = 0.0
+			else:
+				alpha = angle_target - angle_from_source
 			if(alpha > 180.0):
 				alpha = alpha - 360.0
 			elif(alpha < -180.0):

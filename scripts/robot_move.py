@@ -37,11 +37,16 @@ next_lon = 0.0
 next_lat = 0.0
 next_pt_dist = 2000.0
 
+dist_completed_imu		= 0.0
+dist_to_correct_imu		= 0.0
+imu_to_correct			= 0.0
+
 status_pub = rospy.Publisher('status', String, queue_size = 100)
 # Starts the robot for moving, put the control variables into proper value
 def start_move():
 	global dist_completed
 	global dist_to_run
+	global dist_completed_imu
 
 	global dist_lowest_speed
 	global dist_lower_speed
@@ -60,6 +65,7 @@ def start_move():
 	if robot_drive.robot_moving:
 		robot_drive.robot_on_mission = True
 		dist_completed = 0.0
+		dist_completed_imu = 0.0
 		angle_to_correct = 0.0
 		rospy.loginfo('----------------- Started a moving job -------------------')
 	else:
@@ -68,7 +74,7 @@ def start_move():
 
 # Roboet complet a moving job
 def stop_move():
-	global dist_completed, amend_check
+	global dist_completed, amend_check, dist_completed_imu
 	# direction_sign = False
 	# if len(robot_job.job_lists) > 1:
 	# 	direction_sign = robot_job.job_lists[0].value * robot_job.job_lists[1].value >= 0
@@ -81,6 +87,7 @@ def stop_move():
 		# string = "distance completed ; %f ; robot direction ; %f\n\n"%(dist_completed, robot_drive.bearing_now)
 		# write_log.write_to_file(string)
 		dist_completed = 0.0
+		dist_completed_imu = 0.0
 		robot_drive.robot_on_mission = False
 		rospy.loginfo('----------------- Robot completed a moving job -----------------')
 		# amend_check = False
@@ -136,9 +143,9 @@ def continue_move():
 
 # main function to control the robot movement
 def move_distance(dist):
-	global dist_completed
+	global dist_completed, dist_completed_imu
 	global dist_to_run
-	global angle_to_correct
+	global angle_to_correct, dist_to_correct_imu, imu_to_correct
 	global move_amend, move_amend2
 	global next_lon, next_lat, next_pt_dist
 	# global dist_completed_to_correct
@@ -168,6 +175,7 @@ def move_distance(dist):
 	dist_step = robot_drive.step_distance
 	# accumulate the distance to the completed distance
 	dist_completed = dist_completed + abs(dist_step)   #this is in mm
+	dist_completed_imu = dist_completed_imu + abs(dist_step)
 	# dist_completed_to_correct = dist_completed_to_correct + abs(dist_step)
 	# robot is with in the range, then we condidered robot reached the position
 	dist_threshold = abs_dist_to_run - robot_correction.min_correction_distance/2 	#0 mm, I can choose -50mm, but since there will be inefficiencies, 0 error threshold might be good enough
@@ -182,6 +190,14 @@ def move_distance(dist):
 	#if travel over 5m, job_completed to 1, start to correct
 	# rospy.logerr("Dist completed: %.10f"%robot_move.dist_completed)
 	
+	''' after a certain distance add/minus a certain amount of angle from the imu data '''
+	if dist_completed_imu >= dist_to_correct_imu:
+		rospy.logwarn("dist: %f", dist_completed_imu)
+		rospy.logwarn("original bearing: %f", robot_drive.bearing_now)
+		robot_drive.bearing_now = robot_drive.bearing_now + imu_to_correct
+		robot_drive.bearing_now = gpsmath.format_bearing(robot_drive.bearing_now)
+		rospy.logwarn("corrected bearing: %f", robot_drive.bearing_now)
+		dist_completed_imu = 0.0
 	
 		
 	''' insert correction to go back to path instead of just heading '''
@@ -207,7 +223,7 @@ def move_distance(dist):
 			closest_point_lon, closest_point_lat = gpsmath.get_gps(robot_job.supposed_lon, robot_job.supposed_lat, projected_dist, angle_target)
 			# rospy.logerr("closest: %f, %f", closest_point_lon, closest_point_lat)
 			closest_dist = gpsmath.haversine(robot_drive.lon_now, robot_drive.lat_now, closest_point_lon, closest_point_lat)
-			rospy.logwarn("closest dist: %f", closest_dist)
+			# rospy.logwarn("closest dist: %f", closest_dist)
 			if closest_dist >= 1000.0:
 				rospy.loginfo("-----------------dist_off_course: %f, start to correct", closest_dist)
 				next_lon, next_lat = gpsmath.get_gps(closest_point_lon, closest_point_lat, next_pt_dist, angle_target)

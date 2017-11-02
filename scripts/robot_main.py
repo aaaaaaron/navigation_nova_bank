@@ -233,7 +233,7 @@ def main_commander():
 	# ----------------------------------------------------------------------------------------#
 	if job_completed:
 		# no_correction_jobs = robot_job.no_correction_jobs()
-		rospy.logerr("%f", robot_drive.bearing_now)
+		# rospy.logerr("%f", robot_drive.bearing_now)
 		job_executed = robot_job.current_job()
 		robot_job.complete_current_job()
 		# rospy.logerr(robot_move.move_amend)

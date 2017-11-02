@@ -70,7 +70,7 @@ def read_system_config():
     # Read configure path
     print("Read configuration file")
     config_path = os.path.dirname(os.path.abspath(__file__)) + '/robot.cfg'
-    size_para   = 36
+    size_para   = 38
     ret         = [None] * size_para
 
     # Now reading configurable parameters
@@ -87,36 +87,38 @@ def read_system_config():
     ret[7], robot_correction.max_correction_run         = read_config_float(config_path, 'correction', 'max_correction_runs')
     # [move]
     ret[8], robot_move.dist_to_correct                  = read_config_float(config_path, 'move', 'dist_to_correct')
-    ret[9], robot_move.dist_lower_speed                 = read_config_float(config_path, 'move', 'dist_lower_speed')
-    ret[10], robot_move.dist_lowest_speed                = read_config_float(config_path, 'move', 'dist_lowest_speed')
-    ret[11], robot_move.linear_full_speed               = read_config_float(config_path, 'move', 'linear_full_speed')
-    ret[12], robot_move.linear_lower_speed              = read_config_float(config_path, 'move', 'linear_lower_speed')
-    ret[13], robot_move.linear_lowest_speed             = read_config_float(config_path, 'move', 'linear_lowest_speed')
+    ret[9], robot_move.dist_to_correct_imu              = read_config_float(config_path, 'move', 'dist_to_correct_imu')
+    ret[10], robot_move.dist_lower_speed                 = read_config_float(config_path, 'move', 'dist_lower_speed')
+    ret[11], robot_move.dist_lowest_speed                = read_config_float(config_path, 'move', 'dist_lowest_speed')
+    ret[12], robot_move.linear_full_speed               = read_config_float(config_path, 'move', 'linear_full_speed')
+    ret[13], robot_move.linear_lower_speed              = read_config_float(config_path, 'move', 'linear_lower_speed')
+    ret[14], robot_move.linear_lowest_speed             = read_config_float(config_path, 'move', 'linear_lowest_speed')
     # [turn]
-    ret[14], robot_turn.angle_lower_speed               = read_config_float(config_path, 'turn', 'angle_lower_speed')
-    ret[15], robot_turn.angle_lowest_speed              = read_config_float(config_path, 'turn', 'angle_lowest_speed')
-    ret[16], robot_turn.turn_full_speed                 = read_config_float(config_path, 'turn', 'turn_full_speed')
-    ret[17], robot_turn.turn_lower_speed                = read_config_float(config_path, 'turn', 'turn_lower_speed')
-    ret[18], robot_turn.turn_lowest_speed               = read_config_float(config_path, 'turn', 'turn_lowest_speed')
-    ret[19], robot_drive.bank_radius                     = read_config_float(config_path, 'turn', 'bank_radius')
-    ret[20], robot_drive.min_bank_dist                   = read_config_float(config_path, 'turn', 'min_bank_dist')
+    ret[15], robot_turn.angle_lower_speed               = read_config_float(config_path, 'turn', 'angle_lower_speed')
+    ret[16], robot_turn.angle_lowest_speed              = read_config_float(config_path, 'turn', 'angle_lowest_speed')
+    ret[17], robot_turn.turn_full_speed                 = read_config_float(config_path, 'turn', 'turn_full_speed')
+    ret[18], robot_turn.turn_lower_speed                = read_config_float(config_path, 'turn', 'turn_lower_speed')
+    ret[19], robot_turn.turn_lowest_speed               = read_config_float(config_path, 'turn', 'turn_lowest_speed')
+    ret[20], robot_drive.bank_radius                     = read_config_float(config_path, 'turn', 'bank_radius')
+    ret[21], robot_drive.min_bank_dist                   = read_config_float(config_path, 'turn', 'min_bank_dist')
+    ret[22], robot_move.imu_to_correct                  =  read_config_float(config_path, 'turn', 'imu_to_correct')
     # [init]
-    ret[21], robot_drive.obstacle_mode                  = read_config_float(config_path, 'init', 'obstacle_mode')
-    ret[22], robot_drive.robot_enabled                  = read_config_float(config_path, 'init', 'robot_enabled')
-    ret[23], robot_drive.robot_paused                   = read_config_float(config_path, 'init', 'robot_paused')
-    ret[24], init_lon                                 	= read_config_float(config_path, 'init', 'init_lon')
-    ret[25], init_lat                               	= read_config_float(config_path, 'init', 'init_lat')
-    ret[26], robot_job.init_bearing                     = read_config_float(config_path, 'init', 'init_bearing')
-    ret[27], robot_correction.balance_left_right        = read_config_float(config_path, 'init', 'balance_left_right')
+    ret[23], robot_drive.obstacle_mode                  = read_config_float(config_path, 'init', 'obstacle_mode')
+    ret[24], robot_drive.robot_enabled                  = read_config_float(config_path, 'init', 'robot_enabled')
+    ret[25], robot_drive.robot_paused                   = read_config_float(config_path, 'init', 'robot_paused')
+    ret[26], init_lon                                 	= read_config_float(config_path, 'init', 'init_lon')
+    ret[27], init_lat                               	= read_config_float(config_path, 'init', 'init_lat')
+    ret[28], robot_job.init_bearing                     = read_config_float(config_path, 'init', 'init_bearing')
+    ret[29], robot_correction.balance_left_right        = read_config_float(config_path, 'init', 'balance_left_right')
     #[mode]
-    ret[28], robot_correction.odom_mode                 = read_config_float(config_path, 'mode', 'odom_mode')
-    ret[29], robot_listener.imu_mode                    = read_config_float(config_path, 'mode', 'IMU_mode')
-    ret[30], robot_listener.gps_mode                    = read_config_float(config_path, 'mode', 'GPS_mode')
-    ret[31], robot_correction.follow_map_gps            = read_config_float(config_path, 'mode', 'follow_map_gps')
-    ret[32], robot_correction.map_wgs84                 = read_config_float(config_path, 'mode', 'map_wgs84')
-    ret[33], robot_correction.indoor_coord              = read_config_float(config_path, 'mode', 'indoor_coord')
-    ret[34], robot_listener.ekf_mode                    = read_config_float(config_path, 'mode', 'ekf_mode')
-    ret[35], robot_correction.correction_mode           = read_config_float(config_path, 'mode', 'correction_mode')
+    ret[30], robot_correction.odom_mode                 = read_config_float(config_path, 'mode', 'odom_mode')
+    ret[31], robot_listener.imu_mode                    = read_config_float(config_path, 'mode', 'IMU_mode')
+    ret[32], robot_listener.gps_mode                    = read_config_float(config_path, 'mode', 'GPS_mode')
+    ret[33], robot_correction.follow_map_gps            = read_config_float(config_path, 'mode', 'follow_map_gps')
+    ret[34], robot_correction.map_wgs84                 = read_config_float(config_path, 'mode', 'map_wgs84')
+    ret[35], robot_correction.indoor_coord              = read_config_float(config_path, 'mode', 'indoor_coord')
+    ret[36], robot_listener.ekf_mode                    = read_config_float(config_path, 'mode', 'ekf_mode')
+    ret[37], robot_correction.correction_mode           = read_config_float(config_path, 'mode', 'correction_mode')
 
 #-------------------------------------------------------------------------------------------------------------------------------------------chengyuen11/10
     if not robot_correction.map_wgs84 and not robot_correction.follow_map_gps:

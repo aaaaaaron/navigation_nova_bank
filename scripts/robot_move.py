@@ -314,7 +314,7 @@ def move_distance(dist):
 	else :
 		rospy.loginfo("-----------------dist_completed: %f", dist_completed)
 		stop_move()
-		move_amend = True
+		move_amend = False #Please change back to True
 		
         # make sure the robot is stopped before next job
         return not robot_drive.robot_on_mission

@@ -150,7 +150,7 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 # 		rospy.loginfo("Bearing now %f,lon_now %f, lat_now %f", robot_drive.bearing_now, robot_drive.lon_now, robot_drive.lat_now)
 
 def update_robot_gps(left_encode, right_encode, imu_val):
-	global odom_mode, dist_for_gps
+	global odom_mode, dist_for_gps, percentage
 
 	robot_drive.step_angle = 0.0
 	robot_drive.step_distance = 0.0
@@ -277,6 +277,13 @@ def update_robot_gps(left_encode, right_encode, imu_val):
 				alpha = -alpha
 		#rospy.logerr(R)
 		robot_drive.step_angle 	= degrees(alpha)
+
+		if robot_listener.imu_mode == 1: # and not robot_listener.ekf_mode:
+			if robot_job.has_jobs_left():
+				if robot_job.job_lists[0].description == 'T' or robot_obstacle.robot_on_obstacle or robot_drive.manual_mode:
+					robot_drive.step_angle = percentage * imu_val + (1 - percentage) * degrees(alpha)
+
+
 		# covnert to degree
 		#####bearing 				= robot_drive.bearing_now + robot_drive.step_angle / 2.0
 		bearing = robot_drive.bearing_now + robot_drive.step_angle

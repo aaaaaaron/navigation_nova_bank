@@ -66,7 +66,10 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 	if (left_encode == right_encode) or (left_encode + right_encode == 0.0):
 		theta = 0.0
 	else:
-		theta = math.acos((2*v)/float(vl+vr))
+		if (abs(2*v) > abs(float(vl+vr))):
+			theta = math.acos(1)
+		else:
+			theta = math.acos((2*v)/float(vl+vr))
 		theta = math.degrees(theta) #degree
 		theta = theta * robot_drive.angle_param
 		if left_encode < right_encode:

@@ -50,7 +50,7 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 
 	# rospy.loginfo("left: %d, right: %d", left_encode, right_encode)
 	# t = 0.1
-	vl = 0.114139/500.0 * left_encode # / float(balance_left_right)
+	vl = 0.114139/500.0 * left_encode / float(balance_left_right)
 	vr = 0.114139/500.0 * right_encode
 	# rospy.logwarn("t: %f", t)
 	vlr_sqrt = math.sqrt((vl - vr)**2 + (2*robot_drive.turn_radius)**2)
@@ -85,7 +85,9 @@ def get_dist_angle(left_encode, right_encode, imu_val, t):
 		#if percentage >= 0.9:
 		#	percentage = 0.9
 		# theta_out = percentage * imu_theta + (1 - percentage) * theta
-		theta_out = percentage * imu_val + (1 - percentage) * theta
+		if robot_job.has_jobs_left():
+			if robot_job.job_lists[0].description == 'T' or robot_obstacle.robot_on_obstacle or robot_drive.manual_mode:
+				theta_out = percentage * imu_val + (1 - percentage) * theta
 		# theta_out = 0.5 * imu_theta + 0.5 * theta
 		# if robot_job.has_jobs_left():
 		# 	if robot_job.job_lists[0].description == 'T' and not robot_obstacle.robot_on_obstacle and not robot_drive.manual_mode:

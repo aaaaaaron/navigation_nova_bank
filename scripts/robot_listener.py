@@ -51,7 +51,7 @@ take_imu_data = False
 imu_data = []
 imu_received_index = 0
 imu_processed_index = 0
-perc_imu = 0.4
+perc_imu = 1.0
 
 glon = []
 glat = []

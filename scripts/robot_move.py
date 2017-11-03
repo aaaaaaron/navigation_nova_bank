@@ -190,14 +190,14 @@ def move_distance(dist):
 	#if travel over 5m, job_completed to 1, start to correct
 	# rospy.logerr("Dist completed: %.10f"%robot_move.dist_completed)
 	
-	''' after a certain distance add/minus a certain amount of angle from the imu data '''
-	if dist_completed_imu >= dist_to_correct_imu:
-		rospy.logwarn("dist: %f", dist_completed_imu)
-		rospy.logwarn("original bearing: %f", robot_drive.bearing_now)
-		robot_drive.bearing_now = robot_drive.bearing_now + imu_to_correct
-		robot_drive.bearing_now = gpsmath.format_bearing(robot_drive.bearing_now)
-		rospy.logwarn("corrected bearing: %f", robot_drive.bearing_now)
-		dist_completed_imu = 0.0
+	# ''' after a certain distance add/minus a certain amount of angle from the imu data '''
+	# if dist_completed_imu >= dist_to_correct_imu:
+	# 	rospy.logwarn("dist: %f", dist_completed_imu)
+	# 	rospy.logwarn("original bearing: %f", robot_drive.bearing_now)
+	# 	robot_drive.bearing_now = robot_drive.bearing_now + imu_to_correct
+	# 	robot_drive.bearing_now = gpsmath.format_bearing(robot_drive.bearing_now)
+	# 	rospy.logwarn("corrected bearing: %f", robot_drive.bearing_now)
+	# 	dist_completed_imu = 0.0
 	
 		
 	''' insert correction to go back to path instead of just heading '''
